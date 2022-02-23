@@ -34,9 +34,9 @@ void PowerUp::Draw() const
 					   textureWidth, textureWidth };
 	Rectf source{ 0, textureHeight * (int)m_Type, textureWidth, textureHeight };
 	glPushMatrix();
-	glTranslatef(-m_Shape.center.x, -m_Shape.center.y, 0);
-	glRotatef(m_Angle, 0, 0, 1);
 	glTranslatef(m_Shape.center.x, m_Shape.center.y, 0);
+	glRotatef(m_Angle, 0, 0, 1);
+	glTranslatef(-m_Shape.center.x, -m_Shape.center.y, 0);
 	m_pTexture->Draw(destination, source);
 	glPopMatrix();
 }
