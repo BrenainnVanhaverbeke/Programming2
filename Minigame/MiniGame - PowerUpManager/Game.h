@@ -1,9 +1,11 @@
 #pragma once
 #include "PowerUp.h"
+#include "PowerUpManager.h"
+
 class Game final
 {
 public:
-	explicit Game(const Window& window);
+	explicit Game( const Window& window );
 	Game(const Game& other) = delete;
 	Game& operator=(const Game& other) = delete;
 	Game(Game&& other) = delete;
@@ -11,7 +13,7 @@ public:
 	~Game();
 
 	void Update( float elapsedSec );
-	void Draw( ) const;
+	void Draw() const;
 
 	// Event handling
 	void ProcessKeyDownEvent( const SDL_KeyboardEvent& e );
@@ -23,32 +25,37 @@ public:
 private:
 	// DATA MEMBERS
 	const Window m_Window;
-
 	Point2f m_MousePos;
-	static const int m_NrPowerUps{ 10 };
-	PowerUp* m_pPowerUps[m_NrPowerUps];
-	Point2f m_PowerUpsCenters[m_NrPowerUps];
-	PowerUp::Type m_PowerUpTypes[m_NrPowerUps];
-	bool m_PowerUpsDestroyed[m_NrPowerUps];
-	float m_PowerUpRadius;
-	int m_ActNrPowerUps;
 	Rectf m_Destroyer;
+
+	float m_PowerUpRadius;
+	const size_t m_Rows;
+	const size_t m_Cols;
+	const size_t m_MaxNrItems;
+	std::vector<Point2f> m_Centers;
+	std::vector< PowerUp::Type >m_Types;
+	PowerUpManager* m_pTestedManager;
+	size_t m_TestedManagerSize;
 
 	// FUNCTIONS
 	void Initialize( );
 	void Cleanup( );
-	void ClearBackground( ) const;
+	void ClearBackground() const;
+
+	void TestWithoutDrawing( );
+	void InitTestWithDrawing( );
+
+	void TestSize( PowerUpManager* pTestedManager, size_t expectedSize );
+	void TestAddingItems( PowerUpManager* pTestedManager, const std::vector<Point2f>& centers, const std::vector< PowerUp::Type >& types );
+	void TestHittingItems( PowerUpManager* pTestedManager, const std::vector<Point2f>& centers );
+	void TestHittingItem( PowerUpManager* pTestedManager, const Rectf& destroyer );
+	void TestHittingCircle(  std::vector<Point2f>& centers, const Rectf& destroyer );
 
 	void ShowTestMessage( ) const;
-	void ShowNrPowerUps( ) const;
-	void CreatePowerUps( );
-	void UpdatePowerUps( float elapsedSec );
-	void DrawPowerUps( ) const;
-	void DeletePowerUps( );
+	void ShowNrItems( ) const;
 
 	void MoveDestroyer( const Point2f& newCenter );
 	void DrawDestroyer( ) const;
-	void VerifyOverlapping( );
+	void DrawCircles( const std::vector<Point2f>& centers, const std::vector< PowerUp::Type >& types ) const;
+
 };
-
-
