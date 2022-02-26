@@ -661,3 +661,25 @@ bool utils::IntersectRectLine(const Rectf& r, const Point2f& p1, const Point2f& 
 }
 
 #pragma endregion CollisionFunctionality
+
+#pragma region GeneralFunctions
+
+int utils::GetRandomNumber(int lowestValue, int highestValue, bool isInclusive)
+{
+	int amountOfValues{ highestValue - lowestValue };
+	if (isInclusive)
+		amountOfValues++;
+	return (rand() % amountOfValues) + lowestValue;
+}
+
+int utils::GetLinearIndexFrom2DIndex(int rowIndex, int columnIndex, int nrOfColumns)
+{
+	return rowIndex * nrOfColumns + columnIndex;
+}
+
+Point2f utils::GetMiddle(const Point2f& point1, const Point2f& point2)
+{
+	return Point2f((point1.x + point2.x) / 2, (point1.y + point2.y) / 2);
+}
+
+#pragma endregion GeneralFunctions
