@@ -12,14 +12,14 @@ Enemy::Enemy(const Point2f& center, float width, float height)
 {
 }
 
-void Enemy::Draw()
+void Enemy::Draw() const
 {
-	const Color4f enemyColour{ 1.0f, 0.0f, 0.0f, 0.0f };
+	const Color4f enemyColour{ 1.0f, 0.0f, 0.0f, 1.0f };
 	utils::SetColor(enemyColour);
 	utils::DrawRect(GetEnemyRect());
 }
 
-bool Enemy::DoHitTest(const Rectf& other)
+bool Enemy::DoHitTest(const Rectf& other) const
 {
 	return utils::IsOverlapping(GetEnemyRect(), other);
 }
@@ -35,12 +35,13 @@ void Enemy::SetDimensions(float width, float height)
 	m_Height = height;
 }
 
-bool Enemy::IsDead()
+bool Enemy::IsDead() const
 {
 	return m_IsDead;
 }
 
-Rectf Enemy::GetEnemyRect()
+Rectf Enemy::GetEnemyRect() const
 {
-	return Rectf(m_Center.x - (m_Width / 2), m_Center.y - (m_Height / 2), m_Width, m_Height);
+	Rectf enemyRect{ m_Center.x - (m_Width / 2), m_Center.y - (m_Height / 2), m_Width, m_Height };
+	return enemyRect;
 }

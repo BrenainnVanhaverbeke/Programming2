@@ -2,67 +2,72 @@
 
 #include "pch.h"
 #include "Game.h"
+#include "Enemy.h"
 
-Game::Game( const Window& window ) 
+Game::Game(const Window& window)
 	:m_Window{ window }
 {
-	Initialize( );
+	Initialize();
 }
 
-Game::~Game( )
+Game::~Game()
 {
-	Cleanup( );
+	Cleanup();
 }
 
-void Game::Initialize( )
+void Game::Initialize()
 {
-	
+	InitialiseEnemies();
 }
 
 void Game::InitialiseEnemies()
 {
 	const int nrOfEnemies{ 40 };
 	const int nrOfRows{ 4 };
-	const float defaultSize{ 30.0f };
-	const float border{ 5.0f };
-	for (int row{ 0 }; row < nrOfRows; ++row)
+	const int nrOfColumns{ nrOfEnemies / nrOfRows };
+	const float border{ m_Window.width / nrOfEnemies };
+	const float defaultSize{ ((m_Window.width - (border * nrOfColumns)) - border) / nrOfColumns };
+	const float enemyOffset{ defaultSize + (border) };
+	Point2f center{ border + (defaultSize / 2), m_Window.height - border - (defaultSize / 2) };
+	for (int enemy{ 0 }; enemy < nrOfEnemies; ++enemy)
 	{
-		for (int column{ 0 }; column < nrOfEnemies / nrOfRows; ++column)
+		if (enemy != 0 && enemy % (nrOfEnemies / nrOfRows) == 0)
 		{
-
+			center.x = border + (defaultSize / 2);
+			center.y -= enemyOffset;
 		}
+		m_Enemies.push_back(new Enemy(center, defaultSize, defaultSize));
+		center.x += enemyOffset;
 	}
 }
 
-void Game::Cleanup( )
+void Game::Cleanup()
 {
+	for (Enemy* enemy : m_Enemies)
+	{
+		delete enemy;
+		enemy = nullptr;
+	}
 }
 
-void Game::Update( float elapsedSec )
+void Game::Update(float elapsedSec)
 {
-	// Check keyboard state
-	//const Uint8 *pStates = SDL_GetKeyboardState( nullptr );
-	//if ( pStates[SDL_SCANCODE_RIGHT] )
-	//{
-	//	std::cout << "Right arrow key is down\n";
-	//}
-	//if ( pStates[SDL_SCANCODE_LEFT] && pStates[SDL_SCANCODE_UP])
-	//{
-	//	std::cout << "Left and up arrow keys are down\n";
-	//}
+	//for (Enemy* enemy : m_Enemies)
+	//	enemy->Update(elapsedSec);
 }
 
-void Game::Draw( ) const
+void Game::Draw() const
 {
-	ClearBackground( );
+	ClearBackground();
+	DrawEnemies();
 }
 
-void Game::ProcessKeyDownEvent( const SDL_KeyboardEvent & e )
+void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent& e)
 {
 	//std::cout << "KEYDOWN event: " << e.keysym.sym << std::endl;
 }
 
-void Game::ProcessKeyUpEvent( const SDL_KeyboardEvent& e )
+void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent& e)
 {
 	//std::cout << "KEYUP event: " << e.keysym.sym << std::endl;
 	//switch ( e.keysym.sym )
@@ -80,12 +85,12 @@ void Game::ProcessKeyUpEvent( const SDL_KeyboardEvent& e )
 	//}
 }
 
-void Game::ProcessMouseMotionEvent( const SDL_MouseMotionEvent& e )
+void Game::ProcessMouseMotionEvent(const SDL_MouseMotionEvent& e)
 {
 	//std::cout << "MOUSEMOTION event: " << e.x << ", " << e.y << std::endl;
 }
 
-void Game::ProcessMouseDownEvent( const SDL_MouseButtonEvent& e )
+void Game::ProcessMouseDownEvent(const SDL_MouseButtonEvent& e)
 {
 	//std::cout << "MOUSEBUTTONDOWN event: ";
 	//switch ( e.button )
@@ -102,7 +107,7 @@ void Game::ProcessMouseDownEvent( const SDL_MouseButtonEvent& e )
 	//}
 }
 
-void Game::ProcessMouseUpEvent( const SDL_MouseButtonEvent& e )
+void Game::ProcessMouseUpEvent(const SDL_MouseButtonEvent& e)
 {
 	//std::cout << "MOUSEBUTTONUP event: ";
 	//switch ( e.button )
@@ -119,8 +124,14 @@ void Game::ProcessMouseUpEvent( const SDL_MouseButtonEvent& e )
 	//}
 }
 
-void Game::ClearBackground( ) const
+void Game::ClearBackground() const
 {
-	glClearColor( 0.0f, 0.0f, 0.3f, 1.0f );
-	glClear( GL_COLOR_BUFFER_BIT );
+	glClearColor(0.0f, 0.0f, 0.3f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void Game::DrawEnemies() const
+{
+	for (Enemy* enemy : m_Enemies)
+		enemy->Draw();
 }

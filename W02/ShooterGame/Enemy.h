@@ -4,11 +4,11 @@ class Enemy
 public:
 	Enemy();
 	Enemy(const Point2f& center, float width, float height);
-	void Draw();
-	bool DoHitTest(const Rectf& other);
+	void Draw() const;
+	bool DoHitTest(const Rectf& other) const;
 	void SetCenter(const Point2f& center);
 	void SetDimensions(float width, float height);
-	bool IsDead();
+	bool IsDead() const;
 
 private:
 	Point2f m_Center;
@@ -16,5 +16,5 @@ private:
 	float m_Height;
 	bool m_IsDead;
 
-	Rectf GetEnemyRect();
+	Rectf GetEnemyRect() const;
 };

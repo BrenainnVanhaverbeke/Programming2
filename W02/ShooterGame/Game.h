@@ -1,4 +1,7 @@
 #pragma once
+#include <vector>
+
+class Enemy;
 
 class Game final
 {
@@ -23,10 +26,12 @@ public:
 private:
 	// DATA MEMBERS
 	const Window m_Window;
+	std::vector<Enemy*> m_Enemies;
 
 	// FUNCTIONS
 	void Initialize( );
 	void InitialiseEnemies();
 	void Cleanup( );
 	void ClearBackground( ) const;
+	void DrawEnemies() const;
 };
