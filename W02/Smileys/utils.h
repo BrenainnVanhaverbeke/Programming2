@@ -86,7 +86,7 @@ namespace utils
 #pragma region GeneralFunctions
 
 	int GetRandomNumber(int lowestValue, int highestValue, bool isInclusive = true);
-	int GetLinearIndexFrom2D(int rowIndex, int columnIndex, int nrOfColumns);
+	int GetLinearIndexFrom2DIndex(int rowIndex, int columnIndex, int nrOfColumns);
 	//Index2i Get2DIndexFromLinear(int linearIndex, int nrOfColumns);
 
 #pragma endregion GeneralFunctions

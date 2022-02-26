@@ -672,7 +672,7 @@ int utils::GetRandomNumber(int lowestValue, int highestValue, bool isInclusive)
 	return (rand() % amountOfValues) + lowestValue;
 }
 
-int utils::GetLinearIndexFrom2D(int rowIndex, int columnIndex, int nrOfColumns)
+int utils::GetLinearIndexFrom2DIndex(int rowIndex, int columnIndex, int nrOfColumns)
 {
 	return rowIndex * nrOfColumns + columnIndex;
 }

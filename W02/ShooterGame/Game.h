@@ -2,6 +2,7 @@
 #include <vector>
 
 class Enemy;
+class Avatar;
 
 class Game final
 {
@@ -26,11 +27,15 @@ public:
 private:
 	// DATA MEMBERS
 	const Window m_Window;
-	std::vector<Enemy*> m_Enemies;
+	static const int m_NrOfEnemies{ 40 };
+	Enemy* m_pEnemies[m_NrOfEnemies];
+	Avatar* m_pAvatar;
+	int m_ActiveEnemies;
 
 	// FUNCTIONS
 	void Initialize( );
 	void InitialiseEnemies();
+	void InitialiseAvatar();
 	void Cleanup( );
 	void ClearBackground( ) const;
 	void DrawEnemies() const;

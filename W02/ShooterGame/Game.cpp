@@ -3,6 +3,7 @@
 #include "pch.h"
 #include "Game.h"
 #include "Enemy.h"
+#include "Avatar.h"
 
 Game::Game(const Window& window)
 	:m_Window{ window }
@@ -18,48 +19,61 @@ Game::~Game()
 void Game::Initialize()
 {
 	InitialiseEnemies();
+	InitialiseAvatar();
 }
 
 void Game::InitialiseEnemies()
 {
-	const int nrOfEnemies{ 40 };
 	const int nrOfRows{ 4 };
-	const int nrOfColumns{ nrOfEnemies / nrOfRows };
-	const float border{ m_Window.width / nrOfEnemies };
+	const int nrOfColumns{ m_NrOfEnemies / nrOfRows };
+	const float border{ m_Window.width / m_NrOfEnemies };
 	const float defaultSize{ ((m_Window.width - (border * nrOfColumns)) - border) / nrOfColumns };
 	const float enemyOffset{ defaultSize + (border) };
 	Point2f center{ border + (defaultSize / 2), m_Window.height - border - (defaultSize / 2) };
-	for (int enemy{ 0 }; enemy < nrOfEnemies; ++enemy)
+	for (int enemyIndex{ 0 }; enemyIndex < m_NrOfEnemies; ++enemyIndex)
 	{
-		if (enemy != 0 && enemy % (nrOfEnemies / nrOfRows) == 0)
+		if (enemyIndex != 0 && enemyIndex % (m_NrOfEnemies / nrOfRows) == 0)
 		{
 			center.x = border + (defaultSize / 2);
 			center.y -= enemyOffset;
 		}
-		m_Enemies.push_back(new Enemy(center, defaultSize, defaultSize));
+		m_pEnemies[enemyIndex] = new Enemy(center, defaultSize, defaultSize);
 		center.x += enemyOffset;
 	}
+	m_ActiveEnemies = m_NrOfEnemies;
+}
+
+void Game::InitialiseAvatar()
+{
+	const float avatarWidth{ (m_Window.width / m_NrOfEnemies) * 2 };
+	const float avatarHeight{ avatarWidth * 1.5f };
+	const Point2f avatarOrigin{ m_Window.width / 2, avatarHeight };
+	const Rectf avatarBoundaries{ 0.0f, 0.0f, m_Window.width, m_Window.height };
+	m_pAvatar = new Avatar(avatarOrigin, avatarWidth, avatarHeight);
+	m_pAvatar->SetBoundaries(avatarBoundaries);
 }
 
 void Game::Cleanup()
 {
-	for (Enemy* enemy : m_Enemies)
+	for (int enemyIndex{ 0 }; enemyIndex < m_ActiveEnemies; ++enemyIndex)
 	{
-		delete enemy;
-		enemy = nullptr;
+		delete m_pEnemies[enemyIndex];
+		m_pEnemies[enemyIndex] = nullptr;
 	}
+	delete m_pAvatar;
+	m_pAvatar = nullptr;
 }
 
 void Game::Update(float elapsedSec)
 {
-	//for (Enemy* enemy : m_Enemies)
-	//	enemy->Update(elapsedSec);
+	m_pAvatar->Update(elapsedSec, m_pEnemies, m_ActiveEnemies);
 }
 
 void Game::Draw() const
 {
 	ClearBackground();
 	DrawEnemies();
+	m_pAvatar->Draw();
 }
 
 void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent& e)
@@ -132,6 +146,6 @@ void Game::ClearBackground() const
 
 void Game::DrawEnemies() const
 {
-	for (Enemy* enemy : m_Enemies)
-		enemy->Draw();
+	for (int enemyIndex{ 0 }; enemyIndex < m_ActiveEnemies; ++enemyIndex)
+		m_pEnemies[enemyIndex]->Draw();
 }

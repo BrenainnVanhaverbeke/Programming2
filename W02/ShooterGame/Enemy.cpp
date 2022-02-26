@@ -15,8 +15,9 @@ Enemy::Enemy(const Point2f& center, float width, float height)
 void Enemy::Draw() const
 {
 	const Color4f enemyColour{ 1.0f, 0.0f, 0.0f, 1.0f };
+	const float lineThickness{ 3.0f };
 	utils::SetColor(enemyColour);
-	utils::DrawRect(GetEnemyRect());
+	utils::DrawRect(GetEnemyRect(), lineThickness);
 }
 
 bool Enemy::DoHitTest(const Rectf& other) const
