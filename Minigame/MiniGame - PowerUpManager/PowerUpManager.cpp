@@ -40,16 +40,33 @@ size_t PowerUpManager::Size() const
 
 bool PowerUpManager::HitItem(const Rectf& rect)
 {
-	for (size_t powerUpIndex{ 0 }; powerUpIndex < Size(); ++powerUpIndex)
+	for (PowerUp*& powerUp : m_pItems)
 	{
-		if (m_pItems[powerUpIndex]->IsOverlapping(rect))
+		if (powerUp->IsOverlapping(rect))
 		{
-			PowerUp* temp{ m_pItems[Size() - 1] };
-			m_pItems[Size() - 1] = m_pItems[powerUpIndex];
-			m_pItems[powerUpIndex] = temp;
-			m_pItems.pop_back();
+			YeOldeSwitcheroo(powerUp, m_pItems.at(Size() - 1));
+			DeleteLastPowerUp();
 			return true;
 		}
 	}
 	return false;
+}
+
+void PowerUpManager::YeOldeSwitcheroo(size_t swapIndex, size_t swapWithIndex)
+{
+	PowerUp* temp{ m_pItems[swapWithIndex] };
+	m_pItems[swapWithIndex] = m_pItems[swapIndex];
+	m_pItems[swapIndex] = temp;
+}
+
+void PowerUpManager::YeOldeSwitcheroo(PowerUp*& swapItem, PowerUp*& swapWithItem)
+{
+	std::swap(swapItem, swapWithItem);
+}
+
+void PowerUpManager::DeleteLastPowerUp()
+{
+	delete m_pItems[Size() - 1];
+	m_pItems[Size() - 1] = nullptr;
+	m_pItems.pop_back();
 }

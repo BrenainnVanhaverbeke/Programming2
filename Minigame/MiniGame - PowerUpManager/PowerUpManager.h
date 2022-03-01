@@ -24,4 +24,7 @@ private:
 	std::vector<PowerUp*> m_pItems;
 
 	// Your helper functions
+	void YeOldeSwitcheroo(size_t swapIndex, size_t swapWithIndex);
+	void YeOldeSwitcheroo(PowerUp*& swapItem, PowerUp*& swapWithItem);
+	void DeleteLastPowerUp();
 };
