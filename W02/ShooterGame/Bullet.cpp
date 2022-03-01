@@ -10,14 +10,19 @@ Bullet::Bullet()
 
 Bullet::Bullet(float width, float height)
 	: m_Width{ width }, m_Height{ height }, m_IsActivated{ false }, m_Center{ },
-	m_Velocity{ 0.0f, 200.0f }, m_Boundaries{}
+	m_Velocity{ }, m_Boundaries{}
 {
 }
 
 void Bullet::Draw() const
 {
 	if (m_IsActivated)
+	{
+		Rectf bulletRect{ GetBulletRect() };
+		Point2f bulletTip{ bulletRect.left + (bulletRect.width / 2), bulletRect.bottom + bulletRect.height };
 		utils::FillRect(GetBulletRect());
+		utils::FillEllipse(bulletTip, bulletRect.width / 2, bulletRect.width / 2);
+	}
 }
 
 void Bullet::Update(float elapsedSec, Enemy** pEnemies, int numEnemies)
@@ -36,14 +41,18 @@ void Bullet::Update(float elapsedSec, Enemy** pEnemies, int numEnemies)
 				return;
 			}
 		}
+		CheckBoundaries();
 	}
 }
 
 void Bullet::Shoot(const Point2f& center, const Vector2f& velocity)
 {
-	m_Center = center;
-	m_Velocity = velocity;
-	m_IsActivated = true;
+	if (!m_IsActivated)
+	{
+		m_Center = center;
+		m_Velocity = velocity;
+		m_IsActivated = true;
+	}
 }
 
 void Bullet::SetDimensions(float width, float height)
@@ -59,7 +68,7 @@ void Bullet::SetBoundaries(const Rectf& boundaries)
 
 void Bullet::CheckBoundaries()
 {
-	if (m_Boundaries.bottom + m_Boundaries.height < m_Center.y)
+	if (m_IsActivated && m_Boundaries.bottom + m_Boundaries.height < m_Center.y)
 		m_IsActivated = false;
 }
 
