@@ -2,6 +2,7 @@
 #include "Avatar.h"
 #include "Enemy.h"
 #include "utils.h"
+#include "Bullet.h"
 
 Avatar::Avatar()
 	: Avatar(Point2f{ 0.0f, 0.0f }, 10.0f, 10.0f)
@@ -10,16 +11,29 @@ Avatar::Avatar()
 
 Avatar::Avatar(const Point2f& center, float width, float height)
 	: m_Center{ center }, m_Width{ width }, m_Height{ height }, m_Boundaries{ Rectf{} },
-	m_Speed{ 200.0f }
+	m_Speed{ 200.0f }, m_Bullet{ new Bullet(width / 4, height / 2) }
 {
+}
+
+Avatar::~Avatar()
+{
+	delete m_Bullet;
+	m_Bullet = nullptr;
 }
 
 void Avatar::Update(float elapsedSec, Enemy** pEnemies, int numEnemies)
 {
 	HandleMoveKeysState(elapsedSec);
+	m_Bullet->Update(elapsedSec, pEnemies, numEnemies);
 }
 
-void Avatar::Draw()
+void Avatar::Draw() const
+{
+	DrawAvatar();
+	m_Bullet->Draw();
+}
+
+void Avatar::DrawAvatar() const
 {
 	const Color4f avatarColour{ 1.0f, 1.0f, 0.0f, 1.0f };
 	const float lineThickness{ 3.0f };
@@ -49,6 +63,15 @@ void Avatar::SetDimensions(float width, float height)
 void Avatar::SetBoundaries(const Rectf& boundaries)
 {
 	m_Boundaries = boundaries;
+}
+
+void Avatar::ProcessKeyDownEvent(const SDL_KeyboardEvent& e)
+{
+	if (e.keysym.sym == SDLK_UP)
+	{
+		const Vector2f bulletVelocity{ 0.0f, 200.0f };
+		m_Bullet->Shoot(Point2f{ m_Center.x, m_Center.y + m_Height }, bulletVelocity);
+	}
 }
 
 void Avatar::HandleMoveKeysState(float elapsedSec)

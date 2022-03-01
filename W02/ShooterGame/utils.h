@@ -83,11 +83,9 @@ namespace utils
 
 #pragma endregion CollisionFunctionality
 
-#pragma region GeneralFunctions
+#pragma region GeneralFunctionality
 
-	int GetRandomNumber(int lowestValue, int highestValue, bool isInclusive = true);
-	int GetLinearIndexFrom2DIndex(int rowIndex, int columnIndex, int nrOfColumns);
 	Point2f GetMiddle(const Point2f& point1, const Point2f& point2);
 
-#pragma endregion GeneralFunctions
+#pragma endregion GeneralFunctionality
 }
