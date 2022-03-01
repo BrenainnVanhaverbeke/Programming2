@@ -11,7 +11,7 @@ Avatar::Avatar()
 
 Avatar::Avatar(const Point2f& center, float width, float height)
 	: m_Center{ center }, m_Width{ width }, m_Height{ height }, m_Boundaries{ Rectf{} },
-	m_Speed{ 200.0f }, m_Bullet{ new Bullet(width / 4, height / 2) }
+	m_Speed{ 200.0f }, m_Bullet{ new Bullet(width / 8, height / 4) }
 {
 }
 
@@ -63,13 +63,14 @@ void Avatar::SetDimensions(float width, float height)
 void Avatar::SetBoundaries(const Rectf& boundaries)
 {
 	m_Boundaries = boundaries;
+	m_Bullet->SetBoundaries(boundaries);
 }
 
 void Avatar::ProcessKeyDownEvent(const SDL_KeyboardEvent& e)
 {
-	if (e.keysym.sym == SDLK_UP)
+	if (e.keysym.sym == SDLK_UP || e.keysym.sym == SDLK_w)
 	{
-		const Vector2f bulletVelocity{ 0.0f, 200.0f };
+		const Vector2f bulletVelocity{ 0.0f, 1000.0f };
 		m_Bullet->Shoot(Point2f{ m_Center.x, m_Center.y + m_Height }, bulletVelocity);
 	}
 }
