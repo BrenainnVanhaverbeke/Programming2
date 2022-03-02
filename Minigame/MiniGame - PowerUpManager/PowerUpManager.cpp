@@ -44,7 +44,7 @@ bool PowerUpManager::HitItem(const Rectf& rect)
 	{
 		if (powerUp->IsOverlapping(rect))
 		{
-			YeOldeSwitcheroo(powerUp, m_pItems.at(Size() - 1));
+			YeOldeSwitcheroo(powerUp, m_pItems.back());
 			DeleteLastPowerUp();
 			return true;
 		}
@@ -66,7 +66,7 @@ void PowerUpManager::YeOldeSwitcheroo(PowerUp*& swapItem, PowerUp*& swapWithItem
 
 void PowerUpManager::DeleteLastPowerUp()
 {
-	delete m_pItems[Size() - 1];
-	m_pItems[Size() - 1] = nullptr;
+	delete m_pItems.back();
+	m_pItems.back() = nullptr;
 	m_pItems.pop_back();
 }
