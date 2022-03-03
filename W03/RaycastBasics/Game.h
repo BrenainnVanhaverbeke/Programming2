@@ -1,4 +1,6 @@
 #pragma once
+#include <vector>
+#include "utils.h"
 
 class Game final
 {
@@ -23,9 +25,27 @@ public:
 private:
 	// DATA MEMBERS
 	const Window m_Window;
+	const Point2f m_Center;
+
+	bool m_RayIsIntersecting;
+
+	Point2f m_MousePoint;
+	utils::HitInfo m_RayHitInfo;
+	std::vector<Point2f> m_Points;
 
 	// FUNCTIONS
 	void Initialize( );
+	void InitialisePoints();
+	void InitialisePolygon();
+
 	void Cleanup( );
+
 	void ClearBackground( ) const;
+	void DrawPolygon() const;
+	void DrawRay() const;
+	void DrawIntersection() const;
+	void DrawNormal() const;
+	void DrawReflection() const;
+
+	void CheckRaycast();
 };

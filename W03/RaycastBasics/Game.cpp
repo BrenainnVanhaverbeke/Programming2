@@ -1,109 +1,136 @@
 #include "pch.h"
 #include "Game.h"
+#include <iostream>
 
-Game::Game( const Window& window ) 
-	:m_Window{ window }
+Game::Game(const Window& window)
+	:m_Window{ window }, m_Center{ Point2f{m_Window.width / 2, m_Window.height / 2} }
 {
-	Initialize( );
+	Initialize();
+	InitialisePoints();
 }
 
-Game::~Game( )
+Game::~Game()
 {
-	Cleanup( );
+	Cleanup();
 }
 
-void Game::Initialize( )
+void Game::Initialize()
 {
-	
+	InitialisePoints();
 }
 
-void Game::Cleanup( )
+void Game::InitialisePoints()
+{
+	InitialisePolygon();
+	m_MousePoint = Point2f{ 10.0f, 10.0f };
+}
+
+void Game::InitialisePolygon()
+{
+	const float verticalBorder{ 50.0f };
+	const float horizontalBorder{ 120.0f };
+	m_Points.push_back(Point2f{ m_Window.width / 2, verticalBorder });
+	m_Points.push_back(Point2f{ m_Window.width - horizontalBorder, verticalBorder * 2 });
+	m_Points.push_back(Point2f{ m_Window.width - horizontalBorder, m_Window.height - verticalBorder * 4 });
+	m_Points.push_back(Point2f{ m_Window.width / 2, m_Window.height - verticalBorder });
+	m_Points.push_back(Point2f{ horizontalBorder, (m_Window.height - verticalBorder * 4) });
+	m_Points.push_back(Point2f{ horizontalBorder, verticalBorder * 2 });
+}
+
+void Game::Cleanup()
 {
 }
 
-void Game::Update( float elapsedSec )
+void Game::Update(float elapsedSec)
 {
-	// Check keyboard state
-	//const Uint8 *pStates = SDL_GetKeyboardState( nullptr );
-	//if ( pStates[SDL_SCANCODE_RIGHT] )
-	//{
-	//	std::cout << "Right arrow key is down\n";
-	//}
-	//if ( pStates[SDL_SCANCODE_LEFT] && pStates[SDL_SCANCODE_UP])
-	//{
-	//	std::cout << "Left and up arrow keys are down\n";
-	//}
+	CheckRaycast();
 }
 
-void Game::Draw( ) const
+void Game::Draw() const
 {
-	ClearBackground( );
+	ClearBackground();
+	DrawPolygon();
+	DrawRay();
 }
 
-void Game::ProcessKeyDownEvent( const SDL_KeyboardEvent & e )
+void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent& e)
 {
-	//std::cout << "KEYDOWN event: " << e.keysym.sym << std::endl;
 }
 
-void Game::ProcessKeyUpEvent( const SDL_KeyboardEvent& e )
+void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent& e)
 {
-	//std::cout << "KEYUP event: " << e.keysym.sym << std::endl;
-	//switch ( e.keysym.sym )
-	//{
-	//case SDLK_LEFT:
-	//	//std::cout << "Left arrow key released\n";
-	//	break;
-	//case SDLK_RIGHT:
-	//	//std::cout << "`Right arrow key released\n";
-	//	break;
-	//case SDLK_1:
-	//case SDLK_KP_1:
-	//	//std::cout << "Key 1 released\n";
-	//	break;
-	//}
 }
 
-void Game::ProcessMouseMotionEvent( const SDL_MouseMotionEvent& e )
+void Game::ProcessMouseMotionEvent(const SDL_MouseMotionEvent& e)
 {
-	//std::cout << "MOUSEMOTION event: " << e.x << ", " << e.y << std::endl;
+	m_MousePoint = Point2f{ (float)e.x, (float)e.y };
 }
 
-void Game::ProcessMouseDownEvent( const SDL_MouseButtonEvent& e )
+void Game::ProcessMouseDownEvent(const SDL_MouseButtonEvent& e)
 {
-	//std::cout << "MOUSEBUTTONDOWN event: ";
-	//switch ( e.button )
-	//{
-	//case SDL_BUTTON_LEFT:
-	//	std::cout << " left button " << std::endl;
-	//	break;
-	//case SDL_BUTTON_RIGHT:
-	//	std::cout << " right button " << std::endl;
-	//	break;
-	//case SDL_BUTTON_MIDDLE:
-	//	std::cout << " middle button " << std::endl;
-	//	break;
-	//}
 }
 
-void Game::ProcessMouseUpEvent( const SDL_MouseButtonEvent& e )
+void Game::ProcessMouseUpEvent(const SDL_MouseButtonEvent& e)
 {
-	//std::cout << "MOUSEBUTTONUP event: ";
-	//switch ( e.button )
-	//{
-	//case SDL_BUTTON_LEFT:
-	//	std::cout << " left button " << std::endl;
-	//	break;
-	//case SDL_BUTTON_RIGHT:
-	//	std::cout << " right button " << std::endl;
-	//	break;
-	//case SDL_BUTTON_MIDDLE:
-	//	std::cout << " middle button " << std::endl;
-	//	break;
-	//}
 }
 
-void Game::ClearBackground( ) const
+void Game::ClearBackground() const
 {
-	glClearColor( 0.0f, 0.0f, 0.3f, 1.0f );
-	glClear( GL_COLOR_BUFFER_BIT );
+	glClearColor(0.0f, 0.0f, 0.3f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void Game::DrawPolygon() const
+{
+	const Color4f polygonFill{ 0.0f, 0.0f, 0.0f, 1.0f };
+	const Color4f polygonBorder{ 1.0f, 0.3f, 0.0f, 1.0f };
+	utils::SetColor(polygonFill);
+	utils::FillPolygon(m_Points);
+	utils::SetColor(polygonBorder);
+	utils::DrawPolygon(m_Points);
+}
+
+void Game::DrawRay() const
+{
+	const Color4f rayColour{ 1.0f, 1.0f, 0.0f, 1.0f };
+	utils::SetColor(rayColour);
+	utils::DrawLine(m_Center, m_MousePoint);
+	if (m_RayIsIntersecting)
+	{
+		DrawIntersection();
+		DrawNormal();
+		DrawReflection();
+	}
+}
+
+void Game::DrawIntersection() const
+{
+	const float intersectRadius{ 5.0f };
+	const Color4f intersectColour{ 1.0f, 1.0f, 1.0f, 1.0f };
+	utils::SetColor(intersectColour);
+	utils::FillEllipse(m_RayHitInfo.intersectPoint, intersectRadius, intersectRadius);
+}
+
+void Game::DrawNormal() const
+{
+	const float normalLength{ 30.0f };
+	const Color4f normalColour{ 0.0f, 1.0f, 0.0f, 1.0f };
+	const Point2f normalPoint{ m_RayHitInfo.intersectPoint + (m_RayHitInfo.normal * normalLength) };
+	utils::SetColor(normalColour);
+	utils::DrawLine(m_RayHitInfo.intersectPoint, normalPoint);
+}
+
+void Game::DrawReflection() const
+{
+	const Color4f reflectionColour{ 1.0f, 1.0f, 1.0f, 1.0f };
+	const Vector2f ray{ m_Center, m_MousePoint };
+	const Vector2f reflection{ Vector2f{m_Center, m_RayHitInfo.intersectPoint}.Reflect(m_RayHitInfo.normal).Normalized() };
+	const float lengthAfterIntersect{ ray.Length() * (1 - m_RayHitInfo.lambda)};
+	utils::SetColor(reflectionColour);
+	utils::DrawLine(m_RayHitInfo.intersectPoint, m_RayHitInfo.intersectPoint + (reflection * lengthAfterIntersect));
+}
+
+void Game::CheckRaycast()
+{
+	m_RayIsIntersecting = utils::Raycast(m_Points, m_Center, m_MousePoint, m_RayHitInfo);
 }
