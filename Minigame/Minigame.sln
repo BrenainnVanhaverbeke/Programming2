@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MiniGame - PowerUps", "Mini
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MiniGame - PowerUpManager", "MiniGame - PowerUpManager\MiniGame - PowerUpManager.vcxproj", "{4F6BAC19-8C37-48D8-A167-C7E0E01EA4FD}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MiniGame", "MiniGame\MiniGame.vcxproj", "{110C5562-58B9-48AB-8BBC-47CD90B2D755}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{4F6BAC19-8C37-48D8-A167-C7E0E01EA4FD}.Release|x64.Build.0 = Release|x64
 		{4F6BAC19-8C37-48D8-A167-C7E0E01EA4FD}.Release|x86.ActiveCfg = Release|Win32
 		{4F6BAC19-8C37-48D8-A167-C7E0E01EA4FD}.Release|x86.Build.0 = Release|Win32
+		{110C5562-58B9-48AB-8BBC-47CD90B2D755}.Debug|x64.ActiveCfg = Debug|x64
+		{110C5562-58B9-48AB-8BBC-47CD90B2D755}.Debug|x64.Build.0 = Debug|x64
+		{110C5562-58B9-48AB-8BBC-47CD90B2D755}.Debug|x86.ActiveCfg = Debug|Win32
+		{110C5562-58B9-48AB-8BBC-47CD90B2D755}.Debug|x86.Build.0 = Debug|Win32
+		{110C5562-58B9-48AB-8BBC-47CD90B2D755}.Release|x64.ActiveCfg = Release|x64
+		{110C5562-58B9-48AB-8BBC-47CD90B2D755}.Release|x64.Build.0 = Release|x64
+		{110C5562-58B9-48AB-8BBC-47CD90B2D755}.Release|x86.ActiveCfg = Release|Win32
+		{110C5562-58B9-48AB-8BBC-47CD90B2D755}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
