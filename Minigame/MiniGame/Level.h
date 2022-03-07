@@ -1,5 +1,6 @@
 #pragma once
 #include "Vector2f.h"
+#include "utils.h"
 #include <vector>
 
 class Texture;
@@ -21,4 +22,5 @@ private:
 	Point2f m_FenceBottomLeft;
 
 	void InitialiseVertices();
+	bool DoRaycast(const Rectf& actorShape, utils::HitInfo& hitInfo);
 };

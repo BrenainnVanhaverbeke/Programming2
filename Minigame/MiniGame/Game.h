@@ -1,14 +1,17 @@
 #pragma once
 
+#include "Vector2f.h"
+
+class PowerUpManager;
 class Level;
 
 class Game final
 {
 public:
-	explicit Game( const Window& window );
+	explicit Game(const Window& window);
 	Game(const Game& other) = delete;
 	Game& operator=(const Game& other) = delete;
-	Game( Game&& other) = delete;
+	Game(Game&& other) = delete;
 	Game& operator=(Game&& other) = delete;
 	~Game();
 
@@ -25,11 +28,24 @@ public:
 private:
 	// DATA MEMBERS
 	const Window m_Window;
-	const Level* m_pLevel;
+	const Vector2f m_GravityAccelaration;
+
+	Rectf m_ActorShape;
+	const Color4f m_InAirColor;
+	const Color4f m_OnGroundColor;
+	bool m_IsOnGround;
+	Vector2f m_ActorVelocity;
+
+	Level *m_pLevel;
+	PowerUpManager* m_pPowerUpManager;
 
 	// FUNCTIONS
 	void Initialize( );
-	void Cleanup( );
+	void Cleanup();
 	void ClearBackground( ) const;
-	void DrawLevel() const;
+	void ShowTestMessage( ) const;
+	void AddPowerUps( );
+	void UpdateActor( float elapsedSec );
+	void DrawActor( ) const;
+	void PositionActor( float newCenterX );
 };

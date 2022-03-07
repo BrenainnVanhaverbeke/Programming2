@@ -86,6 +86,9 @@ namespace utils
 #pragma region GeneralFunctionality
 
 	Point2f GetMiddle(const Point2f& point1, const Point2f& point2);
+	Point2f GetRectCentre(const Rectf& rect);
+	Point2f GetRectCentreTop(const Rectf& rect);
 
 #pragma endregion GeneralFunctionality
+
 }

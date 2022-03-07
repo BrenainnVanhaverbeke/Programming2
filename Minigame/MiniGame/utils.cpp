@@ -694,4 +694,18 @@ Point2f utils::GetMiddle(const Point2f& point1, const Point2f& point2)
 	return Point2f{ middleX, middleY };
 }
 
+Point2f utils::GetRectCentre(const Rectf& rect)
+{
+	float x{ (rect.left + rect.width) / 2 };
+	float y{ (rect.bottom + rect.height) / 2 };
+	return Point2f(x, y);
+}
+
+Point2f utils::GetRectCentreTop(const Rectf& rect)
+{
+	float x{ (rect.left + rect.width) / 2 };
+	float y{ rect.bottom + rect.height };
+	return Point2f(x, y);
+}
+
 #pragma endregion GeneralFunctionality
