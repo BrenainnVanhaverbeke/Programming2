@@ -25,7 +25,7 @@ public:
 private:
 	// DATA MEMBERS
 	const Window m_Window;
-	Diamond* m_Diamond;
+	Diamond* m_pDiamonds;
 
 	// FUNCTIONS
 	void Initialize( );

@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 
 class Diamond;
 
@@ -25,10 +26,11 @@ public:
 private:
 	// DATA MEMBERS
 	const Window m_Window;
-	Diamond* m_Diamond;
+	std::vector<Diamond*> m_pDiamonds;
 
 	// FUNCTIONS
 	void Initialize( );
+	void InitialiseDiamonds();
 	void Cleanup( );
 	void ClearBackground( ) const;
 	void DrawDiamond() const;

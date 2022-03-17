@@ -1,10 +1,10 @@
 #include "pch.h"
 #include "Game.h"
 #include "Diamond.h"
+#include "utils.h"
 
 Game::Game(const Window& window)
 	: m_Window{ window }
-	, m_Diamond{ new Diamond(Point2f{100, 100}) }
 {
 	Initialize();
 }
@@ -16,18 +16,32 @@ Game::~Game()
 
 void Game::Initialize()
 {
+	InitialiseDiamonds();
+}
 
+void Game::InitialiseDiamonds()
+{
+	const int nrOfDiamonds{ 10 };
+	Point2f location{};
+	for (int i{ 0 }; i < nrOfDiamonds; ++i)
+	{
+		location.x = (float)utils::GetRandomNumber(0, (int)m_Window.width);
+		location.y = (float)utils::GetRandomNumber(0, (int)m_Window.height);
+		m_pDiamonds.push_back(new Diamond(location));
+	}
 }
 
 void Game::Cleanup()
 {
-	delete m_Diamond;
-	m_Diamond = nullptr;
+	for (Diamond* diamond : m_pDiamonds)
+		delete diamond;
+	m_pDiamonds.clear();
 }
 
 void Game::Update(float elapsedSec)
 {
-	m_Diamond->Update(elapsedSec);
+	for (Diamond* diamond : m_pDiamonds)
+		diamond->Update(elapsedSec);
 }
 
 void Game::Draw() const
@@ -43,20 +57,11 @@ void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent& e)
 
 void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent& e)
 {
-	//std::cout << "KEYUP event: " << e.keysym.sym << std::endl;
-	//switch ( e.keysym.sym )
-	//{
-	//case SDLK_LEFT:
-	//	//std::cout << "Left arrow key released\n";
-	//	break;
-	//case SDLK_RIGHT:
-	//	//std::cout << "`Right arrow key released\n";
-	//	break;
-	//case SDLK_1:
-	//case SDLK_KP_1:
-	//	//std::cout << "Key 1 released\n";
-	//	break;
-	//}
+	if (e.keysym.sym == SDLK_r)
+	{
+		for (Diamond* diamond : m_pDiamonds)
+			diamond->Reset();
+	}
 }
 
 void Game::ProcessMouseMotionEvent(const SDL_MouseMotionEvent& e)
@@ -84,7 +89,8 @@ void Game::ProcessMouseDownEvent(const SDL_MouseButtonEvent& e)
 void Game::ProcessMouseUpEvent(const SDL_MouseButtonEvent& e)
 {
 	Point2f mousePosition{ (float)e.x, (float)e.y };
-	m_Diamond->IsClickInPolygon(mousePosition);
+	for (Diamond* diamond : m_pDiamonds)
+		diamond->IsClickInPolygon(mousePosition);
 }
 
 void Game::ClearBackground() const
@@ -95,5 +101,6 @@ void Game::ClearBackground() const
 
 void Game::DrawDiamond() const
 {
-	m_Diamond->Draw();
+	for (Diamond* diamond : m_pDiamonds)
+		diamond->Draw();
 }

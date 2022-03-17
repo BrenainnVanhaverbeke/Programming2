@@ -4,7 +4,7 @@
 
 Game::Game(const Window& window)
 	: m_Window{ window }
-	, m_Diamond{ new Diamond() }
+	, m_pDiamonds{ new Diamond() }
 {
 	Initialize();
 }
@@ -25,7 +25,7 @@ void Game::Cleanup()
 
 void Game::Update(float elapsedSec)
 {
-	m_Diamond->Update(elapsedSec);
+	m_pDiamonds->Update(elapsedSec);
 }
 
 void Game::Draw() const
@@ -82,7 +82,7 @@ void Game::ProcessMouseDownEvent(const SDL_MouseButtonEvent& e)
 void Game::ProcessMouseUpEvent(const SDL_MouseButtonEvent& e)
 {
 	Point2f mousePosition{ (float)e.x, (float)e.y };
-	m_Diamond->IsClickInPolygon(mousePosition);
+	m_pDiamonds->IsClickInPolygon(mousePosition);
 }
 
 void Game::ClearBackground() const
@@ -93,5 +93,5 @@ void Game::ClearBackground() const
 
 void Game::DrawDiamond() const
 {
-	m_Diamond->Draw();
+	m_pDiamonds->Draw();
 }

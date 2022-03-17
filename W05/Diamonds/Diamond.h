@@ -15,6 +15,7 @@ public:
 	void Draw() const;
 	void Update(float elapsedSec);
 	void IsClickInPolygon(const Point2f& mousePosition);
+	void Reset();
 
 private:
 	Point2f m_pVertices[m_NrOfVertices];

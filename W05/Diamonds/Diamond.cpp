@@ -32,12 +32,12 @@ void Diamond::Draw() const
 {
 	DrawTexture();
 	DrawOutline();
-	utils::DrawPoint(GetCenter(), 10.0f);
 }
 
 void Diamond::Update(float elapsedSec)
 {
-	CalculateTransform(elapsedSec);
+	if (m_IsClicked)
+		CalculateTransform(elapsedSec);
 	ApplyTransform(elapsedSec);
 }
 
@@ -45,6 +45,14 @@ void Diamond::IsClickInPolygon(const Point2f& mousePosition)
 {
 	if (utils::IsPointInPolygon(mousePosition, m_pTransformedVertices, m_NrOfVertices))
 		m_IsClicked = !m_IsClicked;
+}
+
+void Diamond::Reset()
+{
+	m_DisplacementVector = Vector2f{};
+	m_RotationAngle = 0;
+	m_Scale = 1.0f;
+	m_IsClicked = false;
 }
 
 void Diamond::InitialiseVertices(const Point2f& origin)
@@ -66,15 +74,16 @@ void Diamond::DrawOutline() const
 
 void Diamond::DrawTexture() const
 {
-	//Point2f diamondCenter{ GetCenter() };
-	//diamondCenter.x -= diamondCenter.x - m_Width;
-	//diamondCenter.y -= diamondCenter.y - m_Height;
-	//glPushMatrix();
-	//glTranslatef(m_DisplacementVector.x, m_DisplacementVector.y, 0);
-	//glRotatef(m_RotationAngle, 0, 0, 1);
-	//glScalef(m_Scale, m_Scale, 0);
-	//m_pDiamondTexture->Draw(diamondCenter);
-	//glPopMatrix();
+	Point2f center{ GetCenter() };
+	glPushMatrix();
+	{
+		glTranslatef(m_DisplacementVector.x + center.x, m_DisplacementVector.y + center.y, 0);
+		glRotatef(m_RotationAngle, 0, 0, 1);
+		glScalef(m_Scale, m_Scale, 0);
+		glTranslatef(-(m_Width / 2), -(m_Height / 2), 0);
+		m_pDiamondTexture->Draw();
+	}
+	glPopMatrix();
 }
 
 void Diamond::CalculateTransform(float elapsedSec)
@@ -130,6 +139,7 @@ void Diamond::ApplyTransform(float elapsedSec)
 	centeringMatrix.SetAsTranslate(-diamondCenter);
 	trsMatrix = translationMatrix * rotationMatrix * scaleMatrix * centeringMatrix;
 	centeringMatrix.SetAsTranslate(diamondCenter);
+	trsMatrix = centeringMatrix * trsMatrix;
 	trsMatrix.Transform(m_pVertices, m_pTransformedVertices, m_NrOfVertices);
 }
 

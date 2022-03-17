@@ -694,4 +694,12 @@ Point2f utils::GetMiddle(const Point2f& point1, const Point2f& point2)
 	return Point2f{ middleX, middleY };
 }
 
+int utils::GetRandomNumber(int lowestValue, int highestValue, bool isInclusive)
+{
+	int amountOfValues{ highestValue - lowestValue };
+	if (isInclusive)
+		amountOfValues++;
+	return (rand() % amountOfValues) + lowestValue;
+}
+
 #pragma endregion GeneralFunctionality
