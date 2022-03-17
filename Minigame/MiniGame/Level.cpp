@@ -21,7 +21,7 @@ void Level::DrawBackground() const
 {
 	m_pBackgroundTexture->Draw(Rectf{ 0, 0, m_pBackgroundTexture->GetWidth(), m_pBackgroundTexture->GetHeight() });
 	utils::DrawPolygon(m_Vertices, true, 3.0f);
-	utils::SetColor(Color4f{ 1.0f, 1.0f, 1.0f, 0.5f });
+	utils::SetColor(Color4f{ 1.0f, 1.0f, 1.0f, 0.25f });
 	utils::FillPolygon(m_Vertices);
 }
 
