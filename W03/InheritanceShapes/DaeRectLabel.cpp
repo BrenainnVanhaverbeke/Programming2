@@ -18,11 +18,7 @@ DaeRectLabel::~DaeRectLabel()
 
 void DaeRectLabel::Draw() const
 {
-	 //Rectangle
-	utils::SetColor(m_Colour);
-	utils::FillRect(Point2f{ m_Center.x - m_Width / 2,m_Center.y - m_Height / 2 }, m_Width, m_Height);
-
-	 //Label
+	DaeRectangle::Draw();
 	Point2f bottomLeft{ m_Center.x - m_Width / 2 + m_MarginX, m_Center.y - m_Height / 2 + m_MarginY };
 	m_pLabelText->Draw(bottomLeft);
 }
