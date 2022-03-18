@@ -4,6 +4,7 @@
 
 class PowerUpManager;
 class Level;
+class Avatar;
 
 class Game final
 {
@@ -28,16 +29,10 @@ public:
 private:
 	// DATA MEMBERS
 	const Window m_Window;
-	const Vector2f m_GravityAccelaration;
-
-	Rectf m_ActorShape;
-	const Color4f m_InAirColor;
-	const Color4f m_OnGroundColor;
-	bool m_IsOnGround;
-	Vector2f m_ActorVelocity;
 
 	Level *m_pLevel;
 	PowerUpManager* m_pPowerUpManager;
+	Avatar* m_pAvatar;
 
 	// FUNCTIONS
 	void Initialize( );
@@ -45,7 +40,5 @@ private:
 	void ClearBackground( ) const;
 	void ShowTestMessage( ) const;
 	void AddPowerUps( );
-	void UpdateActor( float elapsedSec );
-	void DrawActor( ) const;
-	void PositionActor( float newCenterX );
+	void DoCollisionTests();
 };

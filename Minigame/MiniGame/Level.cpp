@@ -19,10 +19,7 @@ Level::~Level()
 
 void Level::DrawBackground() const
 {
-	m_pBackgroundTexture->Draw(Rectf{ 0, 0, m_pBackgroundTexture->GetWidth(), m_pBackgroundTexture->GetHeight() });
-	utils::DrawPolygon(m_Vertices, true, 3.0f);
-	utils::SetColor(Color4f{ 1.0f, 1.0f, 1.0f, 0.25f });
-	utils::FillPolygon(m_Vertices);
+	m_pBackgroundTexture->Draw();
 }
 
 void Level::DrawForeground() const
@@ -30,7 +27,7 @@ void Level::DrawForeground() const
 	m_pForegroundTexture->Draw(Rectf{ 200, 190, m_pForegroundTexture->GetWidth(), m_pForegroundTexture->GetHeight() });
 }
 
-void Level::HandleCollision(Rectf& actorShape, Vector2f& actorVelocity)
+void Level::HandleCollision(Rectf& actorShape, Vector2f& actorVelocity) const
 {
 	utils::HitInfo hitInfo{};
 	if (DoRaycast(actorShape, hitInfo))
@@ -40,7 +37,7 @@ void Level::HandleCollision(Rectf& actorShape, Vector2f& actorVelocity)
 	}
 }
 
-bool Level::IsOnGround(const Rectf& actorShape)
+bool Level::IsOnGround(const Rectf& actorShape) const
 {
 	utils::HitInfo hitInfo{};
 	return DoRaycast(actorShape, hitInfo);
@@ -59,7 +56,7 @@ void Level::InitialiseVertices()
 	m_Vertices.push_back(Point2f{ 0, 0 });
 }
 
-bool Level::DoRaycast(const Rectf& actorShape, utils::HitInfo& hitInfo)
+bool Level::DoRaycast(const Rectf& actorShape, utils::HitInfo& hitInfo) const
 {
 	Point2f rectCentreTop{ utils::GetRectCentreTop(actorShape) };
 	Point2f rectCentreBottom{ rectCentreTop.x, rectCentreTop.y - actorShape.height - 1 };

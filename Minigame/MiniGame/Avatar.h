@@ -1,6 +1,8 @@
 #pragma once
 #include "Vector2f.h"
 
+class Level;
+
 class Avatar
 {
 	enum class ActionState
@@ -11,15 +13,31 @@ class Avatar
 		END
 	};
 
-private:
-	const Rectf m_Shape{ 50, 280, 36, 97 };
-	const float m_HorizontalSpeed{ 200.0f };
-	const float m_JumpSpeed{ 600.0f };
-	Vector2f m_Velocity{ 0.0f, 0.0f };
-	const Vector2f m_Acceleration{ 0.0f, -981.0f };
-	ActionState m_ActionState{ ActionState::moving };
-	float m_AccuTransformSec{ 0.0f };
-	const float m_MaxTransformSec{ 1.0f };
-	int m_Power{ 0 };
-};
+public:
+	Avatar();
+	void Update(float elapsedSec, const Level* level);
+	void Draw() const;
+	void PowerUpHit();
+	Rectf GetShape() const;
 
+private:
+	const float m_HorizontalSpeed;
+	const float m_JumpSpeed;
+	const float m_MaxTransformSec;
+
+	const Vector2f m_Acceleration;
+
+	float m_AccuTransformSec;
+	int m_Power;
+
+	Rectf m_Shape;
+	Vector2f m_Velocity;
+	ActionState m_ActionState;
+
+	void UpdateHorizontalVelocity(float elapsedSec, const Uint8* pKeysState);
+	void UpdateVerticalVelocity(float elapsedsec, const Level* level, const Uint8* pKeysState);
+	void MoveAvatar(float elapsedSec);
+	void HandleTransformation(float elapsedSec);
+	void DrawPowerUpIndicators() const;
+	Color4f GetColour() const;
+};

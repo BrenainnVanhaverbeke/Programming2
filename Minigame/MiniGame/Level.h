@@ -12,8 +12,8 @@ public:
 	~Level();
 	void DrawBackground() const;
 	void DrawForeground() const;
-	void HandleCollision(Rectf& actorShape, Vector2f& actorVelocity);
-	bool IsOnGround(const Rectf& actorShape);
+	void HandleCollision(Rectf& actorShape, Vector2f& actorVelocity) const;
+	bool IsOnGround(const Rectf& actorShape) const;
 
 private:
 	std::vector<Point2f> m_Vertices;
@@ -22,5 +22,5 @@ private:
 	Point2f m_FenceBottomLeft;
 
 	void InitialiseVertices();
-	bool DoRaycast(const Rectf& actorShape, utils::HitInfo& hitInfo);
+	bool DoRaycast(const Rectf& actorShape, utils::HitInfo& hitInfo) const;
 };
