@@ -14,13 +14,15 @@ public:
 	void DrawForeground() const;
 	void HandleCollision(Rectf& actorShape, Vector2f& actorVelocity) const;
 	bool IsOnGround(const Rectf& actorShape) const;
+	Rectf GetBoundaries() const;
 
 private:
-	std::vector<Point2f> m_Vertices;
 	const Texture* m_pBackgroundTexture;
 	const Texture* m_pForegroundTexture;
+	const Rectf m_Boundaries;
+	
+	std::vector<Point2f> m_Vertices;
 	Point2f m_FenceBottomLeft;
 
-	void InitialiseVertices();
 	bool DoRaycast(const Rectf& actorShape, utils::HitInfo& hitInfo) const;
 };

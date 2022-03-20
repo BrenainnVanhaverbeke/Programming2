@@ -6,25 +6,28 @@
 #include "Level.h"
 #include "PowerUpManager.h"
 #include "Avatar.h"
+#include "Camera.h"
 
-Game::Game( const Window& window )
+Game::Game(const Window& window)
 	:m_Window{ window }
 	, m_pLevel{ new Level{} }
 	, m_pPowerUpManager{ new PowerUpManager{} }
 	, m_pAvatar{ new Avatar{} }
-{	 
-	Initialize( );
+	, m_pCamera{ new Camera{window.width, window.height} }
+{
+	Initialize();
 }
 
-Game::~Game( )
+Game::~Game()
 {
 	Cleanup();
 }
 
-void Game::Initialize( )
+void Game::Initialize()
 {
-	ShowTestMessage( );
-	AddPowerUps( );
+	ShowTestMessage();
+	AddPowerUps();
+	m_pCamera->SetLevelBoundaries(m_pLevel->GetBoundaries());
 }
 
 void Game::Cleanup()
@@ -32,12 +35,13 @@ void Game::Cleanup()
 	delete m_pLevel;
 	delete m_pPowerUpManager;
 	delete m_pAvatar;
+	delete m_pCamera;
 }
 
-void Game::Update( float elapsedSec )
+void Game::Update(float elapsedSec)
 {
 	// Power ups
-	m_pPowerUpManager->Update( elapsedSec );
+	m_pPowerUpManager->Update(elapsedSec);
 
 	// Update game objects
 	m_pPowerUpManager->Update(elapsedSec);
@@ -45,53 +49,57 @@ void Game::Update( float elapsedSec )
 
 	// Do collision
 	DoCollisionTests();
-
 }
 
-void Game::Draw( ) const
+void Game::Draw() const
 {
-	ClearBackground( );
+	ClearBackground();
+	glPushMatrix();
+	{
+		m_pCamera->Transform(m_pAvatar->GetShape()); 
+		// Level's backGround
+		m_pLevel->DrawBackground();
 
-	// Level's backGround
-	m_pLevel->DrawBackground( );
+		// PowerUps
+		m_pPowerUpManager->Draw();
 
-	// PowerUps
-	m_pPowerUpManager->Draw( );
+		// Actor
+		m_pAvatar->Draw();
 
-	// Actor
-	m_pAvatar->Draw( );
+		// Level's foreground
+		m_pLevel->DrawForeground();
 
-	// Level's foreground
-	m_pLevel->DrawForeground( );
+	}
+	glPopMatrix();
 }
 
-void Game::ProcessKeyDownEvent( const SDL_KeyboardEvent & e )
-{
-}
-
-void Game::ProcessKeyUpEvent( const SDL_KeyboardEvent& e )
-{
-}
-
-void Game::ProcessMouseMotionEvent( const SDL_MouseMotionEvent& e )
+void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent& e)
 {
 }
 
-void Game::ProcessMouseDownEvent( const SDL_MouseButtonEvent& e )
+void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent& e)
 {
 }
 
-void Game::ProcessMouseUpEvent( const SDL_MouseButtonEvent& e )
+void Game::ProcessMouseMotionEvent(const SDL_MouseMotionEvent& e)
 {
 }
 
-void Game::ClearBackground( ) const
+void Game::ProcessMouseDownEvent(const SDL_MouseButtonEvent& e)
 {
-	glClearColor( 0.0f, 0.0f, 0.0f, 1.0f );
-	glClear( GL_COLOR_BUFFER_BIT );
 }
 
-void Game::ShowTestMessage( ) const
+void Game::ProcessMouseUpEvent(const SDL_MouseButtonEvent& e)
+{
+}
+
+void Game::ClearBackground() const
+{
+	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void Game::ShowTestMessage() const
 {
 	std::cout << "--> Avatar test <--\n";
 	std::cout << "Verify that the avatar behaves as follows.\n";
@@ -106,11 +114,11 @@ void Game::ShowTestMessage( ) const
 	std::cout << "- Has a blue color when it is transforming.\n";
 }
 
-void Game::AddPowerUps( )
+void Game::AddPowerUps()
 {
-	m_pPowerUpManager->AddItem( Point2f{ 185.0f, 500 - 183.0f }, PowerUp::Type::brown );
-	m_pPowerUpManager->AddItem( Point2f{ 435.0f, 500 - 133.0f }, PowerUp::Type::green );
-	m_pPowerUpManager->AddItem( Point2f{ 685.0f, 500 - 183.0f }, PowerUp::Type::brown );
+	m_pPowerUpManager->AddItem(Point2f{ 185.0f, 500 - 183.0f }, PowerUp::Type::brown);
+	m_pPowerUpManager->AddItem(Point2f{ 435.0f, 500 - 133.0f }, PowerUp::Type::green);
+	m_pPowerUpManager->AddItem(Point2f{ 685.0f, 500 - 183.0f }, PowerUp::Type::brown);
 }
 
 void Game::DoCollisionTests()

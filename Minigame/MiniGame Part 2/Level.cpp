@@ -1,12 +1,20 @@
 #include "pch.h"
 #include "Level.h"
 #include "Texture.h"
+#include "SVGParser.h"
+#include <iostream>
 
 Level::Level()
-	: m_pBackgroundTexture{ new Texture("Resources/Images/background.png") },
-	m_pForegroundTexture{ new Texture("Resources/Images/fence.png") }
+	: m_pBackgroundTexture{ new Texture("Resources/Images/background.png") }
+	, m_pForegroundTexture{ new Texture("Resources/Images/fence.png") }
+	, m_Boundaries{ 0.0f, 0.0f, m_pBackgroundTexture->GetWidth(), m_pBackgroundTexture->GetHeight() }
 {
-	InitialiseVertices();
+	std::vector<std::vector<Point2f>> svgVertices{};
+	if (SVGParser::GetVerticesFromSvgFile("./Resources/Level/Level.svg", svgVertices))
+	{
+		m_Vertices = svgVertices[0];
+		std::cout << "Level succesfully loaded from svg" << std::endl;
+	}
 }
 
 Level::~Level()
@@ -43,17 +51,9 @@ bool Level::IsOnGround(const Rectf& actorShape) const
 	return DoRaycast(actorShape, hitInfo);
 }
 
-void Level::InitialiseVertices()
+Rectf Level::GetBoundaries() const
 {
-	m_Vertices.push_back(Point2f{ 0, 0 });
-	m_Vertices.push_back(Point2f{ 0, 190 });
-	m_Vertices.push_back(Point2f{ 340, 190 });
-	m_Vertices.push_back(Point2f{ 408, 124 });
-	m_Vertices.push_back(Point2f{ 560, 124 });
-	m_Vertices.push_back(Point2f{ 660, 224 });
-	m_Vertices.push_back(Point2f{ 846, 224 });
-	m_Vertices.push_back(Point2f{ 846, 0 });
-	m_Vertices.push_back(Point2f{ 0, 0 });
+	return m_Boundaries;
 }
 
 bool Level::DoRaycast(const Rectf& actorShape, utils::HitInfo& hitInfo) const

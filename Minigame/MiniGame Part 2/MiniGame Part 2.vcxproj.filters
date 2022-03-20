@@ -63,6 +63,9 @@
     <ClCompile Include="Vector2f.cpp">
       <Filter>Framework Files</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -108,6 +111,9 @@
       <Filter>Game Files</Filter>
     </ClInclude>
     <ClInclude Include="PowerUpManager.h">
+      <Filter>Game Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
       <Filter>Game Files</Filter>
     </ClInclude>
   </ItemGroup>
