@@ -7,6 +7,7 @@
 #include "PowerUpManager.h"
 #include "Avatar.h"
 #include "Camera.h"
+#include "HUD.h"
 
 Game::Game(const Window& window)
 	: m_Window{ window }
@@ -29,6 +30,8 @@ void Game::Initialize()
 	ShowTestMessage();
 	AddPowerUps();
 	m_pCamera->SetLevelBoundaries(m_pLevel->GetBoundaries());
+	const float hudOffset{ 10.0f };
+	m_pHUD = new HUD(Point2f{ hudOffset, m_Window.height - hudOffset }, (int)m_pPowerUpManager->Size());
 }
 
 void Game::Cleanup()
@@ -37,15 +40,13 @@ void Game::Cleanup()
 	delete m_pPowerUpManager;
 	delete m_pAvatar;
 	delete m_pCamera;
+	delete m_pHUD;
 }
 
 void Game::Update(float elapsedSec)
 {
 	if (!m_EndReached)
 	{
-		// Power ups
-		m_pPowerUpManager->Update(elapsedSec);
-
 		// Update game objects
 		m_pPowerUpManager->Update(elapsedSec);
 		m_pAvatar->Update(elapsedSec, m_pLevel);
@@ -76,6 +77,7 @@ void Game::Draw() const
 			m_pLevel->DrawGameOver();
 	}
 	glPopMatrix();
+	m_pHUD->Draw();
 }
 
 void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent& e)
