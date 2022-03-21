@@ -95,7 +95,6 @@ Rectf Level::GetBoundaries() const
 	return m_Boundaries;
 }
 
-// Deprecated, left in as backup.
 void Level::InitialiseVertices()
 {
 	m_Vertices.push_back(Point2f{ 0, 0 });
