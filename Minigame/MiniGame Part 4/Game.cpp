@@ -133,5 +133,6 @@ void Game::DoCollisionTests()
 	if (m_pPowerUpManager->HitItem(m_pAvatar->GetShape()))
 	{
 		m_pAvatar->PowerUpHit();
+		m_pHUD->PowerUpHit();
 	}
 }
