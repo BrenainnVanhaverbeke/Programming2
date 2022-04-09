@@ -2,6 +2,7 @@
 #include "Vector2f.h"
 #include <vector>
 
+class LevelLoader;
 class Terrain;
 class Texture;
 class Stairs;
@@ -28,12 +29,15 @@ public:
 
 	void Draw() const;
 
-	void HandleCollisions(const Rectf& actorShape, Transformation& actorTransform, Vector2f& actorVelocity);
+	void HandleCollisions(const Rectf& actorShape, Transform& actorTransform, Vector2f& actorVelocity);
 	bool IsOnGround(const Rectf& actorShape, const Vector2f& actorVelocity) const;
+	bool IsOnStairs() const;
 
-	void AttemptInteraction(const Rectf& player, Player::ActionState& actionState);
+	void AttemptInteraction(const Rectf& player);
+	void CheckOverlap(const Rectf& shape);
 
 private:
+	LevelLoader* m_pLevelLoader;
 	Texture* m_pBackgroundTexture;
 	Terrain* m_pTerrain;
 	std::vector<Stairs*> m_pStairs;
@@ -47,10 +51,6 @@ private:
 
 	void LoadBackground();
 	void LoadSegment();
-	void LoadTerrain(std::string path);
-	void LoadBoundaries(std::string path);
-	void LoadSpawnPoint(std::string path);
-	void LoadStairs(std::string path);
 
 	void DeleteStairs();
 };

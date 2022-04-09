@@ -6,20 +6,21 @@
 class Stairs final : public TerrainObject
 {
 public:
-	explicit Stairs(const std::vector<Point2f>& vertices);
+	explicit Stairs(const std::vector<Point2f>& vercices, int lowPoint, int highPoint, bool autoMountTop, bool autoMountBottom);
 
 	void Draw() const override;
 
 	bool IsOverlapping(const Rectf& shape) const;
+	bool CheckAutoMount(const Rectf& shape) const;
 	bool IsEndReached(const Rectf& actorShape) const;
 	bool IsAutoMounting() const;
-	virtual void HandleCollisions(const Rectf& actorShape, Transformation& actorTransform, Vector2f& actorVelocity) const override;
-	virtual bool IsOnGround(const Rectf& actorShape, const Vector2f& actorVelocity) const override;
+	virtual void HandleCollisions(const Rectf& actorShape, Transform& actorTransform, Vector2f& actorVelocity) const override;
 
 private:
-	Point2f m_Lowest;
-	Point2f m_Highest;
-	bool m_IsAutoMounting;
+	const int m_LowPoint;
+	const int m_HighPoint;
+	bool m_IsAutoMountingTop;
+	bool m_IsAutoMountingBottom;
 
-	void SetPoints();
+	//void CorrectDirection(float lowestX, float highestX, float lowestY, float highestY);
 };

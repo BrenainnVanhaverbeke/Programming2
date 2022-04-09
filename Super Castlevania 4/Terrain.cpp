@@ -10,6 +10,11 @@ Terrain::Terrain(const std::string& path)
 		std::cout << "Level failed to load from svg" << std::endl;
 }
 
+Terrain::Terrain(const std::vector<std::vector<Point2f>>& vertices)
+	: m_pVertices{ vertices }
+{
+}
+
 Terrain::~Terrain()
 {
 	size_t nrOfVertices{ m_pVertices.size() };
@@ -29,7 +34,7 @@ void Terrain::Draw() const
 		utils::DrawPolygon(m_pVertices[i]);
 }
 
-void Terrain::HandleCollisions(const Rectf& actorShape, Transformation& actorTransform, Vector2f& actorVelocity) const
+void Terrain::HandleCollisions(const Rectf& actorShape, Transform& actorTransform, Vector2f& actorVelocity) const
 {
 	size_t nrOfVertices{ m_pVertices.size() };
 	utils::HitInfo hitInfo{};
@@ -60,7 +65,7 @@ void Terrain::LogPoints(std::vector<Point2f>& points)
 		std::cout << "{ " << points[i].x << ", " << points[i].y << " }\n";
 }
 
-void Terrain::CheckVerticalCollisions(const std::vector<Point2f>& vertices, const Rectf& actorShape, Transformation& actorTransform, Vector2f& actorVelocity, utils::HitInfo hitInfo) const
+void Terrain::CheckVerticalCollisions(const std::vector<Point2f>& vertices, const Rectf& actorShape, Transform& actorTransform, Vector2f& actorVelocity, utils::HitInfo hitInfo) const
 {
 	if (utils::Raycast(vertices, actorShape.GetCenterLeft(3.0f), actorShape.GetBottomLeft(3.0f, -1.0f), hitInfo)
 		|| utils::Raycast(vertices, actorShape.GetCenterRight(-3.0f), actorShape.GetBottomRight(-3.0f, -1.0f), hitInfo))
@@ -78,7 +83,7 @@ void Terrain::CheckVerticalCollisions(const std::vector<Point2f>& vertices, cons
 	}
 }
 
-void Terrain::CheckHorizontalCollisions(const std::vector<Point2f>& vertices, const Rectf& actorShape, Transformation& actorTransform, Vector2f& actorVelocity, utils::HitInfo hitInfo) const
+void Terrain::CheckHorizontalCollisions(const std::vector<Point2f>& vertices, const Rectf& actorShape, Transform& actorTransform, Vector2f& actorVelocity, utils::HitInfo hitInfo) const
 {
 	std::vector<Point2f> raycastAnchors{ GetRaycastAnchors(actorShape) };
 	size_t nrOfAnchors{ raycastAnchors.size() };

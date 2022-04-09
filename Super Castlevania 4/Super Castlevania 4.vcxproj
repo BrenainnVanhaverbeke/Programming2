@@ -152,6 +152,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Character.cpp" />
+    <ClCompile Include="LevelLoader.cpp" />
     <ClCompile Include="TerrainObject.cpp" />
     <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -178,6 +180,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Character.h" />
+    <ClInclude Include="json.hpp" />
+    <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="TerrainObject.h" />
     <ClInclude Include="LevelManager.h" />
     <ClInclude Include="Player.h" />

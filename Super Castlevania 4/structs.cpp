@@ -192,12 +192,12 @@ Ellipsef::Ellipsef(float centerX, float centerY, float radiusX, float radiusY)
 {
 }
 
-Transformation::Transformation()
-	: Transformation(0.0f, 0.0f, 0.0f, 1.0f)
+Transform::Transform()
+	: Transform(0.0f, 0.0f, 0.0f, 1.0f)
 {
 }
 
-Transformation::Transformation(float positionX, float positionY, float angle, float scale)
+Transform::Transform(float positionX, float positionY, float angle, float scale)
 	: positionX{ positionX }
 	, positionY{ positionY }
 	, angle{ angle }
@@ -205,13 +205,13 @@ Transformation::Transformation(float positionX, float positionY, float angle, fl
 {
 }
 
-void Transformation::SetTranslation(float positionX, float positionY)
+void Transform::SetTranslation(float positionX, float positionY)
 {
 	this->positionX = positionX;
 	this->positionY = positionY;
 }
 
-void Transformation::SetTranslation(Point2f& point)
+void Transform::SetTranslation(Point2f& point)
 {
 	SetTranslation(point.x, point.y);
 }

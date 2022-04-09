@@ -82,10 +82,10 @@ struct Ellipsef
 	float radiusY;
 };
 
-struct Transformation
+struct Transform
 {
-	Transformation();
-	explicit Transformation(float positionX, float positionY, float angle, float scale);
+	Transform();
+	explicit Transform(float positionX, float positionY, float angle, float scale);
 
 	void SetTranslation(float positionX, float positionY);
 	void SetTranslation(Point2f& point);

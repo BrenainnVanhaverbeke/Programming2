@@ -1,18 +1,15 @@
 #include "pch.h"
 #include "Player.h"
-#include "Texture.h"
 #include "LevelManager.h"
 #include "utils.h"
 
 #include <iostream>
 
 Player::Player(LevelManager* pLevelManager)
-	: GameObject()
-	, m_HorizontalSpeed{ 50.0f }
+	: Character(24.0f, 46.0f)
+	, m_HorizontalSpeed{ 75.0f }
 	, m_JumpForce{ 300.0f }
 	, m_Acceleration{ 0.0f, -981.0f }
-	, m_Width{ 24.0f }
-	, m_Height{ 46.0f }
 	, m_Velocity{}
 	, m_ActionState{ ActionState::idle }
 	, m_pLevelManager{ pLevelManager }
@@ -27,8 +24,11 @@ Player::~Player()
 
 void Player::Update(float elapsedSec)
 {
+	const Uint8* pKeysState{ SDL_GetKeyboardState(nullptr) };
+	UpdateState(pKeysState);
+	UpdateVelocity(elapsedSec, pKeysState);
 	MoveAvatar(elapsedSec);
-	UpdateVelocity(elapsedSec);
+	m_pLevelManager->CheckOverlap(GetShape());
 }
 
 void Player::Draw() const
@@ -49,27 +49,27 @@ void Player::Draw() const
 
 Rectf Player::GetShape() const
 {
-	return Rectf
-	{
-		m_Transform.positionX,
-		m_Transform.positionY,
-		m_Width,
-		(m_ActionState == ActionState::crouch) ? m_Height / 1.5f : m_Height
-	};
+	Rectf shape{ Character::GetShape() };
+	shape.height = (m_ActionState == ActionState::crouch) ? m_Height / 1.5f : m_Height;
+	return shape;
 }
 
-void Player::UpdateVelocity(float elapsedSec)
+void Player::UpdateVelocity(float elapsedSec, const Uint8* pKeysState)
 {
-	const Uint8* pKeysState{ SDL_GetKeyboardState(nullptr) };
 	UpdateHorizontalVelocity(elapsedSec, pKeysState);
 	UpdateVerticalVelocity(elapsedSec, pKeysState);
-	m_ActionState = (pKeysState[SDL_SCANCODE_DOWN] || pKeysState[SDL_SCANCODE_S]) ? ActionState::crouch : ActionState::idle;
-	if (pKeysState[SDL_SCANCODE_UP] || pKeysState[SDL_SCANCODE_W])
-		m_pLevelManager->AttemptInteraction(GetShape(), m_ActionState);
 }
 
 void Player::UpdateAnimation(float elapsedSec)
 {
+}
+
+void Player::UpdateState(const Uint8* pKeysState)
+{
+	m_ActionState = (pKeysState[SDL_SCANCODE_DOWN] || pKeysState[SDL_SCANCODE_S]) ? ActionState::crouch : ActionState::idle;
+	m_ActionState = (m_pLevelManager->IsOnStairs()) ? ActionState::stairs : m_ActionState;
+	if (pKeysState[SDL_SCANCODE_UP] || pKeysState[SDL_SCANCODE_W])
+		m_pLevelManager->AttemptInteraction(GetShape());
 }
 
 void Player::UpdateHorizontalVelocity(float elapsedSec, const Uint8* pKeysState)

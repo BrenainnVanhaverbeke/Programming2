@@ -5,12 +5,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Abstract Classes">
-      <UniqueIdentifier>{fcf9a8bb-df71-4c64-93da-30e13377d292}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Manager Classes">
-      <UniqueIdentifier>{d7a69220-4be7-42e8-aac0-fe67b2cf0935}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Framework Files">
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
@@ -21,6 +15,15 @@
     </Filter>
     <Filter Include="External Libraries">
       <UniqueIdentifier>{83ad5b3c-8d2f-45b3-bd48-67ab0ccd2a45}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\Abstract Classes">
+      <UniqueIdentifier>{fcf9a8bb-df71-4c64-93da-30e13377d292}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\Manager Classes">
+      <UniqueIdentifier>{d7a69220-4be7-42e8-aac0-fe67b2cf0935}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\Terrain Objects">
+      <UniqueIdentifier>{da7f1377-b080-4566-89c1-52f6f4c74786}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -60,11 +63,8 @@
     <ClCompile Include="Vector2f.cpp">
       <Filter>Framework Files</Filter>
     </ClCompile>
-    <ClCompile Include="Terrain.cpp">
-      <Filter>Game Files</Filter>
-    </ClCompile>
     <ClCompile Include="GameObject.cpp">
-      <Filter>Abstract Classes</Filter>
+      <Filter>Game Files\Abstract Classes</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Game Files</Filter>
@@ -73,13 +73,22 @@
       <Filter>Game Files</Filter>
     </ClCompile>
     <ClCompile Include="LevelManager.cpp">
-      <Filter>Manager Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="Stairs.cpp">
-      <Filter>Game Files</Filter>
+      <Filter>Game Files\Manager Classes</Filter>
     </ClCompile>
     <ClCompile Include="TerrainObject.cpp">
-      <Filter>Abstract Classes</Filter>
+      <Filter>Game Files\Abstract Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>Game Files\Abstract Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Terrain.cpp">
+      <Filter>Game Files\Terrain Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Stairs.cpp">
+      <Filter>Game Files\Terrain Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelLoader.cpp">
+      <Filter>Game Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -116,11 +125,8 @@
     <ClInclude Include="Game.h">
       <Filter>Game Files</Filter>
     </ClInclude>
-    <ClInclude Include="Terrain.h">
-      <Filter>Game Files</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
-      <Filter>Abstract Classes</Filter>
+      <Filter>Game Files\Abstract Classes</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Game Files</Filter>
@@ -129,13 +135,25 @@
       <Filter>Game Files</Filter>
     </ClInclude>
     <ClInclude Include="LevelManager.h">
-      <Filter>Manager Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Stairs.h">
-      <Filter>Game Files</Filter>
+      <Filter>Game Files\Manager Classes</Filter>
     </ClInclude>
     <ClInclude Include="TerrainObject.h">
-      <Filter>Abstract Classes</Filter>
+      <Filter>Game Files\Abstract Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>Game Files\Abstract Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Terrain.h">
+      <Filter>Game Files\Terrain Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Stairs.h">
+      <Filter>Game Files\Terrain Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="json.hpp">
+      <Filter>External Libraries</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelLoader.h">
+      <Filter>Game Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
