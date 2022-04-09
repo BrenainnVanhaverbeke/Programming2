@@ -19,7 +19,7 @@ int& Container::operator[](int index)
 	return m_pElement[index];
 }
 
-int& Container::operator[](int index) const
+int Container::operator[](int index) const
 {
 	return m_pElement[index];
 }

@@ -95,6 +95,7 @@ Rectf Level::GetBoundaries() const
 	return m_Boundaries;
 }
 
+// Deprecated, left in as backup.
 void Level::InitialiseVertices()
 {
 	m_Vertices.push_back(Point2f{ 0, 0 });
@@ -111,6 +112,7 @@ void Level::InitialiseVertices()
 void Level::InitialisePlatforms()
 {
 	m_pPlatforms.push_back(new Platform(Point2f{ 240.0f, 320.0f }));
+	m_pPlatforms.push_back(new Platform(Point2f{ 390.0f, 280.0f }));
 }
 
 bool Level::DoRaycast(const Rectf& actorShape, utils::HitInfo& hitInfo) const
