@@ -5,7 +5,7 @@
 class TerrainObject
 {
 public:
-	explicit TerrainObject(std::vector<Point2f> vertices);
+	explicit TerrainObject(const std::vector<Point2f>& vertices);
 	virtual ~TerrainObject();
 	virtual void Draw() const = 0;
 

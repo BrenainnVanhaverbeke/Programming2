@@ -90,6 +90,12 @@
     <ClCompile Include="LevelLoader.cpp">
       <Filter>Game Files</Filter>
     </ClCompile>
+    <ClCompile Include="TextureManager.cpp">
+      <Filter>Game Files\Manager Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="CrumblingBlock.cpp">
+      <Filter>Game Files\Terrain Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -154,6 +160,12 @@
     </ClInclude>
     <ClInclude Include="LevelLoader.h">
       <Filter>Game Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureManager.h">
+      <Filter>Game Files\Manager Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="CrumblingBlock.h">
+      <Filter>Game Files\Terrain Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
