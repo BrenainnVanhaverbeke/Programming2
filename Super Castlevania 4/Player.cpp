@@ -54,6 +54,11 @@ Rectf Player::GetShape() const
 	return shape;
 }
 
+void Player::Relocate(const Point2f& newLocation)
+{
+	m_Transform.SetTranslation(newLocation);
+}
+
 void Player::UpdateVelocity(float elapsedSec, const Uint8* pKeysState)
 {
 	UpdateHorizontalVelocity(elapsedSec, pKeysState);

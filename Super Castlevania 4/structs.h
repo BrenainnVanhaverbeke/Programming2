@@ -88,7 +88,7 @@ struct Transform
 	explicit Transform(float positionX, float positionY, float angle, float scale);
 
 	void SetTranslation(float positionX, float positionY);
-	void SetTranslation(Point2f& point);
+	void SetTranslation(const Point2f& point);
 
 	float positionX;
 	float positionY;

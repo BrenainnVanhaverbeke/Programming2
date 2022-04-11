@@ -1,6 +1,6 @@
 #pragma once
 
-class Terrain;
+class StaticTerrain;
 class Player;
 class Camera;
 class LevelManager;

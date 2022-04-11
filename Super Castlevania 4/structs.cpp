@@ -211,7 +211,7 @@ void Transform::SetTranslation(float positionX, float positionY)
 	this->positionY = positionY;
 }
 
-void Transform::SetTranslation(Point2f& point)
+void Transform::SetTranslation(const Point2f& point)
 {
 	SetTranslation(point.x, point.y);
 }

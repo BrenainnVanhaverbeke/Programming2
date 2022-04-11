@@ -154,6 +154,8 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="CrumblingBlock.cpp" />
+    <ClCompile Include="DrawBridge.cpp" />
+    <ClCompile Include="DynamicTerrain.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
     <ClCompile Include="TerrainObject.cpp" />
     <ClCompile Include="LevelManager.cpp" />
@@ -162,7 +164,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Stairs.cpp" />
-    <ClCompile Include="Terrain.cpp" />
+    <ClCompile Include="StaticTerrain.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Matrix2x3.cpp" />
     <ClCompile Include="pch.cpp">
@@ -184,6 +186,8 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="CrumblingBlock.h" />
+    <ClInclude Include="DrawBridge.h" />
+    <ClInclude Include="DynamicTerrain.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="TerrainObject.h" />
@@ -193,7 +197,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Stairs.h" />
-    <ClInclude Include="Terrain.h" />
+    <ClInclude Include="StaticTerrain.h" />
     <ClInclude Include="Matrix2x3.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="SoundEffect.h" />

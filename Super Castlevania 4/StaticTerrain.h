@@ -1,25 +1,22 @@
 #pragma once
 #include "Vector2f.h"
 #include "utils.h"
+#include "TerrainObject.h"
 #include <vector>
+
 
 class Texture;
 
-class Terrain
+class StaticTerrain : public TerrainObject
 {
 public:
-	//Terrain();
-	explicit Terrain(const std::string& path);
-	explicit Terrain(const std::vector<std::vector<Point2f>>& vertices);
-	~Terrain();
+	explicit StaticTerrain(const std::vector<Point2f>& vertices);
 
 	void Draw() const;
-	void HandleCollisions(const Rectf& actorShape, Transform& actorTransform, Vector2f& actorVelocity) const;
-	bool IsOnGround(const Rectf& actorShape, const Vector2f& actorVelocity) const;
+	virtual void HandleCollisions(const Rectf& actorShape, Transform& actorTransform, Vector2f& actorVelocity) const override;
+	virtual bool IsOnGround(const Rectf& actorShape, const Vector2f& actorVelocity) const override;
 
 private:
-	std::vector<std::vector<Point2f>> m_pVertices;
-
 	void CheckVerticalCollisions(const std::vector<Point2f>& vertices, const Rectf& actorShape, Transform& actorTransform, Vector2f& actorVelocity, utils::HitInfo hitInfo) const;
 	void CheckHorizontalCollisions(const std::vector<Point2f>& vertices, const Rectf& actorShape, Transform& actorTransform, Vector2f& actorVelocity, utils::HitInfo hitInfo) const;
 	std::vector<Point2f> GetRaycastAnchors(const Rectf& actorShape) const;

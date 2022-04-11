@@ -27,6 +27,7 @@ public:
 
 	void Draw() const override;
 	Rectf GetShape() const override;
+	void Relocate(const Point2f& newLocation);
 
 private:
 	const float m_HorizontalSpeed;

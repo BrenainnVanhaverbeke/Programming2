@@ -81,7 +81,7 @@
     <ClCompile Include="Character.cpp">
       <Filter>Game Files\Abstract Classes</Filter>
     </ClCompile>
-    <ClCompile Include="Terrain.cpp">
+    <ClCompile Include="StaticTerrain.cpp">
       <Filter>Game Files\Terrain Objects</Filter>
     </ClCompile>
     <ClCompile Include="Stairs.cpp">
@@ -94,6 +94,12 @@
       <Filter>Game Files\Manager Classes</Filter>
     </ClCompile>
     <ClCompile Include="CrumblingBlock.cpp">
+      <Filter>Game Files\Terrain Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="DynamicTerrain.cpp">
+      <Filter>Game Files\Terrain Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawBridge.cpp">
       <Filter>Game Files\Terrain Objects</Filter>
     </ClCompile>
   </ItemGroup>
@@ -149,7 +155,7 @@
     <ClInclude Include="Character.h">
       <Filter>Game Files\Abstract Classes</Filter>
     </ClInclude>
-    <ClInclude Include="Terrain.h">
+    <ClInclude Include="StaticTerrain.h">
       <Filter>Game Files\Terrain Objects</Filter>
     </ClInclude>
     <ClInclude Include="Stairs.h">
@@ -165,6 +171,12 @@
       <Filter>Game Files\Manager Classes</Filter>
     </ClInclude>
     <ClInclude Include="CrumblingBlock.h">
+      <Filter>Game Files\Terrain Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="DynamicTerrain.h">
+      <Filter>Game Files\Terrain Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawBridge.h">
       <Filter>Game Files\Terrain Objects</Filter>
     </ClInclude>
   </ItemGroup>

@@ -3,7 +3,8 @@
 
 using json = nlohmann::json;
 
-class Terrain;
+class StaticTerrain;
+class DynamicTerrain;
 class Stairs;
 
 class LevelLoader
@@ -15,10 +16,12 @@ public:
 	void operator = (const LevelLoader& levelLoader) = delete;
 
 	void LogJson();
-	Terrain* LoadTerrain(int stage, int segment);
 	Rectf LoadBoundaries(int stage, int segment);
+	Rectf LoadTransitionArea(int stage, int segment);
 	Point2f LoadPlayerSpawn(int stage, int segment);
 	std::vector<Stairs*> LoadStairs(int stage, int segment);
+	std::vector<StaticTerrain*> LoadTerrain(int stage, int segment);
+	std::vector<DynamicTerrain*> LoadDynamicTerrain(int stage, int segment);
 
 private:
 	std::string m_RawJson;
