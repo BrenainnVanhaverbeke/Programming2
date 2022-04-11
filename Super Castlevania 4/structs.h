@@ -85,9 +85,9 @@ struct Ellipsef
 struct Transform
 {
 	Transform();
+	explicit Transform(const Point2f& position, float angle, float scale);
 	explicit Transform(float positionX, float positionY, float angle, float scale);
 
-	void SetTranslation(float positionX, float positionY);
 	void SetTranslation(const Point2f& point);
 
 	float positionX;

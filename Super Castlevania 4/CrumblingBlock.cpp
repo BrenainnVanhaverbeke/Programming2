@@ -2,7 +2,7 @@
 #include "CrumblingBlock.h"
 
 CrumblingBlock::CrumblingBlock(const std::vector<Point2f>& vertices)
-	: DynamicTerrain(vertices)
+	: DefaultTerrain(vertices)
 	, m_StepOnTime{ 0 }
 	, m_MaxStepOnTime{ 3.0f }
 	, m_IsFalling{ false }
@@ -11,14 +11,14 @@ CrumblingBlock::CrumblingBlock(const std::vector<Point2f>& vertices)
 {
 }
 
-void CrumblingBlock::Update(float elapsedSec, const Rectf& actorShape)
+void CrumblingBlock::Update(float elapsedSec)
 {
-	if (!m_IsFalling && IsOnGround(actorShape, Vector2f{}))
+	if (m_IsOverlapped)
 	{
-		if (m_MaxStepOnTime < (m_StepOnTime += elapsedSec))
-			m_IsFalling = true;;
+		m_StepOnTime += elapsedSec;
+		m_IsFalling = m_MaxStepOnTime < m_StepOnTime;
 	}
-	else if (m_IsFalling)
+	if (m_IsFalling)
 	{
 		m_Velocity += m_Acceleration * elapsedSec;
 		size_t nrOfVertices{ m_Vertices.size() };
@@ -35,7 +35,7 @@ void CrumblingBlock::Draw() const
 void CrumblingBlock::HandleCollisions(const Rectf& actorShape, Transform& actorTransform, Vector2f& actorVelocity) const
 {
 	if (!m_IsFalling)
-		DynamicTerrain::HandleCollisions(actorShape, actorTransform, actorVelocity);
+		DefaultTerrain::HandleCollisions(actorShape, actorTransform, actorVelocity);
 }
 
 bool CrumblingBlock::IsOnGround(const Rectf& actorShape, const Vector2f& actorVelocity) const
@@ -44,4 +44,9 @@ bool CrumblingBlock::IsOnGround(const Rectf& actorShape, const Vector2f& actorVe
 	if (m_IsFalling)
 		return false;
 	return utils::Raycast(m_Vertices, actorShape.GetCenter(), actorShape.GetBottomCenter(0, -1.0f), hitInfo);
+}
+
+void CrumblingBlock::CheckOverlap(const Rectf& overlappingShape)
+{
+	m_IsOverlapped = IsOnGround(overlappingShape, Vector2f{});
 }

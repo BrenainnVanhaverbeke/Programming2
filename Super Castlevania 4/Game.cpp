@@ -37,10 +37,12 @@ void Game::Update(float elapsedSec)
 {
 	m_pPlayer->Update(elapsedSec);
 	m_pLevelManager->Update(elapsedSec, m_pPlayer->GetShape());
+	m_pLevelManager->CheckOverlap(m_pPlayer->GetShape());
 	if (m_pLevelManager->IsInTransitionArea(m_pPlayer->GetShape()))
 	{
 		m_pLevelManager->NextSegment();
 		m_pPlayer->Relocate(m_pLevelManager->GetSpawn());
+		m_pCamera->SetLevelBoundaries(m_pLevelManager->GetBoundaries());
 	}
 }
 

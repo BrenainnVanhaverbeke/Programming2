@@ -21,6 +21,14 @@ void Stairs::Draw() const
 	utils::DrawPoint(m_Vertices[m_HighPoint], 5.0f);
 }
 
+void Stairs::Update(float elapsedSec)
+{
+}
+
+void Stairs::CheckOverlap(const Rectf& overlappingShape)
+{
+}
+
 bool Stairs::IsOverlapping(const Rectf& shape) const
 {
 	return utils::IsPointInPolygon(shape.GetBottomCenter(), m_Vertices);

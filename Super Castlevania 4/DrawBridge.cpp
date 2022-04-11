@@ -5,7 +5,7 @@
 #include <iostream>
 
 DrawBridge::DrawBridge(const std::vector<Point2f>& vertices)
-	: DynamicTerrain(vertices)
+	: DefaultTerrain(vertices)
 	, m_BaseVertices{ m_Vertices }
 	, m_RotationAngle{ 0 }
 	, m_RotationSpeed{ -5.0f }
@@ -14,20 +14,16 @@ DrawBridge::DrawBridge(const std::vector<Point2f>& vertices)
 	m_Pivot = m_BaseVertices.at(3);
 }
 
-void DrawBridge::Draw() const
+void DrawBridge::Update(float elapsedSec)
 {
-	utils::SetColor(Color4f{ 1.0f, 0.0f, 0.0f, 1.0f });
-	utils::DrawPolygon(m_BaseVertices);
-	utils::SetColor(Color4f{ 1.0f, 1.0f, 1.0f, 1.0f });
-	utils::DrawPolygon(m_Vertices);
-}
-
-void DrawBridge::Update(float elapsedSec, const Rectf& actorShape)
-{
-	if (!m_IsClosing && IsOnGround(actorShape, Vector2f{}))
-		m_IsClosing = true;
 	if (m_IsClosing)
 		CloseDrawBridge(elapsedSec);
+}
+
+void DrawBridge::CheckOverlap(const Rectf& overlapShape)
+{
+	if (!m_IsClosing && IsOnGround(overlapShape, Vector2f{}))
+		m_IsClosing = true;
 }
 
 void DrawBridge::CloseDrawBridge(float elapsedSec)

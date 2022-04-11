@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "LevelLoader.h"
-#include "StaticTerrain.h"
-#include "DynamicTerrain.h"
+#include "DefaultTerrain.h"
 #include "Stairs.h"
 #include "CrumblingBlock.h"
 #include "DrawBridge.h"
@@ -18,43 +17,24 @@ void LevelLoader::LogJson()
 	parsedJson.clear();
 }
 
-std::vector<StaticTerrain*> LevelLoader::LoadTerrain(int stage, int segment)
+std::vector<DefaultTerrain*> LevelLoader::LoadTerrain(int stage, int segment)
 {
-	std::cout << "Loading static terrain.\n";
-	std::string objectName{ "staticTerrain" };
-	json terrainObjects{ GetJsonObject(stage, segment, objectName) };
-	size_t nrOfTerrainObjects{ terrainObjects.size() };
-	std::vector<StaticTerrain*> pStaticTerrain;
-	for (size_t i{ 0 }; i < nrOfTerrainObjects; ++i)
-	{
-		pStaticTerrain.push_back(new StaticTerrain(GetVerticesFromJsonObject(terrainObjects.at(i))));
-	}
-	return pStaticTerrain;
-}
-
-std::vector<DynamicTerrain*> LevelLoader::LoadDynamicTerrain(int stage, int segment)
-{
-	std::cout << "Loading dynamic terrain.\n";
-	std::string objectName{ "dynamicTerrain" };
+	std::string objectName{ "terrain" };
 	json dynamicTerrainJsonObjects{ GetJsonObject(stage, segment, objectName) };
 	size_t nrOfCrumblingBlocks{ dynamicTerrainJsonObjects.size() };
-	std::vector<DynamicTerrain*> pDynamicTerrain;
+	std::vector<DefaultTerrain*> pDynamicTerrain;
 	for (size_t i{ 0 }; i < nrOfCrumblingBlocks; ++i)
 	{
 		json& test{ dynamicTerrainJsonObjects.at(i) };
 		std::string terrainType{ test.at("type") };
 		std::vector<Point2f> vertices{ GetVerticesFromJsonObject(test.at("vertices")) };
-		if (terrainType == "crumblingBlock")
-			pDynamicTerrain.push_back(new CrumblingBlock(vertices));
-		else if (terrainType == "drawBridge")
-			pDynamicTerrain.push_back(new DrawBridge(vertices));
+		pDynamicTerrain.push_back(TerrainFactory(terrainType, vertices));
 	}
 	return pDynamicTerrain;
 }
 
 Rectf LevelLoader::LoadBoundaries(int stage, int segment)
 {
-	std::cout << "Loading boundaries.\n";
 	std::string objectName{ "boundaries" };
 	json boundaries{ GetJsonObject(stage, segment, objectName) };
 	float width{ boundaries.at("width") };
@@ -64,7 +44,6 @@ Rectf LevelLoader::LoadBoundaries(int stage, int segment)
 
 Rectf LevelLoader::LoadTransitionArea(int stage, int segment)
 {
-	std::cout << "Loading transition area.\n";
 	std::string objectName{ "transitionArea" };
 	json transitionArea{ GetJsonObject(stage, segment, objectName) };
 	float x{ transitionArea.at("origin").at(0) };
@@ -76,7 +55,6 @@ Rectf LevelLoader::LoadTransitionArea(int stage, int segment)
 
 Point2f LevelLoader::LoadPlayerSpawn(int stage, int segment)
 {
-	std::cout << "Loading player spawn.\n";
 	std::string objectName{ "playerSpawn" };
 	json playerSpawn{ GetJsonObject(stage, segment, objectName) };
 	return Point2f{ playerSpawn.at(0), playerSpawn.at(1) };
@@ -84,7 +62,6 @@ Point2f LevelLoader::LoadPlayerSpawn(int stage, int segment)
 
 std::vector<Stairs*> LevelLoader::LoadStairs(int stage, int segment)
 {
-	std::cout << "Loading stairs.\n";
 	std::string objectName{ "stairs" };
 	json jsonStairObjects{ GetJsonObject(stage, segment, objectName) };
 	size_t nrOfJsonStairObjects{ jsonStairObjects.size() };
@@ -153,4 +130,16 @@ std::vector<Point2f> LevelLoader::GetVerticesFromJsonObject(json jsonObject)
 		vertices.push_back(Point2f{ x, y });
 	}
 	return vertices;
+}
+
+DefaultTerrain* LevelLoader::TerrainFactory(const std::string& terrainType, const std::vector<Point2f>& vertices)
+{
+	DefaultTerrain* pTerrain{ nullptr };
+	if (terrainType == "default")
+		pTerrain = new DefaultTerrain(vertices);
+	else if (terrainType == "crumblingBlock")
+		pTerrain = new CrumblingBlock(vertices);
+	else if (terrainType == "drawBridge")
+		pTerrain = new DrawBridge(vertices);
+	return pTerrain;
 }

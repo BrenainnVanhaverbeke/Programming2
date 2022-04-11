@@ -1,12 +1,13 @@
 #pragma once
-#include "DynamicTerrain.h"
-class DrawBridge final : public DynamicTerrain
+#include "DefaultTerrain.h"
+
+class DrawBridge final : public DefaultTerrain
 {
 public:
 	DrawBridge(const std::vector<Point2f>& vertices);
 
-	virtual void Draw() const override;
-	virtual void Update(float elapsedSec, const Rectf& actorShape);
+	virtual void Update(float elapsedSec) override;
+	virtual void CheckOverlap(const Rectf& overlapShape) override;
 
 private:
 	bool m_IsClosing;

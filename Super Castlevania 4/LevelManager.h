@@ -3,8 +3,7 @@
 #include <vector>
 
 class LevelLoader;
-class StaticTerrain;
-class DynamicTerrain;
+class DefaultTerrain;
 class Texture;
 class Stairs;
 
@@ -41,8 +40,7 @@ public:
 private:
 	LevelLoader* m_pLevelLoader;
 	Texture* m_pBackgroundTexture;
-	std::vector<StaticTerrain*> m_pStaticTerrain;
-	std::vector<DynamicTerrain*> m_pDynamicTerrain;
+	std::vector<DefaultTerrain*> m_pTerrain;
 	std::vector<Stairs*> m_pStairs;
 	Stairs* m_pActiveStairs;
 	Rectf m_Boundaries;

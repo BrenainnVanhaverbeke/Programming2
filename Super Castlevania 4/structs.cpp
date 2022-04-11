@@ -197,6 +197,11 @@ Transform::Transform()
 {
 }
 
+Transform::Transform(const Point2f& position, float angle, float scale)
+	: Transform(position.x, position.y, angle, scale)
+{
+}
+
 Transform::Transform(float positionX, float positionY, float angle, float scale)
 	: positionX{ positionX }
 	, positionY{ positionY }
@@ -205,13 +210,8 @@ Transform::Transform(float positionX, float positionY, float angle, float scale)
 {
 }
 
-void Transform::SetTranslation(float positionX, float positionY)
-{
-	this->positionX = positionX;
-	this->positionY = positionY;
-}
-
 void Transform::SetTranslation(const Point2f& point)
 {
-	SetTranslation(point.x, point.y);
+	positionX = point.x;
+	positionY = point.y;
 }

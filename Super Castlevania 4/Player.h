@@ -23,7 +23,8 @@ class Player final : public Character
 public:
 	explicit Player(LevelManager* pLevelManager);
 	~Player();
-	void Update(float elapsedSec) override;
+	virtual void Update(float elapsedSec) override;
+	virtual void CheckOverlap(const Rectf& overlappingShape) override;
 
 	void Draw() const override;
 	Rectf GetShape() const override;

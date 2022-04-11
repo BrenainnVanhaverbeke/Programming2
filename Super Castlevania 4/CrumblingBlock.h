@@ -1,12 +1,15 @@
 #pragma once
-#include "DynamicTerrain.h"
+#include "DefaultTerrain.h"
 
-class CrumblingBlock final : public DynamicTerrain
+class CrumblingBlock final : public DefaultTerrain
 {
 public:
 	CrumblingBlock(const std::vector<Point2f>& vertices);
-	void Update(float elapsedSec, const Rectf& actorShape);
+
+	virtual void Update(float elapsedSec) override;
 	virtual void Draw() const override;
+	virtual void CheckOverlap(const Rectf& overlappingShape) override;
+
 	virtual void HandleCollisions(const Rectf& actorShape, Transform& actorTransform, Vector2f& actorVelocity) const override;
 	virtual bool IsOnGround(const Rectf& actorShape, const Vector2f& actorVelocity) const override;
 

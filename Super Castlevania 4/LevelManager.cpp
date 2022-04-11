@@ -3,8 +3,7 @@
 #include "SVGParser.h"
 #include "Texture.h"
 #include "Stairs.h"
-#include "StaticTerrain.h"
-#include "DynamicTerrain.h"
+#include "DefaultTerrain.h"
 #include "LevelLoader.h"
 #include <iostream>
 
@@ -41,37 +40,31 @@ Point2f LevelManager::GetSpawn() const
 
 void LevelManager::Update(float elapsedSec, const Rectf& actorShape)
 {
-	size_t nrCrumblingBlocks{ m_pDynamicTerrain.size() };
+	size_t nrCrumblingBlocks{ m_pTerrain.size() };
 	for (size_t i{ 0 }; i < nrCrumblingBlocks; ++i)
-		m_pDynamicTerrain.at(i)->Update(elapsedSec, actorShape);
+		m_pTerrain.at(i)->Update(elapsedSec);
 }
 
 void LevelManager::Draw() const
 {
 	//m_pBackgroundTexture->Draw();
-	size_t nrOfStaticTerrain{ m_pStaticTerrain.size() };
+	size_t nrOfStaticTerrain{ m_pTerrain.size() };
 	for (size_t i{ 0 }; i < nrOfStaticTerrain; ++i)
-		m_pStaticTerrain.at(i)->Draw();
+		m_pTerrain.at(i)->Draw();
 	size_t nrOfStairs{ m_pStairs.size() };
 	for (size_t i{ 0 }; i < nrOfStairs; i++)
 		m_pStairs.at(i)->Draw();
-	size_t nrCrumblingBlocks{ m_pDynamicTerrain.size() };
-	for (size_t i{ 0 }; i < nrCrumblingBlocks; ++i)
-		m_pDynamicTerrain.at(i)->Draw();
 }
 
 void LevelManager::HandleCollisions(const Rectf& actorShape, Transform& actorTransform, Vector2f& actorVelocity)
 {
 	size_t nrOfStairs{ m_pStairs.size() };
-	size_t nrOfStaticTerrain{ m_pStaticTerrain.size() };
-	size_t nrOfCrumblingBlocks{ m_pDynamicTerrain.size() };
+	size_t nrOfStaticTerrain{ m_pTerrain.size() };
 	switch (m_CollisionMode)
 	{
 	case CollisionMode::terrain:
 		for (size_t i{ 0 }; i < nrOfStaticTerrain; ++i)
-			m_pStaticTerrain.at(i)->HandleCollisions(actorShape, actorTransform, actorVelocity);
-		for (size_t i{ 0 }; i < nrOfCrumblingBlocks; ++i)
-			m_pDynamicTerrain.at(i)->HandleCollisions(actorShape, actorTransform, actorVelocity);
+			m_pTerrain.at(i)->HandleCollisions(actorShape, actorTransform, actorVelocity);
 		break;
 	case CollisionMode::stairs:
 		m_pActiveStairs->HandleCollisions(actorShape, actorTransform, actorVelocity);
@@ -87,16 +80,10 @@ void LevelManager::HandleCollisions(const Rectf& actorShape, Transform& actorTra
 
 bool LevelManager::IsOnGround(const Rectf& actorShape, const Vector2f& actorVelocity) const
 {
-	size_t nrOfStaticTerrain{ m_pStaticTerrain.size() };
+	size_t nrOfStaticTerrain{ m_pTerrain.size() };
 	for (size_t i{ 0 }; i < nrOfStaticTerrain; ++i)
 	{
-		if (m_pStaticTerrain.at(i)->IsOnGround(actorShape, actorVelocity))
-			return true;
-	}
-	size_t nrOfCrumblingBlocks{ m_pDynamicTerrain.size() };
-	for (size_t i{ 0 }; i < nrOfCrumblingBlocks; ++i)
-	{
-		if (m_pDynamicTerrain.at(i)->IsOnGround(actorShape, actorVelocity))
+		if (m_pTerrain.at(i)->IsOnGround(actorShape, actorVelocity))
 			return true;
 	}
 	return false;
@@ -128,6 +115,11 @@ void LevelManager::AttemptInteraction(const Rectf& shape)
 
 void LevelManager::CheckOverlap(const Rectf& shape)
 {
+	size_t nrOfTerrainObjects{ m_pTerrain.size() };
+	for (size_t i{ 0 }; i < nrOfTerrainObjects; ++i)
+	{
+		m_pTerrain.at(i)->CheckOverlap(shape);
+	}
 	size_t nrOfStairs{ m_pStairs.size() };
 	for (size_t i{ 0 }; i < nrOfStairs; ++i)
 	{
@@ -142,10 +134,10 @@ void LevelManager::CheckOverlap(const Rectf& shape)
 
 void LevelManager::DeleteStaticTerrain()
 {
-	size_t nrOfStaticTerrain{ m_pStaticTerrain.size() };
+	size_t nrOfStaticTerrain{ m_pTerrain.size() };
 	for (size_t i{ 0 }; i < nrOfStaticTerrain; ++i)
-		delete m_pStaticTerrain.at(i);
-	m_pStaticTerrain.clear();
+		delete m_pTerrain.at(i);
+	m_pTerrain.clear();
 }
 
 void LevelManager::DeleteStairs()
@@ -158,10 +150,7 @@ void LevelManager::DeleteStairs()
 
 void LevelManager::DeleteDynamicTerrain()
 {
-	size_t nrOfCrumblingBlocks{ m_pDynamicTerrain.size() };
-	for (size_t i{ 0 }; i < nrOfCrumblingBlocks; ++i)
-		delete m_pDynamicTerrain.at(i);
-	m_pDynamicTerrain.clear();
+
 }
 
 void LevelManager::NextStage()
@@ -187,12 +176,11 @@ void LevelManager::LoadBackground()
 void LevelManager::LoadSegment()
 {
 	UnloadSegment();
-	m_pStaticTerrain = m_pLevelLoader->LoadTerrain(m_StageCounter, m_SegmentCounter);
+	m_pTerrain = m_pLevelLoader->LoadTerrain(m_StageCounter, m_SegmentCounter);
 	m_TransitionArea = m_pLevelLoader->LoadTransitionArea(m_StageCounter, m_SegmentCounter);
 	m_Boundaries = m_pLevelLoader->LoadBoundaries(m_StageCounter, m_SegmentCounter);
 	m_SpawnPoint = m_pLevelLoader->LoadPlayerSpawn(m_StageCounter, m_SegmentCounter);
 	m_pStairs = m_pLevelLoader->LoadStairs(m_StageCounter, m_SegmentCounter);
-	m_pDynamicTerrain = m_pLevelLoader->LoadDynamicTerrain(m_StageCounter, m_SegmentCounter);
 }
 
 void LevelManager::UnloadSegment()

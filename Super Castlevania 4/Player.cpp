@@ -7,8 +7,8 @@
 
 Player::Player(LevelManager* pLevelManager)
 	: Character(24.0f, 46.0f)
-	, m_HorizontalSpeed{ 75.0f }
-	, m_JumpForce{ 300.0f }
+	, m_HorizontalSpeed{ 200.0f }
+	, m_JumpForce{ 325.0f }
 	, m_Acceleration{ 0.0f, -981.0f }
 	, m_Velocity{}
 	, m_ActionState{ ActionState::idle }
@@ -29,6 +29,10 @@ void Player::Update(float elapsedSec)
 	UpdateVelocity(elapsedSec, pKeysState);
 	MoveAvatar(elapsedSec);
 	m_pLevelManager->CheckOverlap(GetShape());
+}
+
+void Player::CheckOverlap(const Rectf& overlappingShape)
+{
 }
 
 void Player::Draw() const
