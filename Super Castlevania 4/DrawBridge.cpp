@@ -4,8 +4,8 @@
 
 #include <iostream>
 
-DrawBridge::DrawBridge(const std::vector<Point2f>& vertices)
-	: DefaultTerrain(vertices)
+DrawBridge::DrawBridge(const std::vector<Point2f>& vertices, bool isBackground)
+	: DefaultTerrain(vertices, isBackground)
 	, m_BaseVertices{ m_Vertices }
 	, m_RotationAngle{ 0 }
 	, m_RotationSpeed{ -5.0f }
@@ -24,6 +24,11 @@ void DrawBridge::CheckOverlap(const Rectf& overlapShape)
 {
 	if (!m_IsClosing && IsOnGround(overlapShape, Vector2f{}))
 		m_IsClosing = true;
+}
+
+bool DrawBridge::IsOverlapping(const Rectf& overlappingShape) const
+{
+	return IsOnGround(overlappingShape, Vector2f{});
 }
 
 void DrawBridge::CloseDrawBridge(float elapsedSec)

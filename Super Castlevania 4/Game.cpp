@@ -60,10 +60,14 @@ void Game::Draw() const
 
 void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent& e)
 {
+	if (e.keysym.sym == SDLK_SPACE)
+		m_pPlayer->Jump();
 }
 
 void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent& e)
 {
+	if (e.keysym.sym == SDLK_w || e.keysym.sym == SDLK_UP)
+		m_pPlayer->AttemptInteraction();
 }
 
 void Game::ProcessMouseMotionEvent(const SDL_MouseMotionEvent& e)

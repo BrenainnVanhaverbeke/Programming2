@@ -7,7 +7,8 @@
 
 Player::Player(LevelManager* pLevelManager)
 	: Character(24.0f, 46.0f)
-	, m_HorizontalSpeed{ 200.0f }
+	, m_HorizontalSpeed{ 75.0f }
+	//, m_HorizontalSpeed{ 200.0f }
 	, m_JumpForce{ 325.0f }
 	, m_Acceleration{ 0.0f, -981.0f }
 	, m_Velocity{}
@@ -15,6 +16,7 @@ Player::Player(LevelManager* pLevelManager)
 	, m_pLevelManager{ pLevelManager }
 {
 	Point2f spawnPoint{ pLevelManager->GetSpawn() };
+	spawnPoint.x -= m_Width / 2;
 	m_Transform.SetTranslation(spawnPoint);
 }
 
@@ -27,12 +29,18 @@ void Player::Update(float elapsedSec)
 	const Uint8* pKeysState{ SDL_GetKeyboardState(nullptr) };
 	UpdateState(pKeysState);
 	UpdateVelocity(elapsedSec, pKeysState);
-	MoveAvatar(elapsedSec);
+	MovePlayer(elapsedSec);
+	m_pLevelManager->HandleCollisions(GetShape(), m_Transform, m_Velocity);
 	m_pLevelManager->CheckOverlap(GetShape());
 }
 
 void Player::CheckOverlap(const Rectf& overlappingShape)
 {
+}
+
+bool Player::IsOverlapping(const Rectf& overlappingShape) const
+{
+	return utils::IsOverlapping(GetShape(), overlappingShape);
 }
 
 void Player::Draw() const
@@ -48,6 +56,7 @@ void Player::Draw() const
 	//	//m_pSpritesTexture->Draw(Point2f{ 0.0f, 0.0f }, GetSourceRect());
 	//}
 	//glPopMatrix();
+	utils::SetColor(Color4f{ 1.0f, 0, 1.0f, 1.0f });
 	utils::DrawRect(GetShape());
 }
 
@@ -58,9 +67,21 @@ Rectf Player::GetShape() const
 	return shape;
 }
 
-void Player::Relocate(const Point2f& newLocation)
+void Player::Relocate(Point2f newLocation)
 {
+	newLocation.x -= m_Width / 2;
 	m_Transform.SetTranslation(newLocation);
+}
+
+void Player::AttemptInteraction()
+{
+ 	m_pLevelManager->AttemptInteraction(GetShape());
+}
+
+void Player::Jump()
+{
+	if (m_pLevelManager->IsOnGround(GetShape(), m_Velocity))
+		m_Velocity.y += m_JumpForce;
 }
 
 void Player::UpdateVelocity(float elapsedSec, const Uint8* pKeysState)
@@ -77,8 +98,6 @@ void Player::UpdateState(const Uint8* pKeysState)
 {
 	m_ActionState = (pKeysState[SDL_SCANCODE_DOWN] || pKeysState[SDL_SCANCODE_S]) ? ActionState::crouch : ActionState::idle;
 	m_ActionState = (m_pLevelManager->IsOnStairs()) ? ActionState::stairs : m_ActionState;
-	if (pKeysState[SDL_SCANCODE_UP] || pKeysState[SDL_SCANCODE_W])
-		m_pLevelManager->AttemptInteraction(GetShape());
 }
 
 void Player::UpdateHorizontalVelocity(float elapsedSec, const Uint8* pKeysState)
@@ -91,17 +110,13 @@ void Player::UpdateHorizontalVelocity(float elapsedSec, const Uint8* pKeysState)
 		m_Velocity.x += m_HorizontalSpeed / speedModifier;
 }
 
-void Player::UpdateVerticalVelocity(float elapsedsec, const Uint8* pKeysState)
-{
-	Rectf shape{ GetShape() };
-	m_pLevelManager->HandleCollisions(shape, m_Transform, m_Velocity);
-	if (pKeysState[SDL_SCANCODE_SPACE] && m_pLevelManager->IsOnGround(shape, m_Velocity))
-		m_Velocity.y += m_JumpForce;
-}
-
-void Player::MoveAvatar(float elapsedSec)
+void Player::UpdateVerticalVelocity(float elapsedSec, const Uint8* pKeysState)
 {
 	m_Velocity.y += m_Acceleration.y * elapsedSec;
+}
+
+void Player::MovePlayer(float elapsedSec)
+{
 	m_Transform.positionX += m_Velocity.x * elapsedSec;
 	m_Transform.positionY += m_Velocity.y * elapsedSec;
 	Clamp();

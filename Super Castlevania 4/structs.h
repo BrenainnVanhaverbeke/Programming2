@@ -28,6 +28,7 @@ struct Point2f
 struct Rectf
 {
 	Rectf();
+	explicit Rectf(const Point2f& origin, float width, float height);
 	explicit Rectf(float left, float bottom, float width, float height);
 
 	float left;
@@ -35,7 +36,7 @@ struct Rectf
 	float width;
 	float height;
 
-	void Log();
+	void Log() const;
 	void SetBottomLeft(const Point2f& point);
 	Point2f GetBottomLeft(float offsetX = 0, float offsetY = 0) const;
 	Point2f GetBottomCenter(float offsetX = 0, float offsetY = 0) const;

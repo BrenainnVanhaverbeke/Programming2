@@ -3,8 +3,10 @@
 
 using json = nlohmann::json;
 
-class DefaultTerrain;
+class TerrainObject;
+class InteractableObject;
 class Stairs;
+class Door;
 
 class LevelLoader
 {
@@ -18,13 +20,17 @@ public:
 	Rectf LoadBoundaries(int stage, int segment);
 	Rectf LoadTransitionArea(int stage, int segment);
 	Point2f LoadPlayerSpawn(int stage, int segment);
+	std::vector<TerrainObject*> LoadTerrain(int stage, int segment);
+	std::vector<InteractableObject*> LoadInteractables(int stage, int segment);
 	std::vector<Stairs*> LoadStairs(int stage, int segment);
-	std::vector<DefaultTerrain*> LoadTerrain(int stage, int segment);
+	std::vector<Door*> LoadDoors(int stage, int segment);
 
 private:
 	std::string m_RawJson;
 	std::string LoadRawJson();
 	json GetJsonObject(int stage, int segment, std::string& objectName);
 	std::vector<Point2f> GetVerticesFromJsonObject(json jsonObject);
-	DefaultTerrain* TerrainFactory(const std::string& terrainType, const std::vector<Point2f>& vertices);
+	TerrainObject* TerrainFactory(const std::string& terrainType, const std::vector<Point2f>& vertices, bool isBackground);
+	InteractableObject* InteractableFactory(const std::string& interactableType, const std::vector<Point2f>& vertices, const json& jsonObject);
+	Stairs* CreateStairs(const std::vector<Point2f>& vertices, const json& jsonObject);
 };

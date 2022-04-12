@@ -25,6 +25,9 @@
     <Filter Include="Game Files\Terrain Objects">
       <UniqueIdentifier>{da7f1377-b080-4566-89c1-52f6f4c74786}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Files\Manager Classes\Level">
+      <UniqueIdentifier>{9c017081-4c1c-4d9d-b04a-688abb807798}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -72,12 +75,6 @@
     <ClCompile Include="Camera.cpp">
       <Filter>Game Files</Filter>
     </ClCompile>
-    <ClCompile Include="LevelManager.cpp">
-      <Filter>Game Files\Manager Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="TerrainObject.cpp">
-      <Filter>Game Files\Abstract Classes</Filter>
-    </ClCompile>
     <ClCompile Include="Character.cpp">
       <Filter>Game Files\Abstract Classes</Filter>
     </ClCompile>
@@ -87,9 +84,6 @@
     <ClCompile Include="Stairs.cpp">
       <Filter>Game Files\Terrain Objects</Filter>
     </ClCompile>
-    <ClCompile Include="LevelLoader.cpp">
-      <Filter>Game Files</Filter>
-    </ClCompile>
     <ClCompile Include="TextureManager.cpp">
       <Filter>Game Files\Manager Classes</Filter>
     </ClCompile>
@@ -97,6 +91,21 @@
       <Filter>Game Files\Terrain Objects</Filter>
     </ClCompile>
     <ClCompile Include="DrawBridge.cpp">
+      <Filter>Game Files\Terrain Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="TerrainObject.cpp">
+      <Filter>Game Files\Terrain Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelLoader.cpp">
+      <Filter>Game Files\Manager Classes\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelManager.cpp">
+      <Filter>Game Files\Manager Classes\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Door.cpp">
+      <Filter>Game Files\Terrain Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="InteractableObject.cpp">
       <Filter>Game Files\Terrain Objects</Filter>
     </ClCompile>
   </ItemGroup>
@@ -143,12 +152,6 @@
     <ClInclude Include="Camera.h">
       <Filter>Game Files</Filter>
     </ClInclude>
-    <ClInclude Include="LevelManager.h">
-      <Filter>Game Files\Manager Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="TerrainObject.h">
-      <Filter>Game Files\Abstract Classes</Filter>
-    </ClInclude>
     <ClInclude Include="Character.h">
       <Filter>Game Files\Abstract Classes</Filter>
     </ClInclude>
@@ -161,9 +164,6 @@
     <ClInclude Include="json.hpp">
       <Filter>External Libraries</Filter>
     </ClInclude>
-    <ClInclude Include="LevelLoader.h">
-      <Filter>Game Files</Filter>
-    </ClInclude>
     <ClInclude Include="TextureManager.h">
       <Filter>Game Files\Manager Classes</Filter>
     </ClInclude>
@@ -171,6 +171,21 @@
       <Filter>Game Files\Terrain Objects</Filter>
     </ClInclude>
     <ClInclude Include="DrawBridge.h">
+      <Filter>Game Files\Terrain Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="TerrainObject.h">
+      <Filter>Game Files\Terrain Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelLoader.h">
+      <Filter>Game Files\Manager Classes\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelManager.h">
+      <Filter>Game Files\Manager Classes\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Door.h">
+      <Filter>Game Files\Terrain Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="InteractableObject.h">
       <Filter>Game Files\Terrain Objects</Filter>
     </ClInclude>
   </ItemGroup>

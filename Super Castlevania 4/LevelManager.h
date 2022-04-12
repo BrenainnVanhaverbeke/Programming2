@@ -3,19 +3,12 @@
 #include <vector>
 
 class LevelLoader;
-class DefaultTerrain;
+class TerrainObject;
+class InteractableObject;
 class Texture;
-class Stairs;
 
 class LevelManager
 {
-	enum class CollisionMode
-	{
-		terrain,
-		stairs,
-		background
-	};
-
 public:
 	LevelManager();
 	~LevelManager();
@@ -40,22 +33,23 @@ public:
 private:
 	LevelLoader* m_pLevelLoader;
 	Texture* m_pBackgroundTexture;
-	std::vector<DefaultTerrain*> m_pTerrain;
-	std::vector<Stairs*> m_pStairs;
-	Stairs* m_pActiveStairs;
+	std::vector<TerrainObject*> m_pTerrain;
+	std::vector<InteractableObject*> m_pInteractableObjects;
+	InteractableObject* m_pActiveInteractable;
 	Rectf m_Boundaries;
 	Rectf m_TransitionArea;
 	Point2f m_SpawnPoint;
-	CollisionMode m_CollisionMode;
 
 	int m_StageCounter;
 	int m_SegmentCounter;
+	bool m_IsOnBackground;
+	bool m_IsOnStairs;
 
 	void LoadBackground();
 	void LoadSegment();
 	void UnloadSegment();
+	void AttemptResetActiveInteractable(const Rectf& actorShape);
 
-	void DeleteStaticTerrain();
-	void DeleteDynamicTerrain();
-	void DeleteStairs();
+	void DeleteTerrain();
+	void DeleteInteractables();
 };

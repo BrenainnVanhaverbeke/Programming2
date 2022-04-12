@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "CrumblingBlock.h"
 
-CrumblingBlock::CrumblingBlock(const std::vector<Point2f>& vertices)
-	: DefaultTerrain(vertices)
+CrumblingBlock::CrumblingBlock(const std::vector<Point2f>& vertices, bool isBackground)
+	: DefaultTerrain(vertices, isBackground)
 	, m_StepOnTime{ 0 }
 	, m_MaxStepOnTime{ 3.0f }
 	, m_IsFalling{ false }
@@ -27,11 +27,6 @@ void CrumblingBlock::Update(float elapsedSec)
 	}
 }
 
-void CrumblingBlock::Draw() const
-{
-	utils::DrawPolygon(m_Vertices);
-}
-
 void CrumblingBlock::HandleCollisions(const Rectf& actorShape, Transform& actorTransform, Vector2f& actorVelocity) const
 {
 	if (!m_IsFalling)
@@ -43,10 +38,15 @@ bool CrumblingBlock::IsOnGround(const Rectf& actorShape, const Vector2f& actorVe
 	utils::HitInfo hitInfo{};
 	if (m_IsFalling)
 		return false;
-	return utils::Raycast(m_Vertices, actorShape.GetCenter(), actorShape.GetBottomCenter(0, -1.0f), hitInfo);
+	return DefaultTerrain::IsOnGround(actorShape, actorVelocity);
 }
 
 void CrumblingBlock::CheckOverlap(const Rectf& overlappingShape)
 {
 	m_IsOverlapped = IsOnGround(overlappingShape, Vector2f{});
+}
+
+bool CrumblingBlock::IsOverlapping(const Rectf& overlappingShape) const
+{
+	return false;
 }

@@ -38,6 +38,11 @@ Rectf::Rectf()
 {
 }
 
+Rectf::Rectf(const Point2f& origin, float width, float height)
+	: Rectf(origin.x, origin.y, width, height)
+{
+}
+
 Rectf::Rectf(float left, float bottom, float width, float height)
 	: left{ left }
 	, bottom{ bottom }
@@ -49,7 +54,7 @@ Rectf::Rectf(float left, float bottom, float width, float height)
 //-----------------------------------------------------------------
 // Rectf Helpers
 //-----------------------------------------------------------------
-void Rectf::Log()
+void Rectf::Log() const
 {
 	std::string logMessage{ "{ l: " + std::to_string(left) };
 	logMessage += ", b: " + std::to_string(bottom);

@@ -4,19 +4,13 @@
 #include "SVGParser.h"
 #include <iostream>
 
-DefaultTerrain::DefaultTerrain(const std::vector<Point2f>& vertices)
-	: TerrainObject(vertices)
+DefaultTerrain::DefaultTerrain(const std::vector<Point2f>& vertices, bool isBackground)
+	: TerrainObject(vertices, isBackground)
 {
 }
 
 void DefaultTerrain::Update(float elapsedSec)
 {
-}
-
-void DefaultTerrain::Draw() const
-{
-	utils::SetColor(Color4f{ 1.0f, 1.0f, 1.0f, 1.0f });
-	utils::DrawPolygon(m_Vertices);
 }
 
 void DefaultTerrain::HandleCollisions(const Rectf& actorShape, Transform& actorTransform, Vector2f& actorVelocity) const
@@ -37,6 +31,11 @@ bool DefaultTerrain::IsOnGround(const Rectf& actorShape, const Vector2f& actorVe
 
 void DefaultTerrain::CheckOverlap(const Rectf& overlappingShape)
 {
+}
+
+bool DefaultTerrain::IsOverlapping(const Rectf& overlappingShape) const
+{
+	return false;
 }
 
 void DefaultTerrain::LogPoints(std::vector<Point2f>& points)
