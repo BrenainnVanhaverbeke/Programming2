@@ -24,7 +24,8 @@ void utils::DrawPoint( float x, float y, float pointSize )
 
 void utils::DrawPoint( const Point2f& p, float pointSize )
 {
-	DrawPoint( p.x, p.y, pointSize );
+	//DrawPoint( p.x, p.y, pointSize );
+	FillEllipse(p, pointSize, pointSize);
 }
 
 void utils::DrawPoints( Point2f *pVertices, int nrVertices, float pointSize )

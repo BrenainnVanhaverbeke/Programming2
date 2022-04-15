@@ -1,10 +1,22 @@
 #include "pch.h"
+#include "TerrainObject.h"
 #include "CrumblingBlock.h"
+#include <iostream>
+
+//CrumblingBlock::CrumblingBlock(const std::vector<Point2f>& vertices, bool isBackground)
+//	: TerrainObject(vertices, isBackground)
+//	, m_StepOnTime{ 0 }
+//	, m_MaxStepOnTime{ 1.5f }
+//	, m_IsFalling{ false }
+//	, m_Acceleration{ -981.0f }
+//	, m_Velocity{ 0 }
+//{
+//}
 
 CrumblingBlock::CrumblingBlock(const std::vector<Point2f>& vertices, bool isBackground)
-	: DefaultTerrain(vertices, isBackground)
+	: TerrainObject(vertices, isBackground)
 	, m_StepOnTime{ 0 }
-	, m_MaxStepOnTime{ 3.0f }
+	, m_MaxStepOnTime{ 1.5f }
 	, m_IsFalling{ false }
 	, m_Acceleration{ -981.0f }
 	, m_Velocity{ 0 }
@@ -27,26 +39,30 @@ void CrumblingBlock::Update(float elapsedSec)
 	}
 }
 
-void CrumblingBlock::HandleCollisions(const Rectf& actorShape, Transform& actorTransform, Vector2f& actorVelocity) const
+bool CrumblingBlock::HandleCollisions(const Rectf& actorShape, Transform& actorTransform, Vector2f& actorVelocity)
 {
-	if (!m_IsFalling)
-		DefaultTerrain::HandleCollisions(actorShape, actorTransform, actorVelocity);
+	if (!m_IsFalling && TerrainObject::HandleCollisions(actorShape, actorTransform, actorVelocity))
+	{
+		m_IsOverlapped = true;
+		return true;
+	}
+	m_IsOverlapped = false;
+	return false;
 }
 
-bool CrumblingBlock::IsOnGround(const Rectf& actorShape, const Vector2f& actorVelocity) const
+bool CrumblingBlock::IsOnGround(const Rectf& actorShape, const Vector2f& actorVelocity)
 {
 	utils::HitInfo hitInfo{};
 	if (m_IsFalling)
 		return false;
-	return DefaultTerrain::IsOnGround(actorShape, actorVelocity);
+	return TerrainObject::IsOnGround(actorShape, actorVelocity);
 }
 
 void CrumblingBlock::CheckOverlap(const Rectf& overlappingShape)
 {
-	m_IsOverlapped = IsOnGround(overlappingShape, Vector2f{});
 }
 
-bool CrumblingBlock::IsOverlapping(const Rectf& overlappingShape) const
+bool CrumblingBlock::IsOverlapping(const Rectf& overlappingShape) 
 {
 	return false;
 }

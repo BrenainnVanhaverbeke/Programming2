@@ -90,6 +90,7 @@ struct Transform
 	explicit Transform(float positionX, float positionY, float angle, float scale);
 
 	void SetTranslation(const Point2f& point);
+	Point2f GetTranslation() const;
 
 	float positionX;
 	float positionY;

@@ -19,8 +19,9 @@ void Door::Draw() const
 	utils::DrawPolygon(m_Vertices);
 }
 
-void Door::HandleCollisions(const Rectf& actorShape, Transform& actorTransform, Vector2f& actorVelocity) const
+bool Door::HandleCollisions(const Rectf& actorShape, Transform& actorTransform, Vector2f& actorVelocity)
 {
+	return false;
 }
 
 bool Door::IsOnGround(const Rectf& actorShape, const Vector2f& actorVelocity) const
@@ -32,12 +33,12 @@ void Door::CheckOverlap(const Rectf& overlappingShape)
 {
 }
 
-bool Door::IsOverlapping(const Rectf& shape) const
+bool Door::IsOverlapping(const Rectf& shape)
 {
 	return utils::IsPointInPolygon(shape.GetCenter(), m_Vertices);
 }
 
-bool Door::TryInteraction(const Rectf& shape, bool& isOnBackground, bool& isOnStairs) const
+bool Door::TryInteraction(const Rectf& shape, bool& isOnBackground, bool& isOnStairs)
 {
 	if (IsOverlapping(shape))
 	{
@@ -58,6 +59,11 @@ bool Door::IsAutoInteracting() const
 }
 
 bool Door::TryAutoInteracting(const Rectf& shape, bool& isOnStairs, bool& isOnBackground) const
+{
+	return false;
+}
+
+bool Door::CheckIfActive(const Point2f& point) const
 {
 	return false;
 }

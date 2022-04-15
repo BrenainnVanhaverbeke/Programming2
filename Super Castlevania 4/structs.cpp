@@ -220,3 +220,8 @@ void Transform::SetTranslation(const Point2f& point)
 	positionX = point.x;
 	positionY = point.y;
 }
+
+Point2f Transform::GetTranslation() const
+{
+	return Point2f{ positionX, positionY };
+}

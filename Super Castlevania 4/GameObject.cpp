@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "GameObject.h"
+#include "TextureManager.h"
 
 GameObject::GameObject()
 	: GameObject(Transform{ 0.0f, 0.0f, 0.0f, 1.0f })

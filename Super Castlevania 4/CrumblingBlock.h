@@ -1,17 +1,17 @@
 #pragma once
-#include "DefaultTerrain.h"
+#include "TerrainObject.h"
 
-class CrumblingBlock final : public DefaultTerrain
+class CrumblingBlock final : public TerrainObject
 {
 public:
 	CrumblingBlock(const std::vector<Point2f>& vertices, bool isBackground);
 
 	virtual void Update(float elapsedSec) override;
 	virtual void CheckOverlap(const Rectf& overlappingShape) override;
-	virtual bool IsOverlapping(const Rectf& overlappingShape) const override;
+	virtual bool IsOverlapping(const Rectf& overlappingShape) override;
 
-	virtual void HandleCollisions(const Rectf& actorShape, Transform& actorTransform, Vector2f& actorVelocity) const override;
-	virtual bool IsOnGround(const Rectf& actorShape, const Vector2f& actorVelocity) const override;
+	virtual bool HandleCollisions(const Rectf& actorShape, Transform& actorTransform, Vector2f& actorVelocity) override;
+	virtual bool IsOnGround(const Rectf& actorShape, const Vector2f& actorVelocity) override;
 
 private:
 	float m_StepOnTime;

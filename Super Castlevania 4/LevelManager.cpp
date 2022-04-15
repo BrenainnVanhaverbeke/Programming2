@@ -1,20 +1,22 @@
 #include "pch.h"
 #include "LevelManager.h"
-#include "Texture.h"
 #include "TerrainObject.h"
 #include "InteractableObject.h"
 #include "LevelLoader.h"
+#include "Sprite.h"
 #include "utils.h"
 #include <iostream>
 
 LevelManager::LevelManager()
 	: m_StageCounter{ 0 }
-	, m_SegmentCounter{ 0 }
+	, m_SegmentCounter{ 7 }
 	, m_pLevelLoader{ new LevelLoader() }
-	, m_pBackgroundTexture{ nullptr }
 	, m_pActiveInteractable{ nullptr }
+	, m_pBackground{ nullptr }
 	, m_IsOnBackground{ false }
-	, m_IsOnStairs{ false }
+	, m_IsOnStairs{ true }
+	, m_BackgroundSpriteId{}
+	, m_DrawDebug{ false }
 {
 	LoadBackground();
 	LoadSegment();
@@ -22,9 +24,7 @@ LevelManager::LevelManager()
 
 LevelManager::~LevelManager()
 {
-	delete m_pBackgroundTexture;
 	delete m_pLevelLoader;
-	m_pBackgroundTexture = nullptr;
 	m_pLevelLoader = nullptr;
 	UnloadSegment();
 }
@@ -41,14 +41,20 @@ Point2f LevelManager::GetSpawn() const
 
 void LevelManager::Update(float elapsedSec, const Rectf& actorShape)
 {
-	size_t nrCrumblingBlocks{ m_pTerrain.size() };
-	for (size_t i{ 0 }; i < nrCrumblingBlocks; ++i)
+	size_t nrOfTerrainObjects{ m_pTerrain.size() };
+	for (size_t i{ 0 }; i < nrOfTerrainObjects; ++i)
 		m_pTerrain.at(i)->Update(elapsedSec);
 }
 
 void LevelManager::Draw() const
 {
-	//m_pBackgroundTexture->Draw();
+	m_pBackground->Draw(Point2f{});
+	if (m_DrawDebug)
+		DrawDebug();
+}
+
+void LevelManager::DrawDebug() const
+{
 	size_t nrOfTerrainObjects{ m_pTerrain.size() };
 	for (size_t i{ 0 }; i < nrOfTerrainObjects; ++i)
 		m_pTerrain.at(i)->Draw();
@@ -58,15 +64,13 @@ void LevelManager::Draw() const
 	utils::SetColor(Color4f{ 1.0f, 1.0f, 0, 1.0f });
 	utils::DrawRect(m_TransitionArea);
 	utils::SetColor(Color4f{ 0, 1.0f, 1.0f, 1.0f });
-	utils::DrawPoint(m_SpawnPoint, 5.0f);
+	utils::DrawPoint(m_SpawnPoint);
 }
 
 void LevelManager::HandleCollisions(const Rectf& actorShape, Transform& actorTransform, Vector2f& actorVelocity)
 {
 	if (m_IsOnStairs)
 	{
-		if (!m_pActiveInteractable)
-			AttemptResetActiveInteractable(actorShape);
 		m_pActiveInteractable->HandleCollisions(actorShape, actorTransform, actorVelocity);
 		if (m_pActiveInteractable->IsDoneInteracting(actorShape))
 			m_IsOnStairs = false;
@@ -84,12 +88,15 @@ void LevelManager::HandleCollisions(const Rectf& actorShape, Transform& actorTra
 
 bool LevelManager::IsOnGround(const Rectf& actorShape, const Vector2f& actorVelocity) const
 {
-	size_t nrOfTerrainObjects{ m_pTerrain.size() };
-	for (size_t i{ 0 }; i < nrOfTerrainObjects; ++i)
+	if (!m_IsOnStairs)
 	{
-		if (m_pTerrain.at(i)->IsBackground() == m_IsOnBackground 
-			&& m_pTerrain.at(i)->IsOnGround(actorShape, actorVelocity))
-			return true;
+		size_t nrOfTerrainObjects{ m_pTerrain.size() };
+		for (size_t i{ 0 }; i < nrOfTerrainObjects; ++i)
+		{
+			if (m_pTerrain.at(i)->IsBackground() == m_IsOnBackground
+				&& m_pTerrain.at(i)->IsOnGround(actorShape, actorVelocity))
+				return true;
+		}
 	}
 	return false;
 }
@@ -102,6 +109,11 @@ bool LevelManager::IsOnStairs() const
 bool LevelManager::IsInTransitionArea(const Rectf& actorShape) const
 {
 	return utils::IsOverlapping(actorShape, m_TransitionArea);
+}
+
+void LevelManager::ToggleDebugDraw()
+{
+	m_DrawDebug = !m_DrawDebug;
 }
 
 void LevelManager::AttemptInteraction(const Rectf& shape)
@@ -129,7 +141,7 @@ void LevelManager::CheckOverlap(const Rectf& shape)
 	for (size_t i{ 0 }; i < nrOfInteractableObjects; ++i)
 	{
 		InteractableObject*& interactable{ m_pInteractableObjects.at(i) };
-		if (!m_IsOnStairs && interactable->IsAutoInteracting() 
+		if (!m_IsOnStairs && interactable->IsAutoInteracting()
 			&& interactable->TryAutoInteracting(shape, m_IsOnStairs, m_IsOnBackground))
 		{
 			m_pActiveInteractable = interactable;
@@ -169,9 +181,9 @@ void LevelManager::NextSegment()
 
 void LevelManager::LoadBackground()
 {
-	if (m_pBackgroundTexture) delete m_pBackgroundTexture;
-	std::string path{ "./Resources/Images/Stage " + std::to_string(m_StageCounter) + ".png" };
-	m_pBackgroundTexture = new Texture(path);
+	//if (m_pBackgroundTexture) delete m_pBackgroundTexture;
+	//std::string path{ "./Resources/Images/Stage " + std::to_string(m_StageCounter) + ".png" };
+	//m_pBackgroundTexture = new Texture(path);
 }
 
 void LevelManager::LoadSegment()
@@ -182,25 +194,33 @@ void LevelManager::LoadSegment()
 	m_TransitionArea = m_pLevelLoader->LoadTransitionArea(m_StageCounter, m_SegmentCounter);
 	m_Boundaries = m_pLevelLoader->LoadBoundaries(m_StageCounter, m_SegmentCounter);
 	m_SpawnPoint = m_pLevelLoader->LoadPlayerSpawn(m_StageCounter, m_SegmentCounter);
+	m_pBackground = m_pLevelLoader->GetBackground(m_StageCounter, m_SegmentCounter);
+	AttemptResetActiveInteractable(m_SpawnPoint);
 }
 
 void LevelManager::UnloadSegment()
 {
 	DeleteTerrain();
 	DeleteInteractables();
+	if (m_pBackground)
+	{
+		delete m_pBackground;
+		m_pBackground = nullptr;
+	}
 	m_IsOnBackground = false;
 	m_pActiveInteractable = nullptr;
 }
 
-void LevelManager::AttemptResetActiveInteractable(const Rectf& actorShape)
+void LevelManager::AttemptResetActiveInteractable(const Point2f& spawnPoint)
 {
 	size_t nrOfInteractables{ m_pInteractableObjects.size() };
 	for (size_t i{ 0 }; i < nrOfInteractables; ++i)
 	{
-		if (m_pInteractableObjects.at(i)->IsOverlapping(actorShape))
+		if (m_pInteractableObjects.at(i)->CheckIfActive(spawnPoint))
 		{
 			m_pActiveInteractable = m_pInteractableObjects.at(i);
 			return;
 		}
 	}
+	m_IsOnStairs = false;
 }

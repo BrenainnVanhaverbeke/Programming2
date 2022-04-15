@@ -11,7 +11,7 @@ namespace utils
 	void SetColor( const Color4f& color );
 	
 	void DrawPoint( float x, float y, float pointSize = 1.0f );
-	void DrawPoint( const Point2f& p, float pointSize = 1.0f );
+	void DrawPoint( const Point2f& p, float pointSize = 2.0f );
 	void DrawPoints( Point2f *pVertices, int nrVertices, float pointSize = 1.0f );
 
 	void DrawLine( float x1, float y1, float x2, float y2, float lineWidth = 1.0f );

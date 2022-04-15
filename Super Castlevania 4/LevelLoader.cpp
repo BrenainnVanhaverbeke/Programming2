@@ -2,9 +2,10 @@
 #include "LevelLoader.h"
 #include "Stairs.h"
 #include "Door.h"
-#include "DefaultTerrain.h"
 #include "CrumblingBlock.h"
 #include "DrawBridge.h"
+#include "Trapdoor.h"
+#include "Sprite.h"
 
 #include <fstream>
 #include <iostream>
@@ -13,43 +14,43 @@
 LevelLoader::LevelLoader()
 	: m_RawJson{ LoadRawJson() }
 {
-	//LogJson();
 }
 
 LevelLoader::~LevelLoader()
 {
 }
 
-void LevelLoader::LogJson()
+void LevelLoader::LogJson() const
 {
 	json parsedJson{ json::parse(m_RawJson) };
 	std::cout << std::setw(4) << parsedJson << std::endl;
 	parsedJson.clear();
 }
 
-Rectf LevelLoader::LoadBoundaries(int stage, int segment)
+Rectf LevelLoader::LoadBoundaries(int stage, int segment) const
 {
 	std::cout << "Loading boundaries.\n";
 	std::string objectName{ "boundaries" };
 	json boundaries{ GetJsonObject(stage, segment, objectName) };
-	float width{ boundaries.at("width") };
-	float height{ boundaries.at("height") };
-	return Rectf{ 0, 0, width, height };
+	return GetRectFromJson(boundaries);
 }
 
-Rectf LevelLoader::LoadTransitionArea(int stage, int segment)
+Rectf LevelLoader::LoadTransitionArea(int stage, int segment) const
 {
 	std::cout << "Loading transition area.\n";
 	std::string objectName{ "transitionArea" };
 	json transitionArea{ GetJsonObject(stage, segment, objectName) };
-	float x{ transitionArea.at("origin").at(0) };
-	float y{ transitionArea.at("origin").at(1) };
-	float width{ transitionArea.at("width") };
-	float height{ transitionArea.at("height") };
-	return Rectf{ x, y, width, height };
+	return GetRectFromJson(transitionArea);
 }
 
-Point2f LevelLoader::LoadPlayerSpawn(int stage, int segment)
+Rectf LevelLoader::LoadBackgroundSource(int stage, int segment) const
+{
+	std::string objectName{ "background" };
+	json jsonBackground{ GetJsonObject(stage, segment, objectName) };
+	return GetRectFromJson(jsonBackground.at("foreground"));
+}
+
+Point2f LevelLoader::LoadPlayerSpawn(int stage, int segment) const
 {
 	std::cout << "Loading player spawn.\n";
 	std::string objectName{ "playerSpawn" };
@@ -57,16 +58,16 @@ Point2f LevelLoader::LoadPlayerSpawn(int stage, int segment)
 	return Point2f{ playerSpawn.at(0), playerSpawn.at(1) };
 }
 
-std::vector<TerrainObject*> LevelLoader::LoadTerrain(int stage, int segment)
+std::vector<TerrainObject*> LevelLoader::LoadTerrain(int stage, int segment) const
 {
 	std::cout << "Loading terrain.\n";
 	std::string objectName{ "terrain" };
-	json dynamicTerrainJsonObjects{ GetJsonObject(stage, segment, objectName) };
-	size_t nrOfCrumblingBlocks{ dynamicTerrainJsonObjects.size() };
+	json terrainJson{ GetJsonObject(stage, segment, objectName) };
+	size_t nrOfCrumblingBlocks{ terrainJson.size() };
 	std::vector<TerrainObject*> pDynamicTerrain;
 	for (size_t i{ 0 }; i < nrOfCrumblingBlocks; ++i)
 	{
-		json& test{ dynamicTerrainJsonObjects.at(i) };
+		json& test{ terrainJson.at(i) };
 		std::string terrainType{ test.at("type") };
 		std::vector<Point2f> vertices{ GetVerticesFromJsonObject(test.at("vertices")) };
 		bool isBackground{ test.at("isBackground") };
@@ -75,7 +76,7 @@ std::vector<TerrainObject*> LevelLoader::LoadTerrain(int stage, int segment)
 	return pDynamicTerrain;
 }
 
-std::vector<InteractableObject*> LevelLoader::LoadInteractables(int stage, int segment)
+std::vector<InteractableObject*> LevelLoader::LoadInteractables(int stage, int segment) const
 {
 	std::cout << "Loading interactables.\n";
 	std::string objectName{ "interactableObjects" };
@@ -86,54 +87,33 @@ std::vector<InteractableObject*> LevelLoader::LoadInteractables(int stage, int s
 	{
 		json& interactable{ jsonInteractables.at(i) };
 		std::string type{ interactable.at("type") };
-		std::vector<Point2f> vertices{ GetVerticesFromJsonObject(interactable.at("vertices"))};
+		std::vector<Point2f> vertices{ GetVerticesFromJsonObject(interactable.at("vertices")) };
 		pInteractables.push_back(InteractableFactory(type, vertices, interactable));
 	}
 	return pInteractables;
 }
 
-std::vector<Stairs*> LevelLoader::LoadStairs(int stage, int segment)
+std::string LevelLoader::GetSpriteSheetString(int stage) const
 {
-	std::cout << "Loading stairs.\n";
-	std::string objectName{ "stairs" };
-	json jsonStairObjects{ GetJsonObject(stage, segment, objectName) };
-	size_t nrOfJsonStairs{ jsonStairObjects.size() };
-	std::vector<Stairs*> stairs;
-	for (size_t i{ 0 }; i < nrOfJsonStairs; ++i)
-	{
-		json& jsonStair{ jsonStairObjects.at(i) };
-		std::vector<Point2f> vertices{ GetVerticesFromJsonObject(jsonStair.at("vertices")) };
-		bool autoMountTop{ jsonStair.at("autoMountTop") };
-		bool autoMountBottom{ jsonStair.at("autoMountBottom") };
-		bool isBackground{ jsonStair.at("isBackground") };
-		stairs.push_back(new Stairs{ vertices,
-									 jsonStair.at("lowPoint"),
-									 jsonStair.at("highPoint"),
-									 autoMountTop,
-									 autoMountBottom,
-									 isBackground });
-	}
-	return stairs;
+	json parsedJson{ json::parse(m_RawJson) };
+	return parsedJson.at("stages")
+		.at(stage)
+		.at("spritesheet");
 }
 
-std::vector<Door*> LevelLoader::LoadDoors(int stage, int segment)
+Sprite* LevelLoader::GetBackground(int stage, int segment) const
 {
-	std::cout << "Loading Doors.\n";
-	std::string objectName{ "doors" };
-	json jsonDoors{ GetJsonObject(stage, segment, objectName) };
-	size_t nrOfJsonDoors{ jsonDoors.size() };
-	std::vector<Door*> pDoors;
-	if (jsonDoors.empty())
-		return pDoors;
-	for (size_t i{ 0 }; i < nrOfJsonDoors; ++i)
-	{
-		json& jsonDoor{ jsonDoors.at(i) };
-		pDoors.push_back(new Door{ GetVerticesFromJsonObject(jsonDoor.at("vertices")) });
-	}
-	return pDoors;
+	json parsedJson{ json::parse(m_RawJson) };
+	std::string path{ parsedJson.at("stages")
+								.at(stage)
+								.at("spritesheet") };
+	std::string objectName{ "background" };
+	json durr{ GetJsonObject(stage, segment, objectName) };
+	Rectf sourceRect{ GetRectFromJson(durr.at("foreground")) };
+	return new Sprite(path, sourceRect);
 }
 
-std::string LevelLoader::LoadRawJson()
+std::string LevelLoader::LoadRawJson() const
 {
 	std::ifstream jsonStream{ "./Resources/JSON/Levels.json" };
 	std::string rawJson{};
@@ -152,17 +132,19 @@ std::string LevelLoader::LoadRawJson()
 	return rawJson;
 }
 
-json LevelLoader::GetJsonObject(int stage, int segment, std::string& objectName)
+json LevelLoader::GetJsonObject(int stage, int segment, std::string& objectName) const
 {
 	json parsedJson{ json::parse(m_RawJson) };
-	if (!parsedJson.at("segments").at(segment).contains(objectName))
+	if (!parsedJson.at("stages").at(stage).at("segments").at(segment).contains(objectName))
 		return json{};
-	return parsedJson.at("segments")
-		.at(segment)
-		.at(objectName);
+	return parsedJson.at("stages")
+					 .at(stage)
+					 .at("segments")
+					 .at(segment)
+					 .at(objectName);
 }
 
-std::vector<Point2f> LevelLoader::GetVerticesFromJsonObject(json jsonObject)
+std::vector<Point2f> LevelLoader::GetVerticesFromJsonObject(const json& jsonObject) const
 {
 	size_t nrOfVertices{ jsonObject.size() };
 	std::vector<Point2f> vertices;
@@ -176,19 +158,28 @@ std::vector<Point2f> LevelLoader::GetVerticesFromJsonObject(json jsonObject)
 	return vertices;
 }
 
-TerrainObject* LevelLoader::TerrainFactory(const std::string& terrainType, const std::vector<Point2f>& vertices, bool isBackground)
+TerrainObject* LevelLoader::TerrainFactory(const std::string& terrainType, const std::vector<Point2f>& vertices, bool isBackground) const
 {
-	DefaultTerrain* pTerrain{ nullptr };
-	if (terrainType == "default")
-		pTerrain = new DefaultTerrain(vertices, isBackground);
-	else if (terrainType == "crumblingBlock")
-		pTerrain = new CrumblingBlock(vertices, isBackground);
-	else if (terrainType == "drawBridge")
-		pTerrain = new DrawBridge(vertices, isBackground);
-	return pTerrain;
+	if (terrainType == "crumblingBlock")
+	{
+		std::cout << "Creating crumbling block.\n";
+		return new CrumblingBlock(vertices, isBackground);
+	}
+	if (terrainType == "drawBridge")
+	{
+		std::cout << "Creating drawbridge.\n";
+		return new DrawBridge(vertices, isBackground);
+	}
+	if (terrainType == "trapDoor")
+	{
+		std::cout << "Creating trapdoor.\n";
+		return new TrapDoor(vertices, isBackground);
+	}
+	std::cout << "Creating default terrain.\n";
+	return new TerrainObject(vertices, isBackground);
 }
 
-InteractableObject* LevelLoader::InteractableFactory(const std::string& interactableType, const std::vector<Point2f>& vertices, const json& jsonObject)
+InteractableObject* LevelLoader::InteractableFactory(const std::string& interactableType, const std::vector<Point2f>& vertices, const json& jsonObject) const
 {
 	if (interactableType == "stairs")
 		return CreateStairs(vertices, jsonObject);
@@ -197,7 +188,7 @@ InteractableObject* LevelLoader::InteractableFactory(const std::string& interact
 	return nullptr;
 }
 
-Stairs* LevelLoader::CreateStairs(const std::vector<Point2f>& vertices, const json& jsonObject)
+Stairs* LevelLoader::CreateStairs(const std::vector<Point2f>& vertices, const json& jsonObject) const
 {
 	bool autoMountTop{ jsonObject.at("autoMountTop") };
 	bool autoMountBottom{ jsonObject.at("autoMountBottom") };
@@ -208,4 +199,20 @@ Stairs* LevelLoader::CreateStairs(const std::vector<Point2f>& vertices, const js
 					   autoMountTop,
 					   autoMountBottom,
 					   isBackground };
+}
+
+Rectf LevelLoader::GetRectFromJson(const json& jsonObject) const
+{
+	Point2f origin{ GetPointFromJson(jsonObject) };
+	float width{ jsonObject.at("width") };
+	float height{ jsonObject.at("height") };
+	return Rectf{ origin, width, height };
+}
+
+Point2f LevelLoader::GetPointFromJson(const json& jsonObject) const
+{
+	if (!jsonObject.contains("origin"))
+		return Point2f{};
+	json origin{ jsonObject.at("origin")};
+	return Point2f{ origin.at(0), origin.at(1) };
 }

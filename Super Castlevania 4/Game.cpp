@@ -3,6 +3,7 @@
 #include "Player.h"
 #include "Camera.h"
 #include "LevelManager.h"
+#include "TextureManager.h"
 
 Game::Game(const Window& window)
 	: m_Window{ window }
@@ -16,6 +17,8 @@ Game::Game(const Window& window)
 Game::~Game()
 {
 	Cleanup();
+	TextureManager* test{ TextureManager::GetInstance() };
+	test->Delete();
 }
 
 void Game::Initialize()
@@ -68,6 +71,8 @@ void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent& e)
 {
 	if (e.keysym.sym == SDLK_w || e.keysym.sym == SDLK_UP)
 		m_pPlayer->AttemptInteraction();
+	if (e.keysym.sym == SDLK_o)
+		m_pLevelManager->ToggleDebugDraw();
 }
 
 void Game::ProcessMouseMotionEvent(const SDL_MouseMotionEvent& e)

@@ -7,6 +7,7 @@ class TerrainObject;
 class InteractableObject;
 class Stairs;
 class Door;
+class Sprite;
 
 class LevelLoader
 {
@@ -16,21 +17,25 @@ public:
 	LevelLoader(const LevelLoader& levelLoader) = delete;
 	void operator = (const LevelLoader& levelLoader) = delete;
 
-	void LogJson();
-	Rectf LoadBoundaries(int stage, int segment);
-	Rectf LoadTransitionArea(int stage, int segment);
-	Point2f LoadPlayerSpawn(int stage, int segment);
-	std::vector<TerrainObject*> LoadTerrain(int stage, int segment);
-	std::vector<InteractableObject*> LoadInteractables(int stage, int segment);
-	std::vector<Stairs*> LoadStairs(int stage, int segment);
-	std::vector<Door*> LoadDoors(int stage, int segment);
+	void LogJson() const;
+	Rectf LoadBoundaries(int stage, int segment) const;
+	Rectf LoadTransitionArea(int stage, int segment) const;
+	Rectf LoadBackgroundSource(int stage, int segment) const;
+	Point2f LoadPlayerSpawn(int stage, int segment) const;
+	std::vector<TerrainObject*> LoadTerrain(int stage, int segment) const;
+	std::vector<InteractableObject*> LoadInteractables(int stage, int segment) const;
+	Sprite* GetBackground(int stage, int segment) const;
 
 private:
 	std::string m_RawJson;
-	std::string LoadRawJson();
-	json GetJsonObject(int stage, int segment, std::string& objectName);
-	std::vector<Point2f> GetVerticesFromJsonObject(json jsonObject);
-	TerrainObject* TerrainFactory(const std::string& terrainType, const std::vector<Point2f>& vertices, bool isBackground);
-	InteractableObject* InteractableFactory(const std::string& interactableType, const std::vector<Point2f>& vertices, const json& jsonObject);
-	Stairs* CreateStairs(const std::vector<Point2f>& vertices, const json& jsonObject);
+
+	std::string LoadRawJson() const;
+	std::string GetSpriteSheetString(int stage) const;
+	json GetJsonObject(int stage, int segment, std::string& objectName) const;
+	std::vector<Point2f> GetVerticesFromJsonObject(const json& jsonObject) const;
+	TerrainObject* TerrainFactory(const std::string& terrainType, const std::vector<Point2f>& vertices, bool isBackground) const;
+	InteractableObject* InteractableFactory(const std::string& interactableType, const std::vector<Point2f>& vertices, const json& jsonObject) const;
+	Stairs* CreateStairs(const std::vector<Point2f>& vertices, const json& jsonObject) const;
+	Rectf GetRectFromJson(const json& jsonObject) const;
+	Point2f GetPointFromJson(const json& jsonObject) const;
 };

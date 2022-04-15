@@ -4,6 +4,7 @@
 
 class Texture;
 class LevelManager;
+class Sprite;
 
 class Player final : public Character
 {
@@ -26,7 +27,7 @@ public:
 
 	virtual void Update(float elapsedSec) override;
 	virtual void CheckOverlap(const Rectf& overlappingShape) override;
-	virtual bool IsOverlapping(const Rectf& overlappingShape) const override;
+	virtual bool IsOverlapping(const Rectf& overlappingShape) override;
 
 	void Draw() const override;
 	Rectf GetShape() const override;
@@ -38,6 +39,7 @@ private:
 	const float m_HorizontalSpeed;
 	const float m_JumpForce;
 	const Vector2f m_Acceleration;
+	const Sprite* m_pSprite;
 	
 	LevelManager* m_pLevelManager;
 	Vector2f m_Velocity;

@@ -78,9 +78,6 @@
     <ClCompile Include="Character.cpp">
       <Filter>Game Files\Abstract Classes</Filter>
     </ClCompile>
-    <ClCompile Include="DefaultTerrain.cpp">
-      <Filter>Game Files\Terrain Objects</Filter>
-    </ClCompile>
     <ClCompile Include="Stairs.cpp">
       <Filter>Game Files\Terrain Objects</Filter>
     </ClCompile>
@@ -107,6 +104,12 @@
     </ClCompile>
     <ClCompile Include="InteractableObject.cpp">
       <Filter>Game Files\Terrain Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Trapdoor.cpp">
+      <Filter>Game Files\Terrain Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>Game Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -155,9 +158,6 @@
     <ClInclude Include="Character.h">
       <Filter>Game Files\Abstract Classes</Filter>
     </ClInclude>
-    <ClInclude Include="DefaultTerrain.h">
-      <Filter>Game Files\Terrain Objects</Filter>
-    </ClInclude>
     <ClInclude Include="Stairs.h">
       <Filter>Game Files\Terrain Objects</Filter>
     </ClInclude>
@@ -187,6 +187,12 @@
     </ClInclude>
     <ClInclude Include="InteractableObject.h">
       <Filter>Game Files\Terrain Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Trapdoor.h">
+      <Filter>Game Files\Terrain Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>Game Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

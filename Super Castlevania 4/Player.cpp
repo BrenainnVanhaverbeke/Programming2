@@ -2,21 +2,25 @@
 #include "Player.h"
 #include "LevelManager.h"
 #include "utils.h"
+#include "Sprite.h"
 
 #include <iostream>
 
 Player::Player(LevelManager* pLevelManager)
-	: Character(24.0f, 46.0f)
+	: Character(32.0f, 48.0f)
 	, m_HorizontalSpeed{ 75.0f }
 	//, m_HorizontalSpeed{ 200.0f }
 	, m_JumpForce{ 325.0f }
 	, m_Acceleration{ 0.0f, -981.0f }
+	//, m_Acceleration{ 0.0f, -100.0f }
 	, m_Velocity{}
 	, m_ActionState{ ActionState::idle }
 	, m_pLevelManager{ pLevelManager }
+	, m_pSprite{ new Sprite("Player_Movement.png", GetShape()) }
 {
 	Point2f spawnPoint{ pLevelManager->GetSpawn() };
 	spawnPoint.x -= m_Width / 2;
+	spawnPoint.y += 1.0f;
 	m_Transform.SetTranslation(spawnPoint);
 }
 
@@ -38,7 +42,7 @@ void Player::CheckOverlap(const Rectf& overlappingShape)
 {
 }
 
-bool Player::IsOverlapping(const Rectf& overlappingShape) const
+bool Player::IsOverlapping(const Rectf& overlappingShape)
 {
 	return utils::IsOverlapping(GetShape(), overlappingShape);
 }
@@ -56,8 +60,33 @@ void Player::Draw() const
 	//	//m_pSpritesTexture->Draw(Point2f{ 0.0f, 0.0f }, GetSourceRect());
 	//}
 	//glPopMatrix();
+	m_pSprite->Draw(m_Transform.GetTranslation());
+	float m_AnchorOffset{ 5.0f };
+	Rectf actorShape{ GetShape() };
+	Point2f topCenter{ actorShape.GetTopCenter(0, -m_AnchorOffset) };
+	Point2f center{ actorShape.GetCenter() };
+	Point2f bottomCenter{ actorShape.GetBottomCenter(0, m_AnchorOffset) };
+	Point2f topCenterMiddle{ utils::GetMiddle(topCenter, center) };
+	Point2f bottomCenterMiddle{ utils::GetMiddle(center, bottomCenter) };
+	Point2f centerLeft{ actorShape.GetCenterLeft(m_AnchorOffset / 2) };
+	Point2f centerRight{ actorShape.GetCenterRight(-m_AnchorOffset / 2) };
+	// Shape
 	utils::SetColor(Color4f{ 1.0f, 0, 1.0f, 1.0f });
-	utils::DrawRect(GetShape());
+	utils::DrawRect(actorShape);
+	// Stairs anchor
+	utils::SetColor(Color4f{ 1.0f, 1.0f, 0, 1.0f });
+	utils::DrawPoint(actorShape.GetBottomCenter());
+	// Horizontal 'cast anchors
+	utils::SetColor(Color4f{ 1.0f, 0, 0, 1.0f });
+	utils::DrawPoint(topCenter);
+	utils::DrawPoint(center);
+	utils::DrawPoint(bottomCenter);
+	utils::DrawPoint(topCenterMiddle);
+	utils::DrawPoint(bottomCenterMiddle);
+	// Vertical 'cast anchors
+	utils::SetColor(Color4f{ 0, 1.0f, 0, 1.0f });
+	utils::DrawPoint(centerLeft);
+	utils::DrawPoint(centerRight);
 }
 
 Rectf Player::GetShape() const

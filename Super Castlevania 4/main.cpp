@@ -11,7 +11,7 @@ int main( int argc, char *argv[] )
 
 	StartHeapControl();
 
-	Core* pCore{ new Core{ Window{ "Super Castlevania IV - Vanhaverbeke, Brenainn - 1DAE10", 680.0f , 480.0f } } };
+	Core* pCore{ new Core{ Window{ "Super Castlevania IV - Vanhaverbeke, Brenainn - 1DAE10", 512.0f , 448.0f } } };
 	pCore->Run();
 	delete pCore;
 

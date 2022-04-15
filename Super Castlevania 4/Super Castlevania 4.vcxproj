@@ -158,6 +158,7 @@
     <ClCompile Include="DrawBridge.cpp" />
     <ClCompile Include="InteractableObject.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
+    <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="TerrainObject.cpp" />
     <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -165,7 +166,6 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Stairs.cpp" />
-    <ClCompile Include="DefaultTerrain.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Matrix2x3.cpp" />
     <ClCompile Include="pch.cpp">
@@ -180,6 +180,7 @@
     <ClCompile Include="SVGParser.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureManager.cpp" />
+    <ClCompile Include="Trapdoor.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="Vector2f.cpp" />
   </ItemGroup>
@@ -192,6 +193,7 @@
     <ClInclude Include="InteractableObject.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="LevelLoader.h" />
+    <ClInclude Include="Sprite.h" />
     <ClInclude Include="TerrainObject.h" />
     <ClInclude Include="LevelManager.h" />
     <ClInclude Include="Player.h" />
@@ -199,7 +201,6 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Stairs.h" />
-    <ClInclude Include="DefaultTerrain.h" />
     <ClInclude Include="Matrix2x3.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="SoundEffect.h" />
@@ -208,6 +209,7 @@
     <ClInclude Include="SVGParser.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureManager.h" />
+    <ClInclude Include="Trapdoor.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="Vector2f.h" />
   </ItemGroup>

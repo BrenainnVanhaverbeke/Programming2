@@ -5,7 +5,7 @@
 #include <iostream>
 
 DrawBridge::DrawBridge(const std::vector<Point2f>& vertices, bool isBackground)
-	: DefaultTerrain(vertices, isBackground)
+	: TerrainObject(vertices, isBackground)
 	, m_BaseVertices{ m_Vertices }
 	, m_RotationAngle{ 0 }
 	, m_RotationSpeed{ -5.0f }
@@ -22,13 +22,22 @@ void DrawBridge::Update(float elapsedSec)
 
 void DrawBridge::CheckOverlap(const Rectf& overlapShape)
 {
-	if (!m_IsClosing && IsOnGround(overlapShape, Vector2f{}))
-		m_IsClosing = true;
+	IsOnGround(overlapShape, Vector2f{});
 }
 
-bool DrawBridge::IsOverlapping(const Rectf& overlappingShape) const
+bool DrawBridge::IsOverlapping(const Rectf& overlappingShape)
 {
 	return IsOnGround(overlappingShape, Vector2f{});
+}
+
+bool DrawBridge::HandleCollisions(const Rectf& actorShape, Transform& actorTransform, Vector2f& actorVelocity)
+{
+	if (TerrainObject::HandleCollisions(actorShape, actorTransform, actorVelocity))
+	{
+		m_IsClosing = true;
+		return true;
+	}
+	return false;
 }
 
 void DrawBridge::CloseDrawBridge(float elapsedSec)

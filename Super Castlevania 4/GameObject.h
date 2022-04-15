@@ -10,7 +10,7 @@ public:
 	virtual void Update(float elapsedSec) = 0;
 	virtual void Draw() const = 0;
 	virtual void CheckOverlap(const Rectf& overlappingShape) = 0;
-	virtual bool IsOverlapping(const Rectf& overlappingShape) const = 0;
+	virtual bool IsOverlapping(const Rectf& overlappingShape) = 0;
 
 	Transform GetTransform() const;
 
