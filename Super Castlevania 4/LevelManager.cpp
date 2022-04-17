@@ -9,7 +9,7 @@
 
 LevelManager::LevelManager()
 	: m_StageCounter{ 0 }
-	, m_SegmentCounter{ 7 }
+	, m_SegmentCounter{ 0 }
 	, m_pLevelLoader{ new LevelLoader() }
 	, m_pActiveInteractable{ nullptr }
 	, m_pBackground{ nullptr }
@@ -48,7 +48,7 @@ void LevelManager::Update(float elapsedSec, const Rectf& actorShape)
 
 void LevelManager::Draw() const
 {
-	m_pBackground->Draw(Point2f{});
+	m_pBackground->Draw(Transform{});
 	if (m_DrawDebug)
 		DrawDebug();
 }
@@ -104,6 +104,11 @@ bool LevelManager::IsOnGround(const Rectf& actorShape, const Vector2f& actorVelo
 bool LevelManager::IsOnStairs() const
 {
 	return m_IsOnStairs;
+}
+
+bool LevelManager::IsUpstairs(const Vector2f& actorVelocity) const
+{
+	return m_pActiveInteractable->CheckDirection(actorVelocity);
 }
 
 bool LevelManager::IsInTransitionArea(const Rectf& actorShape) const
@@ -164,6 +169,7 @@ void LevelManager::DeleteInteractables()
 	for (size_t i{ 0 }; i < nrOfInteractables; ++i)
 		delete m_pInteractableObjects.at(i);
 	m_pInteractableObjects.clear();
+	m_pActiveInteractable = nullptr;
 }
 
 void LevelManager::NextStage()
@@ -208,7 +214,6 @@ void LevelManager::UnloadSegment()
 		m_pBackground = nullptr;
 	}
 	m_IsOnBackground = false;
-	m_pActiveInteractable = nullptr;
 }
 
 void LevelManager::AttemptResetActiveInteractable(const Point2f& spawnPoint)

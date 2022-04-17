@@ -1,32 +1,29 @@
 #pragma once
 #include "GameObject.h"
 
-class Texture;
-
 class Sprite
 {
 public:
-	Sprite(std::string path);
-	Sprite(std::string path, const Rectf& sourceRect, bool hasSourceRect = true);
+	Sprite(std::string fileName);
+	Sprite(std::string fileName, const Rectf& sourceRect, int frames = 1, int rows = 1, int framePerSeconds = 1);
 	~Sprite();
 
-	void Update(float elapsedSec);
-	void Draw(const Point2f& origin) const;
-	void Draw(const Point2f& origin, int rowOffset);
+	void Update(float elapsedSec, int rowOffset = 0, bool freezeFrame = false);
+	void Draw(const Transform& origin, bool isFlipped = false) const;
 
 	void SetSourceRect(const Rectf& sourceRect);
 
 private:
-	const bool m_HasSourceRect;
 	const std::string m_Path;
+	const int m_Frames;
+	const int m_Rows;
+	const float m_MaxFrameTime;
 	
 	Rectf m_SourceRect;
 
-	//const int m_Frames;
-	//const int m_Rows;
-	//const int m_Columns;
-	//const float m_MaxFrameTime;
-	//
-	//int m_CurrentFrame;
-	//float m_AccumulatedTime;
+	
+	int m_CurrentFrame;
+	float m_AccumulatedTime;
+
+	void UpdateSourceRect(int rowOffset);
 };

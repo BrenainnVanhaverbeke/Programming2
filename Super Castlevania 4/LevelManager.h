@@ -21,11 +21,11 @@ public:
 
 	void Update(float elapsedSec, const Rectf& actorShape);
 	void Draw() const;
-	void DrawDebug() const;
 
 	void HandleCollisions(const Rectf& actorShape, Transform& actorTransform, Vector2f& actorVelocity);
 	bool IsOnGround(const Rectf& actorShape, const Vector2f& actorVelocity) const;
 	bool IsOnStairs() const;
+	bool IsUpstairs(const Vector2f& actorVelocity) const;
 	bool IsInTransitionArea(const Rectf& actorShape) const;
 
 	void ToggleDebugDraw();
@@ -56,4 +56,6 @@ private:
 
 	void DeleteTerrain();
 	void DeleteInteractables();
+
+	void DrawDebug() const;
 };

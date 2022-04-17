@@ -60,6 +60,7 @@ void Rectf::Log() const
 	logMessage += ", b: " + std::to_string(bottom);
 	logMessage += ", w: " + std::to_string(width);
 	logMessage += ", h: " + std::to_string(height);
+	logMessage += " }";
 	std::cout << logMessage << std::endl;
 }
 

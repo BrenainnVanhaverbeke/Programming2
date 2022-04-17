@@ -20,6 +20,7 @@ public:
 	virtual bool IsAutoInteracting() const override;
 	virtual bool TryAutoInteracting(const Rectf& shape, bool& isOnStairs, bool& isOnBackground) const override;
 	virtual bool CheckIfActive(const Point2f& point) const override;
+	virtual bool CheckDirection(const Vector2f& velocity) const override;
 
 private:
 	const Point2f& m_LowPoint;

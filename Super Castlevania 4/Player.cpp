@@ -1,13 +1,13 @@
 #include "pch.h"
 #include "Player.h"
-#include "LevelManager.h"
-#include "utils.h"
 #include "Sprite.h"
+#include "LevelManager.h"
 
+#include "utils.h"
 #include <iostream>
 
 Player::Player(LevelManager* pLevelManager)
-	: Character(32.0f, 48.0f)
+	: Character(28, 46.0f)
 	, m_HorizontalSpeed{ 75.0f }
 	//, m_HorizontalSpeed{ 200.0f }
 	, m_JumpForce{ 325.0f }
@@ -16,7 +16,11 @@ Player::Player(LevelManager* pLevelManager)
 	, m_Velocity{}
 	, m_ActionState{ ActionState::idle }
 	, m_pLevelManager{ pLevelManager }
-	, m_pSprite{ new Sprite("Player_Movement.png", GetShape()) }
+	, m_IsDrawDebug{ false }
+	, m_pSprite{ new Sprite("Player_Movement.png", Rectf(0, 0, 32.0f, 48.0f), 6, 6, 6) }
+	, m_IsStill{ true }
+	, m_IsDucked{ false }
+	, m_IsFlipped{ false }
 {
 	Point2f spawnPoint{ pLevelManager->GetSpawn() };
 	spawnPoint.x -= m_Width / 2;
@@ -26,6 +30,8 @@ Player::Player(LevelManager* pLevelManager)
 
 Player::~Player()
 {
+	delete m_pSprite;
+	m_pSprite = nullptr;
 }
 
 void Player::Update(float elapsedSec)
@@ -34,6 +40,7 @@ void Player::Update(float elapsedSec)
 	UpdateState(pKeysState);
 	UpdateVelocity(elapsedSec, pKeysState);
 	MovePlayer(elapsedSec);
+	m_pSprite->Update(elapsedSec, (int)m_ActionState, m_IsStill);
 	m_pLevelManager->HandleCollisions(GetShape(), m_Transform, m_Velocity);
 	m_pLevelManager->CheckOverlap(GetShape());
 }
@@ -49,18 +56,43 @@ bool Player::IsOverlapping(const Rectf& overlappingShape)
 
 void Player::Draw() const
 {
-	//glPushMatrix();
-	//{
-	//	glTranslatef(m_Shape.left - (m_Shape.width / 2), m_Shape.bottom, 0);
-	//	if (m_Velocity.x < 0)
-	//	{
-	//		glScalef(-1, 1, 1);
-	//		glTranslatef(-(m_Shape.width * 2), 0, 0);
-	//	}
-	//	//m_pSpritesTexture->Draw(Point2f{ 0.0f, 0.0f }, GetSourceRect());
-	//}
-	//glPopMatrix();
-	m_pSprite->Draw(m_Transform.GetTranslation());
+	m_pSprite->Draw(m_Transform, m_IsFlipped);
+	if (m_IsDrawDebug)
+		DrawDebug();
+}
+
+Rectf Player::GetShape() const
+{
+	Rectf shape{ Character::GetShape() };
+	shape.height = (m_ActionState == ActionState::crouching) ? m_Height / 1.5f : m_Height;
+	return shape;
+}
+
+void Player::Relocate(Point2f newLocation)
+{
+	newLocation.x -= m_Width / 2;
+	m_Transform.SetTranslation(newLocation);
+}
+
+void Player::AttemptInteraction()
+{
+	m_pLevelManager->AttemptInteraction(GetShape());
+}
+
+void Player::Jump()
+{
+	if (m_pLevelManager->IsOnGround(GetShape(), m_Velocity))
+		m_Velocity.y += m_JumpForce;
+}
+
+void Player::UpdateVelocity(float elapsedSec, const Uint8* pKeysState)
+{
+	UpdateHorizontalVelocity(elapsedSec, pKeysState);
+	UpdateVerticalVelocity(elapsedSec, pKeysState);
+}
+
+void Player::DrawDebug() const
+{
 	float m_AnchorOffset{ 5.0f };
 	Rectf actorShape{ GetShape() };
 	Point2f topCenter{ actorShape.GetTopCenter(0, -m_AnchorOffset) };
@@ -89,50 +121,10 @@ void Player::Draw() const
 	utils::DrawPoint(centerRight);
 }
 
-Rectf Player::GetShape() const
-{
-	Rectf shape{ Character::GetShape() };
-	shape.height = (m_ActionState == ActionState::crouch) ? m_Height / 1.5f : m_Height;
-	return shape;
-}
-
-void Player::Relocate(Point2f newLocation)
-{
-	newLocation.x -= m_Width / 2;
-	m_Transform.SetTranslation(newLocation);
-}
-
-void Player::AttemptInteraction()
-{
- 	m_pLevelManager->AttemptInteraction(GetShape());
-}
-
-void Player::Jump()
-{
-	if (m_pLevelManager->IsOnGround(GetShape(), m_Velocity))
-		m_Velocity.y += m_JumpForce;
-}
-
-void Player::UpdateVelocity(float elapsedSec, const Uint8* pKeysState)
-{
-	UpdateHorizontalVelocity(elapsedSec, pKeysState);
-	UpdateVerticalVelocity(elapsedSec, pKeysState);
-}
-
-void Player::UpdateAnimation(float elapsedSec)
-{
-}
-
-void Player::UpdateState(const Uint8* pKeysState)
-{
-	m_ActionState = (pKeysState[SDL_SCANCODE_DOWN] || pKeysState[SDL_SCANCODE_S]) ? ActionState::crouch : ActionState::idle;
-	m_ActionState = (m_pLevelManager->IsOnStairs()) ? ActionState::stairs : m_ActionState;
-}
-
 void Player::UpdateHorizontalVelocity(float elapsedSec, const Uint8* pKeysState)
 {
 	m_Velocity.x = 0;
-	float speedModifier{ (m_ActionState == ActionState::crouch) ? 2.0f : 1.0f };
+	float speedModifier{ (m_ActionState == ActionState::crouching) ? 2.0f : 1.0f };
 	if (pKeysState[SDL_SCANCODE_LEFT] || pKeysState[SDL_SCANCODE_A])
 		m_Velocity.x -= m_HorizontalSpeed / speedModifier;
 	if (pKeysState[SDL_SCANCODE_RIGHT] || pKeysState[SDL_SCANCODE_D])
@@ -158,4 +150,61 @@ void Player::Clamp()
 		m_Transform.positionX = boundaries.left;
 	if (boundaries.left + boundaries.width < m_Transform.positionX + m_Width)
 		m_Transform.positionX = boundaries.left + boundaries.width - m_Width;
+}
+
+std::string Player::GetActionStateString() const
+{
+	switch (m_ActionState)
+	{
+	case Player::ActionState::idle:
+		return "Idle.\n";
+	case Player::ActionState::walking:
+		return "Walking.\n";
+	case Player::ActionState::ducking:
+		return "Ducking.\n";
+	case Player::ActionState::crouching:
+		return "Crouching.\n";
+	case Player::ActionState::upstairs:
+		return "Upstairs.\n";
+	case Player::ActionState::downstairs:
+		return "Downstairs.\n";
+	case Player::ActionState::jumping:
+		return "Jumping.\n";
+	case Player::ActionState::subweapon:
+		return "Subweapon.\n";
+	case Player::ActionState::hurt:
+		return "Hurt.\n";
+	case Player::ActionState::death:
+		return "Death.\n";
+	default:
+		return "\n";
+	}
+}
+
+void Player::ToggleDrawDebug()
+{
+	m_IsDrawDebug = !m_IsDrawDebug;
+}
+
+void Player::UpdateAnimation(float elapsedSec)
+{
+}
+
+void Player::UpdateState(const Uint8* pKeysState)
+{
+	m_IsStill = (m_Velocity.x == 0) ? true : false;
+	bool isCrouching{ pKeysState[SDL_SCANCODE_DOWN] || pKeysState[SDL_SCANCODE_S] };
+	m_ActionState = ActionState::idle;
+	if (m_Velocity.x != 0)
+		m_ActionState = ActionState::walking;
+	if (isCrouching)
+		m_ActionState = ActionState::ducking;
+	if (isCrouching && !m_IsStill)
+		m_ActionState = ActionState::crouching;
+	if (m_pLevelManager->IsOnStairs())
+		m_ActionState = m_pLevelManager->IsUpstairs(m_Velocity) ? ActionState::upstairs : ActionState::downstairs;
+	if (!m_IsStill && m_Velocity.x < -1.0f)
+		m_IsFlipped = true;
+	else if (!m_IsStill && 1.0f < m_Velocity.x)
+		m_IsFlipped = false;
 }

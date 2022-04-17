@@ -97,6 +97,15 @@ bool Stairs::CheckIfActive(const Point2f& point) const
 	return utils::IsPointInPolygon(point, m_Vertices);
 }
 
+bool Stairs::CheckDirection(const Vector2f& velocity) const
+{
+	if (m_LowPoint.x < m_HighPoint.x && 0 < velocity.x)
+		return true;
+	if (m_HighPoint.x < m_LowPoint.x && velocity.x < 0)
+		return true;
+	return false;
+}
+
 bool Stairs::IsAnchorInRange(const Point2f& anchor, const Point2f& mountPoint, float offset) const
 {
 	bool isInXRange{ mountPoint.x - offset < anchor.x&& anchor.x < mountPoint.x + offset };
@@ -116,6 +125,7 @@ bool Stairs::HandleCollisions(const Rectf& actorShape, Transform& actorTransform
 	}
 	return false;
 }
+
 bool Stairs::IsOnGround(const Rectf& actorShape, const Vector2f& actorVelocity)
 {
 	return false;

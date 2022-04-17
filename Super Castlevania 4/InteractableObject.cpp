@@ -7,3 +7,8 @@ InteractableObject::InteractableObject(const std::vector<Point2f>& vertices, boo
     : TerrainObject(vertices, isBackground)
 {
 }
+
+bool InteractableObject::CheckDirection(const Vector2f& actorVelocity) const
+{
+    return false;
+}

@@ -11,11 +11,12 @@ class Player final : public Character
 	enum class ActionState
 	{
 		idle,
-		ducking,
-		jumping,
 		walking,
-		stairs,
-		crouch,
+		ducking,
+		crouching,
+		upstairs,
+		downstairs,
+		jumping,
 		subweapon,
 		hurt,
 		death,
@@ -34,16 +35,21 @@ public:
 	void Relocate(Point2f newLocation);
 	void AttemptInteraction();
 	void Jump();
+	void ToggleDrawDebug();
 
 private:
 	const float m_HorizontalSpeed;
 	const float m_JumpForce;
 	const Vector2f m_Acceleration;
-	const Sprite* m_pSprite;
 	
 	LevelManager* m_pLevelManager;
+	Sprite* m_pSprite;
 	Vector2f m_Velocity;
 	ActionState m_ActionState;
+	bool m_IsDrawDebug;
+	bool m_IsDucked;
+	bool m_IsStill;
+	bool m_IsFlipped;
 
 	void UpdateAnimation(float elapsedSec);
 	void UpdateState(const Uint8* pKeysState);
@@ -52,4 +58,7 @@ private:
 	void UpdateVerticalVelocity(float elapsedsec, const Uint8* pKeysState);
 	void MovePlayer(float elapsedSec);
 	void Clamp();
+
+	void DrawDebug() const;
+	std::string GetActionStateString() const;
 };
