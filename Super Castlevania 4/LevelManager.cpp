@@ -10,7 +10,7 @@
 
 LevelManager::LevelManager()
 	: m_StageCounter{ 0 }
-	, m_SegmentCounter{ 0 }
+	, m_SegmentCounter{ 7 }
 	, m_CheckpointCounter{ 0 }
 	, m_pLevelLoader{ new LevelLoader() }
 	, m_pActiveInteractable{ nullptr }
@@ -40,7 +40,7 @@ Point2f LevelManager::GetSpawn() const
 	return m_SpawnPoint;
 }
 
-void LevelManager::Update(float elapsedSec, const Rectf& actorShape)
+void LevelManager::Update(float elapsedSec) const
 {
 	size_t nrOfTerrainObjects{ m_pTerrain.size() };
 	for (size_t i{ 0 }; i < nrOfTerrainObjects; ++i)
@@ -52,6 +52,11 @@ void LevelManager::Draw() const
 	m_pBackground->Draw(Transform{});
 	if (m_DrawDebug)
 		DrawDebug();
+}
+
+void LevelManager::DrawBackground() const
+{
+	//TODO: Implement parallax background layers
 }
 
 void LevelManager::DrawDebug() const
@@ -110,6 +115,11 @@ bool LevelManager::IsOnStairs() const
 bool LevelManager::IsUpstairs(const Vector2f& actorVelocity) const
 {
 	return m_pActiveInteractable->CheckDirection(actorVelocity);
+}
+
+bool LevelManager::IsOnBackground() const
+{
+	return m_IsOnBackground;
 }
 
 bool LevelManager::IsInTransitionArea(const Rectf& actorShape) const

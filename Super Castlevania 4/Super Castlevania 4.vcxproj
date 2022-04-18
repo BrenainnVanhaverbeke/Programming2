@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Axe.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="CrumblingBlock.cpp" />
@@ -158,6 +159,7 @@
     <ClCompile Include="DrawBridge.cpp" />
     <ClCompile Include="InteractableObject.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
+    <ClCompile Include="ProjectileManager.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="TerrainObject.cpp" />
     <ClCompile Include="LevelManager.cpp" />
@@ -178,6 +180,7 @@
     <ClCompile Include="SoundStream.cpp" />
     <ClCompile Include="structs.cpp" />
     <ClCompile Include="SVGParser.cpp" />
+    <ClCompile Include="ProjectileTag.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Projectile.cpp" />
@@ -186,6 +189,7 @@
     <ClCompile Include="Vector2f.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Axe.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="CrumblingBlock.h" />
@@ -194,6 +198,7 @@
     <ClInclude Include="InteractableObject.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="LevelLoader.h" />
+    <ClInclude Include="ProjectileManager.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="TerrainObject.h" />
     <ClInclude Include="LevelManager.h" />
@@ -208,6 +213,7 @@
     <ClInclude Include="SoundStream.h" />
     <ClInclude Include="structs.h" />
     <ClInclude Include="SVGParser.h" />
+    <ClInclude Include="ProjectileTag.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Projectile.h" />

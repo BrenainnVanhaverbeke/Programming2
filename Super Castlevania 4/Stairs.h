@@ -6,6 +6,11 @@ class Stairs final : public InteractableObject
 {
 public:
 	explicit Stairs(const std::vector<Point2f>& vercices, int lowPoint, int highPoint, bool autoMountTop, bool autoMountBottom, bool isBackground);
+	Stairs& operator=(const Stairs& rhs) = delete;
+	Stairs& operator=(Stairs&& rhs) = delete;
+	Stairs(const Stairs& other) = delete;
+	Stairs(Stairs&& other) = delete;
+	virtual ~Stairs();
 
 	virtual void Draw() const override;
 	virtual void Update(float elapsedSec) override;

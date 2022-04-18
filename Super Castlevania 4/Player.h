@@ -5,7 +5,7 @@
 class Texture;
 class LevelManager;
 class Sprite;
-class Projectile;
+enum class ProjectileTag;
 
 class Player final : public Character
 {
@@ -25,6 +25,10 @@ class Player final : public Character
 
 public:
 	explicit Player(LevelManager* pLevelManager);
+	Player(const Player& other) = delete;
+	Player(Player&& other) = delete;
+	Player& operator=(const Player& rhs) = delete;
+	Player& operator=(Player&& rhs) = delete;
 	~Player();
 
 	virtual void Update(float elapsedSec) override;
@@ -37,6 +41,8 @@ public:
 	void AttemptInteraction();
 	void Jump();
 	void Attack();
+	ProjectileTag Shoot();
+	bool IsFlipped() const;
 	void ToggleDrawDebug();
 
 private:
@@ -45,7 +51,7 @@ private:
 	
 	LevelManager* m_pLevelManager;
 	Sprite* m_pSprite;
-	Projectile* m_pProjectile;
+	ProjectileTag m_ProjectileTag;
 	ActionState m_ActionState;
 	Rectf m_Weapon;
 	bool m_IsDrawDebug;

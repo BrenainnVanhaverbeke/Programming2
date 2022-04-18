@@ -5,6 +5,11 @@ class InteractableObject : public TerrainObject
 {
 public:
 	explicit InteractableObject(const std::vector<Point2f>& vertices, bool isBackground);
+	InteractableObject& operator=(const InteractableObject& rhs) = delete;
+	InteractableObject& operator=(InteractableObject&& rhs) = delete;
+	InteractableObject(const InteractableObject& other) = delete;
+	InteractableObject(InteractableObject&& other) = delete;
+	virtual ~InteractableObject();
 
 	virtual bool TryInteraction(const Rectf& shape, bool& isOnBackground, bool& isOnStairs) = 0;
 	virtual bool IsDoneInteracting(const Character& character) const = 0;

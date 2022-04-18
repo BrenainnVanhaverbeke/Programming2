@@ -4,7 +4,13 @@
 class CrumblingBlock final : public TerrainObject
 {
 public:
-	CrumblingBlock(const std::vector<Point2f>& vertices, bool isBackground);
+	explicit CrumblingBlock(const std::vector<Point2f>& vertices, bool isBackground);
+	virtual ~CrumblingBlock();
+	CrumblingBlock& operator=(const CrumblingBlock& rhs) = delete;
+	CrumblingBlock& operator=(CrumblingBlock&& rhs) = delete;
+	CrumblingBlock(const CrumblingBlock& other) = delete;
+	CrumblingBlock(CrumblingBlock&& other) = delete;
+
 
 	virtual void Update(float elapsedSec) override;
 	virtual void CheckOverlap(const Rectf& overlappingShape) override;

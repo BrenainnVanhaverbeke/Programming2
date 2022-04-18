@@ -11,6 +11,10 @@ class TerrainObject : public GameObject
 public:
 	explicit TerrainObject(const std::vector<Point2f>& vertices, bool isBackground);
 	explicit TerrainObject(const std::vector<Point2f>& vertices, const Point2f& pivot, bool isBackground);
+	TerrainObject& operator=(const TerrainObject& rhs) = delete;
+	TerrainObject& operator=(TerrainObject&& rhs) = delete;
+	TerrainObject(const TerrainObject& other) = delete;
+	TerrainObject(TerrainObject&& other) = delete;
 	virtual ~TerrainObject();
 
 	virtual void Update(float elapsedSec) override;

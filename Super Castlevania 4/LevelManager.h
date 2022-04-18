@@ -20,13 +20,15 @@ public:
 	Rectf GetBoundaries() const;
 	Point2f GetSpawn() const;
 
-	void Update(float elapsedSec, const Rectf& actorShape);
+	void Update(float elapsedSec) const;
 	void Draw() const;
+	void DrawBackground() const;
 
 	void HandleCollisions(Character& character);
 	bool IsOnGround(const Character& character) const;
 	bool IsOnStairs() const;
 	bool IsUpstairs(const Vector2f& actorVelocity) const;
+	bool IsOnBackground() const;
 	bool IsInTransitionArea(const Rectf& actorShape) const;
 	void ReloadCheckpoint();
 

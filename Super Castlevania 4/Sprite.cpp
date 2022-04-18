@@ -36,18 +36,32 @@ void Sprite::Update(float elapsedSec, int rowOffset, bool freezeFrame)
 	UpdateSourceRect(rowOffset);
 }
 
-void Sprite::Draw(const Transform& origin, bool isFlipped) const
+void Sprite::Draw(const Transform& transform, bool isFlipped) const
 {
 	TextureManager& textureManager{ TextureManager::GetInstance() };
 	glPushMatrix();
 	{
-		glTranslatef(origin.positionX, origin.positionY, 0);
+		glTranslatef(transform.positionX, transform.positionY, 0);
 		if (isFlipped)
 		{
 			glScalef(-1, 1, 1);
 			glTranslatef(-m_SourceRect.width, 0, 0);
 		}
-		textureManager.DrawSprite(m_Path, origin, m_SourceRect, isFlipped);
+		textureManager.DrawTexture(m_Path, m_SourceRect, isFlipped);
+	}
+	glPopMatrix();
+}
+
+void Sprite::DrawRotatedCenter(const Transform& origin, float width, float height, bool isFlipped)
+{
+	TextureManager& textureManager{ TextureManager::GetInstance() };
+	Point2f pivot{ origin.positionX + (width / 2), origin.positionY + (height / 2)};
+	glPushMatrix();
+	{
+		glTranslatef(pivot.x, pivot.y, 0);
+		glRotatef(origin.angle, 0, 0, 1);
+		glTranslatef(-width / 2, -height / 2, 0);
+		textureManager.DrawTexture(m_Path, m_SourceRect, isFlipped);
 	}
 	glPopMatrix();
 }

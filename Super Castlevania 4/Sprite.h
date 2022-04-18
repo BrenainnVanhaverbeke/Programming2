@@ -4,12 +4,17 @@
 class Sprite
 {
 public:
-	Sprite(std::string fileName);
-	Sprite(std::string fileName, const Rectf& sourceRect, int frames = 1, int rows = 1, int framePerSeconds = 1);
+	explicit Sprite(std::string fileName);
+	explicit Sprite(std::string fileName, const Rectf& sourceRect, int frames = 1, int rows = 1, int framePerSeconds = 1);
+	Sprite& operator= (const Sprite& rhs) = delete;
+	Sprite& operator= (Sprite&& rhs) = delete;
+	Sprite(const Sprite& other) = delete;
+	Sprite(Sprite&& other) = delete;
 	~Sprite();
 
 	void Update(float elapsedSec, int rowOffset = 0, bool freezeFrame = false);
 	void Draw(const Transform& origin, bool isFlipped = false) const;
+	void DrawRotatedCenter(const Transform& origin, float width, float height, bool isFlipped = false);
 
 	void SetSourceRect(const Rectf& sourceRect);
 

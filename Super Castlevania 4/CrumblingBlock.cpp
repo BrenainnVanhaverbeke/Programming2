@@ -3,16 +3,6 @@
 #include "CrumblingBlock.h"
 #include <iostream>
 
-//CrumblingBlock::CrumblingBlock(const std::vector<Point2f>& vertices, bool isBackground)
-//	: TerrainObject(vertices, isBackground)
-//	, m_StepOnTime{ 0 }
-//	, m_MaxStepOnTime{ 1.5f }
-//	, m_IsFalling{ false }
-//	, m_Acceleration{ -981.0f }
-//	, m_Velocity{ 0 }
-//{
-//}
-
 CrumblingBlock::CrumblingBlock(const std::vector<Point2f>& vertices, bool isBackground)
 	: TerrainObject(vertices, isBackground)
 	, m_StepOnTime{ 0 }
@@ -20,6 +10,10 @@ CrumblingBlock::CrumblingBlock(const std::vector<Point2f>& vertices, bool isBack
 	, m_IsFalling{ false }
 	, m_Acceleration{ -981.0f }
 	, m_Velocity{ 0 }
+{
+}
+
+CrumblingBlock::~CrumblingBlock()
 {
 }
 

@@ -2,7 +2,7 @@
 #include "Player.h"
 #include "Sprite.h"
 #include "LevelManager.h"
-#include "Projectile.h"
+#include "ProjectileTag.h"
 
 #include "utils.h"
 #include <iostream>
@@ -21,7 +21,7 @@ Player::Player(LevelManager* pLevelManager)
 	, m_Weapon{ 0, 0, 50.0f, 4.0f }
 	, m_IsAttacking{ false }
 	, m_AttackTime{ 0.0f }
-	, m_pProjectile{ nullptr }
+	, m_ProjectileTag{ ProjectileTag::axe }
 {
 	Point2f spawnPoint{ pLevelManager->GetSpawn() };
 	spawnPoint.x -= m_Width / 2;
@@ -93,6 +93,17 @@ void Player::Jump()
 void Player::Attack()
 {
 	m_IsAttacking = true;
+}
+
+ProjectileTag Player::Shoot()
+{
+	m_ActionState = ActionState::subweapon;
+	return m_ProjectileTag;
+}
+
+bool Player::IsFlipped() const
+{
+	return m_IsFlipped;
 }
 
 void Player::UpdateVelocity(float elapsedSec, const Uint8* pKeysState)

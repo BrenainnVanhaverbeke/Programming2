@@ -15,12 +15,13 @@ void Camera::SetLevelBoundaries(const Rectf& levelBoundaries)
 	m_LevelBoundaries = levelBoundaries;
 }
 
-void Camera::Transform(const Rectf& target) const
+Point2f Camera::Transform(const Rectf& target) const
 {
 	Point2f bottomLeftPos{ Track(target) };
 	Clamp(bottomLeftPos);
 	glScalef(m_ScaleFactor, m_ScaleFactor, 1.0f);
 	glTranslatef(-bottomLeftPos.x, -bottomLeftPos.y, 0);
+	return bottomLeftPos;
 }
 
 Point2f Camera::Track(const Rectf& target) const

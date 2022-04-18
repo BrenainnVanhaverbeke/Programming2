@@ -120,6 +120,15 @@
     <ClCompile Include="Player.cpp">
       <Filter>Game Files\Character Objects</Filter>
     </ClCompile>
+    <ClCompile Include="ProjectileManager.cpp">
+      <Filter>Game Files\Manager Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Axe.cpp">
+      <Filter>Game Files\Projectile Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectileTag.cpp">
+      <Filter>Game Files\Projectile Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -200,11 +209,20 @@
     <ClInclude Include="Sprite.h">
       <Filter>Game Files</Filter>
     </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Game Files\Character Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectileManager.h">
+      <Filter>Game Files\Manager Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Axe.h">
+      <Filter>Game Files\Projectile Objects</Filter>
+    </ClInclude>
     <ClInclude Include="Projectile.h">
       <Filter>Game Files\Abstract Classes</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Game Files\Character Objects</Filter>
+    <ClInclude Include="ProjectileTag.h">
+      <Filter>Game Files\Projectile Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,9 +1,9 @@
 #pragma once
 
-class DefaultTerrain;
 class Player;
 class Camera;
 class LevelManager;
+class ProjectileManager;
 
 class Game final
 {
@@ -30,6 +30,7 @@ private:
 	const Window m_Window;
 
 	LevelManager* m_pLevelManager;
+	ProjectileManager* m_pProjectileManager;
 	Player* m_pPlayer;
 	Camera* m_pCamera;
 

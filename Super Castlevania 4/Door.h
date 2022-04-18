@@ -3,7 +3,12 @@
 class Door final : public InteractableObject
 {
 public:
-	Door(const std::vector<Point2f>& vertices);
+	explicit Door(const std::vector<Point2f>& vertices);
+	Door& operator=(const Door& rhs) = delete;
+	Door& operator=(Door&& rhs) = delete;
+	Door(const Door& other) = delete;
+	Door(Door&& other) = delete;
+	virtual ~Door();
 
 	virtual void Update(float elapsedSec) override;
 	virtual void Draw() const override;

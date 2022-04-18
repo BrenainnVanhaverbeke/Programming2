@@ -10,6 +10,10 @@ Character::Character(Transform transform, float width, float height, const Vecto
 {
 }
 
+Character::~Character()
+{
+}
+
 Rectf Character::GetShape() const
 {
 	return Rectf{

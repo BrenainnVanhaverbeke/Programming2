@@ -198,6 +198,10 @@ Ellipsef::Ellipsef(float centerX, float centerY, float radiusX, float radiusY)
 {
 }
 
+
+//-----------------------------------------------------------------
+// Transform Constructors
+//-----------------------------------------------------------------
 Transform::Transform()
 	: Transform(0.0f, 0.0f, 0.0f, 1.0f)
 {
@@ -216,6 +220,9 @@ Transform::Transform(float positionX, float positionY, float angle, float scale)
 {
 }
 
+//-----------------------------------------------------------------
+// Transform Helpers
+//-----------------------------------------------------------------
 void Transform::SetTranslation(const Point2f& point)
 {
 	positionX = point.x;

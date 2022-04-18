@@ -12,6 +12,10 @@ class TrapDoor final : public TerrainObject
 
 public:
 	explicit TrapDoor(const std::vector<Point2f>& vertices, bool isBackground);
+	TrapDoor& operator= (const TrapDoor& rhs) = delete;
+	TrapDoor& operator= (TrapDoor&& rhs) = delete;
+	TrapDoor(const TrapDoor& other) = delete;
+	TrapDoor(TrapDoor&& other) = delete;
 	virtual ~TrapDoor();
 
 	virtual void Draw() const override;

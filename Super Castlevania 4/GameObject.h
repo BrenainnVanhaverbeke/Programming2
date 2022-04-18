@@ -2,9 +2,14 @@
 class GameObject
 {
 public:
-	explicit GameObject();
+	GameObject();
 	explicit GameObject(const Point2f& origin);
 	explicit GameObject(const Transform& transform);
+	GameObject& operator=(const GameObject& rhs) = delete;
+	GameObject& operator=(GameObject&& rhs) = delete;
+	GameObject(const GameObject& other) = delete;
+	GameObject(GameObject&& other) = delete;
+	virtual ~GameObject();
 
 	virtual void Update(float elapsedSec) = 0;
 	virtual void Draw() const = 0;

@@ -46,11 +46,16 @@ void TextureManager::GetTextureDimensions(const std::string& fileName, float& wi
 	}
 }
 
-void TextureManager::DrawSprite(const std::string& fileName, const Transform& origin, const Rectf& sourceRect, bool isFlipped)
+void TextureManager::DrawTexture(const std::string& fileName, const Rectf& sourceRect, bool isFlipped)
+{
+	DrawTexture(fileName, Point2f{}, sourceRect, isFlipped);
+}
+
+void TextureManager::DrawTexture(const std::string& fileName, const Point2f& point, const Rectf& sourceRect, bool isFlipped)
 {
 	if (m_pTextures.find(fileName) == m_pTextures.end())
 		LoadTexture(fileName);
-	m_pTextures.at(fileName)->Draw(Point2f{}, sourceRect);
+	m_pTextures.at(fileName)->Draw(point, sourceRect);
 }
 
 void TextureManager::LoadTexture(const std::string& fileName)

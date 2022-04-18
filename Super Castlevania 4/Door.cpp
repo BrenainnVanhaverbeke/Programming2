@@ -9,6 +9,10 @@ Door::Door(const std::vector<Point2f>& vertices)
 {
 }
 
+Door::~Door()
+{
+}
+
 void Door::Update(float elapsedSec)
 {
 }

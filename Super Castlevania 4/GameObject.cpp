@@ -18,6 +18,10 @@ GameObject::GameObject(const Transform& transform)
 {
 }
 
+GameObject::~GameObject()
+{
+}
+
 Transform& GameObject::GetTransform()
 {
 	return m_Transform;
