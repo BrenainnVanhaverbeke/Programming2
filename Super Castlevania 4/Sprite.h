@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 
-class Sprite
+class Sprite final
 {
 public:
 	explicit Sprite(std::string fileName);

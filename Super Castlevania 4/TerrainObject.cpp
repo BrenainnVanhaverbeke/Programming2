@@ -28,6 +28,10 @@ void TerrainObject::Update(float elapsedSec)
 
 void TerrainObject::Draw() const
 {
+}
+
+void TerrainObject::DrawDebug() const
+{
 	utils::SetColor(m_IsBackground ? Color4f{ 1.0f, 0, 0, 1.0f } : Color4f{ 1.0f, 1.0f, 1.0f, 1.0f });
 	utils::DrawPolygon(m_Vertices);
 	utils::SetColor(Color4f{ 1.0f, 0, 0, 1.0f });

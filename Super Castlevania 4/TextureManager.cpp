@@ -7,12 +7,10 @@ TextureManager* TextureManager::m_Instance{ nullptr };
 
 TextureManager::TextureManager()
 {
-	std::cout << "Texture manager instance created.\n";
 }
 
 TextureManager::~TextureManager()
 {
-	std::cout << "Texture manager deconstructing.\n";
 	std::unordered_map<std::string, Texture*>::iterator iterator{ m_pTextures.begin() };
 	Texture* texture;
 	while (iterator != m_pTextures.end())
@@ -61,6 +59,5 @@ void TextureManager::DrawTexture(const std::string& fileName, const Point2f& poi
 void TextureManager::LoadTexture(const std::string& fileName)
 {
 	const std::string imagesFolder{ "./Resources/Images/" };
-	std::cout << "Creating new texture. Filename: " << fileName << std::endl;
 	m_pTextures.insert(std::make_pair(fileName, new Texture(imagesFolder + fileName)));
 }

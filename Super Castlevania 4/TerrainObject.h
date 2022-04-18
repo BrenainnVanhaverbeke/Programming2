@@ -19,6 +19,7 @@ public:
 
 	virtual void Update(float elapsedSec) override;
 	virtual void Draw() const override;
+	virtual void DrawDebug() const;
 	virtual void CheckOverlap(const Rectf& overlappingShape);
 	virtual bool IsOverlapping(const Rectf& overlappingShape);
 

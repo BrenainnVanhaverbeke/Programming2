@@ -25,14 +25,14 @@
     <Filter Include="Game Files\Terrain Objects">
       <UniqueIdentifier>{da7f1377-b080-4566-89c1-52f6f4c74786}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game Files\Manager Classes\Level">
-      <UniqueIdentifier>{9c017081-4c1c-4d9d-b04a-688abb807798}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game Files\Character Objects">
       <UniqueIdentifier>{39dddf1c-7a1a-4fdd-a697-94b61dcef9ef}</UniqueIdentifier>
     </Filter>
     <Filter Include="Game Files\Projectile Objects">
       <UniqueIdentifier>{0576a853-116c-4824-a09d-7d411e715eaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\Loader Class">
+      <UniqueIdentifier>{9c017081-4c1c-4d9d-b04a-688abb807798}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -97,10 +97,10 @@
       <Filter>Game Files\Terrain Objects</Filter>
     </ClCompile>
     <ClCompile Include="LevelLoader.cpp">
-      <Filter>Game Files\Manager Classes\Level</Filter>
+      <Filter>Game Files\Loader Class</Filter>
     </ClCompile>
     <ClCompile Include="LevelManager.cpp">
-      <Filter>Game Files\Manager Classes\Level</Filter>
+      <Filter>Game Files\Loader Class</Filter>
     </ClCompile>
     <ClCompile Include="Door.cpp">
       <Filter>Game Files\Terrain Objects</Filter>
@@ -192,10 +192,7 @@
       <Filter>Game Files\Terrain Objects</Filter>
     </ClInclude>
     <ClInclude Include="LevelLoader.h">
-      <Filter>Game Files\Manager Classes\Level</Filter>
-    </ClInclude>
-    <ClInclude Include="LevelManager.h">
-      <Filter>Game Files\Manager Classes\Level</Filter>
+      <Filter>Game Files\Loader Class</Filter>
     </ClInclude>
     <ClInclude Include="Door.h">
       <Filter>Game Files\Terrain Objects</Filter>
@@ -223,6 +220,9 @@
     </ClInclude>
     <ClInclude Include="ProjectileTag.h">
       <Filter>Game Files\Projectile Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelManager.h">
+      <Filter>Game Files\Manager Classes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

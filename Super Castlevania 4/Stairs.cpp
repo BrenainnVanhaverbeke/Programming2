@@ -51,13 +51,11 @@ bool Stairs::TryInteraction(const Rectf& shape, bool& isOnBackground, bool& isOn
 	if (IsAnchorInRange(shape.GetBottomCenter(), m_LowPoint, offset)
 		|| IsAnchorInRange(shape.GetBottomCenter(), m_HighPoint, offset))
 	{
-		std::cout << "Mounting stairs on mount point.\n";
 		isOnStairs = true;
 		return isOnStairs;
 	}
 	if (IsOverlapping(shape))
 	{
-		std::cout << "Mounting stairs on shape overlap.\n";
 		isOnStairs = true;
 	}
 	return isOnStairs;

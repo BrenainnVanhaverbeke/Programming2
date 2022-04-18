@@ -10,7 +10,7 @@
 
 LevelManager::LevelManager()
 	: m_StageCounter{ 0 }
-	, m_SegmentCounter{ 7 }
+	, m_SegmentCounter{ 0 }
 	, m_CheckpointCounter{ 0 }
 	, m_pLevelLoader{ new LevelLoader() }
 	, m_pActiveInteractable{ nullptr }
@@ -50,6 +50,9 @@ void LevelManager::Update(float elapsedSec) const
 void LevelManager::Draw() const
 {
 	m_pBackground->Draw(Transform{});
+	size_t nrOfTerrainObjects{ m_pTerrain.size() };
+	for (size_t i{ 0 }; i < nrOfTerrainObjects; ++i)
+		m_pTerrain.at(i)->Draw();
 	if (m_DrawDebug)
 		DrawDebug();
 }
@@ -61,12 +64,12 @@ void LevelManager::DrawBackground() const
 
 void LevelManager::DrawDebug() const
 {
-	size_t nrOfTerrainObjects{ m_pTerrain.size() };
-	for (size_t i{ 0 }; i < nrOfTerrainObjects; ++i)
-		m_pTerrain.at(i)->Draw();
 	size_t nrOfInteractableObjects{ m_pInteractableObjects.size() };
 	for (size_t i{ 0 }; i < nrOfInteractableObjects; i++)
 		m_pInteractableObjects.at(i)->Draw();
+	size_t nrOfTerrainObjects{ m_pTerrain.size() };
+	for (size_t i{ 0 }; i < nrOfTerrainObjects; ++i)
+		m_pTerrain.at(i)->DrawDebug();
 	utils::SetColor(Color4f{ 1.0f, 1.0f, 0, 1.0f });
 	utils::DrawRect(m_TransitionArea);
 	utils::SetColor(Color4f{ 0, 1.0f, 1.0f, 1.0f });

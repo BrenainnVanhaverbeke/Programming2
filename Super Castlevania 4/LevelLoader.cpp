@@ -29,7 +29,6 @@ void LevelLoader::LogJson() const
 
 Rectf LevelLoader::LoadBoundaries(int stage, int segment) const
 {
-	std::cout << "Loading boundaries.\n";
 	std::string objectName{ "boundaries" };
 	json boundaries{ GetJsonObject(stage, segment, objectName) };
 	return GetRectFromJson(boundaries);
@@ -37,7 +36,6 @@ Rectf LevelLoader::LoadBoundaries(int stage, int segment) const
 
 Rectf LevelLoader::LoadTransitionArea(int stage, int segment) const
 {
-	std::cout << "Loading transition area.\n";
 	std::string objectName{ "transitionArea" };
 	json transitionArea{ GetJsonObject(stage, segment, objectName) };
 	return GetRectFromJson(transitionArea);
@@ -52,7 +50,6 @@ Rectf LevelLoader::LoadBackgroundSource(int stage, int segment) const
 
 Point2f LevelLoader::LoadPlayerSpawn(int stage, int segment) const
 {
-	std::cout << "Loading player spawn.\n";
 	std::string objectName{ "playerSpawn" };
 	json playerSpawn{ GetJsonObject(stage, segment, objectName) };
 	return Point2f{ playerSpawn.at(0), playerSpawn.at(1) };
@@ -60,7 +57,6 @@ Point2f LevelLoader::LoadPlayerSpawn(int stage, int segment) const
 
 std::vector<TerrainObject*> LevelLoader::LoadTerrain(int stage, int segment) const
 {
-	std::cout << "Loading terrain.\n";
 	std::string objectName{ "terrain" };
 	json terrainJson{ GetJsonObject(stage, segment, objectName) };
 	size_t nrOfCrumblingBlocks{ terrainJson.size() };
@@ -78,7 +74,6 @@ std::vector<TerrainObject*> LevelLoader::LoadTerrain(int stage, int segment) con
 
 std::vector<InteractableObject*> LevelLoader::LoadInteractables(int stage, int segment) const
 {
-	std::cout << "Loading interactables.\n";
 	std::string objectName{ "interactableObjects" };
 	json jsonInteractables{ GetJsonObject(stage, segment, objectName) };
 	size_t nrOfInteractables{ jsonInteractables.size() };
@@ -167,21 +162,11 @@ std::vector<Point2f> LevelLoader::GetVerticesFromJsonObject(const json& jsonObje
 TerrainObject* LevelLoader::TerrainFactory(const std::string& terrainType, const std::vector<Point2f>& vertices, bool isBackground) const
 {
 	if (terrainType == "crumblingBlock")
-	{
-		std::cout << "Creating crumbling block.\n";
 		return new CrumblingBlock(vertices, isBackground);
-	}
 	if (terrainType == "drawBridge")
-	{
-		std::cout << "Creating drawbridge.\n";
 		return new DrawBridge(vertices, isBackground);
-	}
 	if (terrainType == "trapDoor")
-	{
-		std::cout << "Creating trapdoor.\n";
 		return new TrapDoor(vertices, isBackground);
-	}
-	std::cout << "Creating default terrain.\n";
 	return new TerrainObject(vertices, isBackground);
 }
 

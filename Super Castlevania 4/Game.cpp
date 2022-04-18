@@ -15,6 +15,7 @@ Game::Game(const Window& window)
 	, m_pProjectileManager{ new ProjectileManager() }
 {
 	Initialize();
+	DisplayInstructions();
 }
 
 Game::~Game()
@@ -110,4 +111,31 @@ void Game::ClearBackground() const
 {
 	glClearColor(0.0f, 0.0f, 0.3f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
+}
+
+void Game::DisplayInstructions()
+{
+	std::cout << "Arrow left/right or A/D keys to move.\n";
+	std::cout << "Arrow down or S key to crouch.\n";
+	std::cout << "Arrow up or W key to interact with stairs or doors.\n";
+	std::cout << "Space bar to jump.\n";
+	std::cout << "Q to whip attack (Sprite not implemented).\n";
+	std::cout << "E to throw an axe.\n";
+	std::cout << "O to enable debug overlay.\n\n";
+	std::cout << "Overlay explanation:\n";
+	std::cout << "\tPlayer:\n";
+	std::cout << "\t\tMagenta rectangle: hitbox\n";
+	std::cout << "\t\tRed dots: Horizontal collision anchors.\n";
+	std::cout << "\t\tGreen dots and central red dot: Vertical collision anchors.\n";
+	std::cout << "\t\tYellow dot: Stair climb anchor.\n";
+	std::cout << "\t\tWhite dot: Translation anchor.\n";
+	std::cout << "\tTerrain:\n";
+	std::cout << "\t\tWhite lines: Terrain object outline.\n";
+	std::cout << "\t\tRed dot: Translation anchor.\n";
+	std::cout << "\tStairs:\n";
+	std::cout << "\t\tCyan rectangle: stairs surface and interaction range.\n";
+	std::cout << "\t\tRed dot: Mount point without automount.\n";
+	std::cout << "\t\tGreen dot: Mount point with automount.\n";
+	std::cout << "\tDoors:\n";
+	std::cout << "\t\tGreen rectangle: interaction hitbox.\n";
 }

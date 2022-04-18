@@ -1,5 +1,5 @@
 #pragma once
-class Camera
+class Camera final
 {
 public:
 	explicit Camera(float width, float height);
