@@ -93,6 +93,12 @@ std::vector<InteractableObject*> LevelLoader::LoadInteractables(int stage, int s
 	return pInteractables;
 }
 
+bool LevelLoader::IsSegmentCheckpoint(int stage, int segment) const
+{
+	std::string objectName{ "isCheckPoint" };
+	return GetJsonObject(stage, segment, objectName);
+}
+
 std::string LevelLoader::GetSpriteSheetString(int stage) const
 {
 	json parsedJson{ json::parse(m_RawJson) };

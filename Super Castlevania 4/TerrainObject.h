@@ -4,6 +4,8 @@
 #include "utils.h"
 #include <vector>
 
+class Character;
+
 class TerrainObject : public GameObject
 {
 public:
@@ -16,8 +18,8 @@ public:
 	virtual void CheckOverlap(const Rectf& overlappingShape);
 	virtual bool IsOverlapping(const Rectf& overlappingShape);
 
-	virtual bool HandleCollisions(const Rectf& actorShape, Transform& actorTransform, Vector2f& actorVelocity);
-	virtual bool IsOnGround(const Rectf& actorShape, const Vector2f& actorVelocity);
+	virtual bool HandleCollisions(Character& character);
+	virtual bool IsOnGround(const Character& character);
 
 	bool IsBackground() const;
 
@@ -27,8 +29,8 @@ protected:
 	std::vector<Point2f> m_Vertices;
 	bool m_IsBackground;
 
-	bool CheckVerticalCollisions(const std::vector<Point2f>& vertices, const Rectf& actorShape, Transform& actorTransform, Vector2f& actorVelocity, utils::HitInfo hitInfo) const;
-	bool CheckHorizontalCollisions(const std::vector<Point2f>& vertices, const Rectf& actorShape, Transform& actorTransform, Vector2f& actorVelocity, utils::HitInfo hitInfo) const;
+	bool CheckVerticalCollisions(const std::vector<Point2f>& vertices, Character& character, utils::HitInfo hitInfo) const;
+	bool CheckHorizontalCollisions(const std::vector<Point2f>& vertices, Character& character, utils::HitInfo hitInfo) const;
 
 	std::vector<Point2f> GetRaycastAnchors(const Rectf& actorShape) const;
 };

@@ -12,11 +12,11 @@ public:
 	virtual void CheckOverlap(const Rectf& overlappingShape) override;
 
 	virtual bool IsOverlapping(const Rectf& shape) override;
-	virtual bool HandleCollisions(const Rectf& actorShape, Transform& actorTransform, Vector2f& actorVelocity) override;
-	virtual bool IsOnGround(const Rectf& actorShape, const Vector2f& actorVelocity) override;
+	virtual bool HandleCollisions(Character& character) override;
+	virtual bool IsOnGround(const Character& character) override;
 	
 	virtual bool TryInteraction(const Rectf& shape, bool& isOnBackground, bool& isOnStairs) override;
-	virtual bool IsDoneInteracting(const Rectf& actorShape) const override;
+	virtual bool IsDoneInteracting(const Character& character) const override;
 	virtual bool IsAutoInteracting() const override;
 	virtual bool TryAutoInteracting(const Rectf& shape, bool& isOnStairs, bool& isOnBackground) const override;
 	virtual bool CheckIfActive(const Point2f& point) const override;
@@ -29,4 +29,5 @@ private:
 	bool m_IsAutoMountingBottom;
 
 	bool IsAnchorInRange(const Point2f& anchor, const Point2f& mountPoint, float offset) const;
+	bool IsCharacterInBounds(const Point2f& anchor) const;
 };

@@ -2,6 +2,7 @@
 #include "Trapdoor.h"
 #include <iostream>
 #include "Matrix2x3.h"
+#include "Character.h"
 
 TrapDoor::TrapDoor(const std::vector<Point2f>& vertices, bool isBackground)
 	: TerrainObject(vertices, GetPivot(vertices), isBackground)
@@ -47,13 +48,13 @@ void TrapDoor::Update(float elapsedSec)
 	}
 }
 
-bool TrapDoor::HandleCollisions(const Rectf& actorShape, Transform& actorTransform, Vector2f& actorVelocity)
+bool TrapDoor::HandleCollisions(Character& character)
 {
 	if (m_State == TrapDoorState::rotating) 
 		return false;
 	const float velocityThreshold{ -30.0f };
-	bool isFalling{ actorVelocity.y < velocityThreshold };
-	bool isColliding{ TerrainObject::HandleCollisions(actorShape, actorTransform, actorVelocity) };
+	bool isFalling{ character.GetVelocity().y < velocityThreshold};
+	bool isColliding{ TerrainObject::HandleCollisions(character) };
 	if (isColliding && isFalling)
 	{
 		std::cout << "Activating.\n";
@@ -63,11 +64,11 @@ bool TrapDoor::HandleCollisions(const Rectf& actorShape, Transform& actorTransfo
 	return isColliding;
 }
 
-bool TrapDoor::IsOnGround(const Rectf& actorShape, const Vector2f& actorVelocity)
+bool TrapDoor::IsOnGround(const Character& character)
 {
 	if (m_State == TrapDoorState::rotating)
 		return false;
-	return TerrainObject::IsOnGround(actorShape, actorVelocity);
+	return TerrainObject::IsOnGround(character);
 }
 
 Point2f TrapDoor::GetPivot(const std::vector<Point2f>& vertices)

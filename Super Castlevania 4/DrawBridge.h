@@ -7,10 +7,7 @@ public:
 	DrawBridge(const std::vector<Point2f>& vertices, bool isBackground);
 
 	virtual void Update(float elapsedSec) override;
-	virtual void CheckOverlap(const Rectf& overlapShape) override;
-	virtual bool IsOverlapping(const Rectf& overlappingShape) override;
-
-	virtual bool HandleCollisions(const Rectf& actorShape, Transform& actorTransform, Vector2f& actorVelocity) override;
+	virtual bool HandleCollisions(Character& character) override;
 
 private:
 	bool m_IsClosing;

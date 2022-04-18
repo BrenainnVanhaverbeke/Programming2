@@ -20,19 +20,9 @@ void DrawBridge::Update(float elapsedSec)
 		CloseDrawBridge(elapsedSec);
 }
 
-void DrawBridge::CheckOverlap(const Rectf& overlapShape)
+bool DrawBridge::HandleCollisions(Character& character)
 {
-	IsOnGround(overlapShape, Vector2f{});
-}
-
-bool DrawBridge::IsOverlapping(const Rectf& overlappingShape)
-{
-	return IsOnGround(overlappingShape, Vector2f{});
-}
-
-bool DrawBridge::HandleCollisions(const Rectf& actorShape, Transform& actorTransform, Vector2f& actorVelocity)
-{
-	if (TerrainObject::HandleCollisions(actorShape, actorTransform, actorVelocity))
+	if (TerrainObject::HandleCollisions(character))
 	{
 		m_IsClosing = true;
 		return true;

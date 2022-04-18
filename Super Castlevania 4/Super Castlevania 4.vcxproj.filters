@@ -28,6 +28,12 @@
     <Filter Include="Game Files\Manager Classes\Level">
       <UniqueIdentifier>{9c017081-4c1c-4d9d-b04a-688abb807798}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Files\Character Objects">
+      <UniqueIdentifier>{39dddf1c-7a1a-4fdd-a697-94b61dcef9ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\Projectile Objects">
+      <UniqueIdentifier>{0576a853-116c-4824-a09d-7d411e715eaa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -69,9 +75,6 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>Game Files\Abstract Classes</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Game Files</Filter>
-    </ClCompile>
     <ClCompile Include="Camera.cpp">
       <Filter>Game Files</Filter>
     </ClCompile>
@@ -111,6 +114,12 @@
     <ClCompile Include="Sprite.cpp">
       <Filter>Game Files</Filter>
     </ClCompile>
+    <ClCompile Include="Projectile.cpp">
+      <Filter>Game Files\Abstract Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Game Files\Character Objects</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -148,9 +157,6 @@
     </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Game Files\Abstract Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Game Files</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Game Files</Filter>
@@ -193,6 +199,12 @@
     </ClInclude>
     <ClInclude Include="Sprite.h">
       <Filter>Game Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectile.h">
+      <Filter>Game Files\Abstract Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Game Files\Character Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

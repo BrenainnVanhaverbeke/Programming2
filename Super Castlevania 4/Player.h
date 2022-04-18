@@ -5,6 +5,7 @@
 class Texture;
 class LevelManager;
 class Sprite;
+class Projectile;
 
 class Player final : public Character
 {
@@ -35,29 +36,33 @@ public:
 	void Relocate(Point2f newLocation);
 	void AttemptInteraction();
 	void Jump();
+	void Attack();
 	void ToggleDrawDebug();
 
 private:
 	const float m_HorizontalSpeed;
 	const float m_JumpForce;
-	const Vector2f m_Acceleration;
 	
 	LevelManager* m_pLevelManager;
 	Sprite* m_pSprite;
-	Vector2f m_Velocity;
+	Projectile* m_pProjectile;
 	ActionState m_ActionState;
+	Rectf m_Weapon;
 	bool m_IsDrawDebug;
 	bool m_IsDucked;
 	bool m_IsStill;
 	bool m_IsFlipped;
+	bool m_IsAttacking;
+	float m_AttackTime;
 
-	void UpdateAnimation(float elapsedSec);
 	void UpdateState(const Uint8* pKeysState);
 	void UpdateVelocity(float elapsedSec, const Uint8* pKeysState);
 	void UpdateHorizontalVelocity(float elapsedSec, const Uint8* pKeysState);
 	void UpdateVerticalVelocity(float elapsedsec, const Uint8* pKeysState);
+	void UpdateAttack(float elapsedSec);
 	void MovePlayer(float elapsedSec);
 	void Clamp();
+	void CheckDeath();
 
 	void DrawDebug() const;
 	std::string GetActionStateString() const;

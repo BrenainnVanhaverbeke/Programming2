@@ -1,24 +1,12 @@
 #include "pch.h"
 #include "Character.h"
 
-Character::Character()
-	: Character(Transform{ 0, 0, 0, 1.0f }, 0, 0)
-{
-}
-
-Character::Character(float width, float height)
-	: Character(Transform{ 0, 0, 0, 1.0f }, width, height)
-{
-}
-
-Character::Character(Transform transform, float width, float height)
+Character::Character(Transform transform, float width, float height, const Vector2f& acceleration)
 	: GameObject(transform)
 	, m_Width{ width }
 	, m_Height{ height }
-{
-}
-
-Character::~Character()
+	, m_Acceleration{ acceleration }
+	, m_Velocity{}
 {
 }
 
@@ -30,4 +18,9 @@ Rectf Character::GetShape() const
 		m_Width,
 		m_Height
 	};
+}
+
+Vector2f& Character::GetVelocity()
+{
+	return m_Velocity;
 }

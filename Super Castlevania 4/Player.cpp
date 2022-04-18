@@ -2,25 +2,26 @@
 #include "Player.h"
 #include "Sprite.h"
 #include "LevelManager.h"
+#include "Projectile.h"
 
 #include "utils.h"
 #include <iostream>
 
 Player::Player(LevelManager* pLevelManager)
-	: Character(28, 46.0f)
+	: Character(Transform{}, 28, 46.0f, Vector2f{ 0, -981.0f })
 	, m_HorizontalSpeed{ 75.0f }
-	//, m_HorizontalSpeed{ 200.0f }
 	, m_JumpForce{ 325.0f }
-	, m_Acceleration{ 0.0f, -981.0f }
-	//, m_Acceleration{ 0.0f, -100.0f }
-	, m_Velocity{}
 	, m_ActionState{ ActionState::idle }
 	, m_pLevelManager{ pLevelManager }
 	, m_IsDrawDebug{ false }
-	, m_pSprite{ new Sprite("Player_Movement.png", Rectf(0, 0, 32.0f, 48.0f), 6, 6, 6) }
+	, m_pSprite{ new Sprite("Player_Movement.png", Rectf(0, 0, 32.0f, 48.0f), 6, 7, 6) }
 	, m_IsStill{ true }
 	, m_IsDucked{ false }
 	, m_IsFlipped{ false }
+	, m_Weapon{ 0, 0, 50.0f, 4.0f }
+	, m_IsAttacking{ false }
+	, m_AttackTime{ 0.0f }
+	, m_pProjectile{ nullptr }
 {
 	Point2f spawnPoint{ pLevelManager->GetSpawn() };
 	spawnPoint.x -= m_Width / 2;
@@ -40,8 +41,11 @@ void Player::Update(float elapsedSec)
 	UpdateState(pKeysState);
 	UpdateVelocity(elapsedSec, pKeysState);
 	MovePlayer(elapsedSec);
+	if (m_IsAttacking)
+		UpdateAttack(elapsedSec);
+	CheckDeath();
 	m_pSprite->Update(elapsedSec, (int)m_ActionState, m_IsStill);
-	m_pLevelManager->HandleCollisions(GetShape(), m_Transform, m_Velocity);
+	m_pLevelManager->HandleCollisions(*this);
 	m_pLevelManager->CheckOverlap(GetShape());
 }
 
@@ -64,7 +68,8 @@ void Player::Draw() const
 Rectf Player::GetShape() const
 {
 	Rectf shape{ Character::GetShape() };
-	shape.height = (m_ActionState == ActionState::crouching) ? m_Height / 1.5f : m_Height;
+	shape.height = (m_ActionState == ActionState::crouching
+		|| m_ActionState == ActionState::ducking) ? m_Height / 1.5f : m_Height;
 	return shape;
 }
 
@@ -81,8 +86,13 @@ void Player::AttemptInteraction()
 
 void Player::Jump()
 {
-	if (m_pLevelManager->IsOnGround(GetShape(), m_Velocity))
+	if (!m_IsAttacking && m_pLevelManager->IsOnGround(*this))
 		m_Velocity.y += m_JumpForce;
+}
+
+void Player::Attack()
+{
+	m_IsAttacking = true;
 }
 
 void Player::UpdateVelocity(float elapsedSec, const Uint8* pKeysState)
@@ -119,21 +129,57 @@ void Player::DrawDebug() const
 	utils::SetColor(Color4f{ 0, 1.0f, 0, 1.0f });
 	utils::DrawPoint(centerLeft);
 	utils::DrawPoint(centerRight);
+
+	// Transform: Location
+	utils::SetColor(Color4f{ 1.0f, 1.0f, 1.0f, 1.0f });
+	utils::DrawPoint(m_Transform.GetTranslation());
+
+	// Weapon
+	if (m_IsAttacking)
+	{
+		utils::SetColor(Color4f{ 1.0f, 0, 0, 1.0f });
+		utils::DrawRect(m_Weapon);
+	}
+}
+
+void Player::CheckDeath()
+{
+	if (m_Transform.positionY < -m_Height)
+	{
+		m_pLevelManager->ReloadCheckpoint();
+		Relocate(m_pLevelManager->GetSpawn());
+	}
 }
 
 void Player::UpdateHorizontalVelocity(float elapsedSec, const Uint8* pKeysState)
 {
 	m_Velocity.x = 0;
 	float speedModifier{ (m_ActionState == ActionState::crouching) ? 2.0f : 1.0f };
-	if (pKeysState[SDL_SCANCODE_LEFT] || pKeysState[SDL_SCANCODE_A])
-		m_Velocity.x -= m_HorizontalSpeed / speedModifier;
-	if (pKeysState[SDL_SCANCODE_RIGHT] || pKeysState[SDL_SCANCODE_D])
-		m_Velocity.x += m_HorizontalSpeed / speedModifier;
+	if (!m_IsAttacking || m_ActionState == ActionState::jumping)
+	{
+		if (pKeysState[SDL_SCANCODE_LEFT] || pKeysState[SDL_SCANCODE_A])
+			m_Velocity.x -= m_HorizontalSpeed / speedModifier;
+		if (pKeysState[SDL_SCANCODE_RIGHT] || pKeysState[SDL_SCANCODE_D])
+			m_Velocity.x += m_HorizontalSpeed / speedModifier;
+	}
 }
 
 void Player::UpdateVerticalVelocity(float elapsedSec, const Uint8* pKeysState)
 {
 	m_Velocity.y += m_Acceleration.y * elapsedSec;
+}
+
+void Player::UpdateAttack(float elapsedSec)
+{
+	const float bottomOffset{ (m_ActionState == ActionState::crouching || m_ActionState == ActionState::ducking) ? 16.0f : 32.0f };
+	const float maxAttackTime{ 0.5f };
+	m_Weapon.left = m_Transform.positionX + (m_IsFlipped ? (-m_Weapon.width) : m_Width);
+	m_Weapon.bottom = m_Transform.positionY + bottomOffset;
+	if (m_IsAttacking && maxAttackTime < (m_AttackTime += elapsedSec))
+	{
+		m_AttackTime = 0;
+		m_IsAttacking = false;
+	}
 }
 
 void Player::MovePlayer(float elapsedSec)
@@ -186,10 +232,6 @@ void Player::ToggleDrawDebug()
 	m_IsDrawDebug = !m_IsDrawDebug;
 }
 
-void Player::UpdateAnimation(float elapsedSec)
-{
-}
-
 void Player::UpdateState(const Uint8* pKeysState)
 {
 	m_IsStill = (m_Velocity.x == 0) ? true : false;
@@ -203,8 +245,16 @@ void Player::UpdateState(const Uint8* pKeysState)
 		m_ActionState = ActionState::crouching;
 	if (m_pLevelManager->IsOnStairs())
 		m_ActionState = m_pLevelManager->IsUpstairs(m_Velocity) ? ActionState::upstairs : ActionState::downstairs;
-	if (!m_IsStill && m_Velocity.x < -1.0f)
-		m_IsFlipped = true;
-	else if (!m_IsStill && 1.0f < m_Velocity.x)
-		m_IsFlipped = false;
+	if (!m_IsStill && !m_IsAttacking)
+	{
+		if (m_Velocity.x < -1.0f)
+			m_IsFlipped = true;
+		else if (1.0f < m_Velocity.x)
+			m_IsFlipped = false;
+	}
+	if (m_Velocity.y != 0)
+	{
+		m_ActionState = ActionState::jumping;
+		m_IsStill = true;
+	}
 }

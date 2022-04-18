@@ -18,11 +18,7 @@ GameObject::GameObject(const Transform& transform)
 {
 }
 
-GameObject::~GameObject()
-{
-}
-
-Transform GameObject::GetTransform() const
+Transform& GameObject::GetTransform()
 {
 	return m_Transform;
 }

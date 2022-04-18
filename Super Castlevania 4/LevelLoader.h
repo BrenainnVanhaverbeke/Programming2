@@ -24,6 +24,7 @@ public:
 	Point2f LoadPlayerSpawn(int stage, int segment) const;
 	std::vector<TerrainObject*> LoadTerrain(int stage, int segment) const;
 	std::vector<InteractableObject*> LoadInteractables(int stage, int segment) const;
+	bool IsSegmentCheckpoint(int stage, int segment) const;
 	Sprite* GetBackground(int stage, int segment) const;
 
 private:

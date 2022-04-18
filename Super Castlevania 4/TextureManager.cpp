@@ -24,11 +24,11 @@ TextureManager::~TextureManager()
 	m_pTextures.clear();
 }
 
-TextureManager* TextureManager::GetInstance()
+TextureManager& TextureManager::GetInstance()
 {
 	if (!m_Instance)
 		m_Instance = new TextureManager();
-	return m_Instance;
+	return *m_Instance;
 }
 
 void TextureManager::DeleteTextureManager()
@@ -50,17 +50,7 @@ void TextureManager::DrawSprite(const std::string& fileName, const Transform& or
 {
 	if (m_pTextures.find(fileName) == m_pTextures.end())
 		LoadTexture(fileName);
-	glPushMatrix();
-	{
-		glTranslatef(origin.positionX, origin.positionY, 0);
-		if (isFlipped)
-		{
-			glScalef(-1, 1, 1);
-			glTranslatef(-sourceRect.width, 0, 0);
-		}
-		m_pTextures.at(fileName)->Draw(Point2f{}, sourceRect);
-	}
-	glPopMatrix();
+	m_pTextures.at(fileName)->Draw(Point2f{}, sourceRect);
 }
 
 void TextureManager::LoadTexture(const std::string& fileName)

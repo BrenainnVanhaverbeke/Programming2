@@ -38,8 +38,18 @@ void Sprite::Update(float elapsedSec, int rowOffset, bool freezeFrame)
 
 void Sprite::Draw(const Transform& origin, bool isFlipped) const
 {
-	TextureManager* textureManager{ TextureManager::GetInstance() };
-	textureManager->DrawSprite(m_Path, origin, m_SourceRect, isFlipped);
+	TextureManager& textureManager{ TextureManager::GetInstance() };
+	glPushMatrix();
+	{
+		glTranslatef(origin.positionX, origin.positionY, 0);
+		if (isFlipped)
+		{
+			glScalef(-1, 1, 1);
+			glTranslatef(-m_SourceRect.width, 0, 0);
+		}
+		textureManager.DrawSprite(m_Path, origin, m_SourceRect, isFlipped);
+	}
+	glPopMatrix();
 }
 
 void Sprite::SetSourceRect(const Rectf& sourceRect)
@@ -49,10 +59,10 @@ void Sprite::SetSourceRect(const Rectf& sourceRect)
 
 void Sprite::UpdateSourceRect(int rowOffset)
 {
-	TextureManager* textureManager{ TextureManager::GetInstance() };
+	TextureManager& textureManager{ TextureManager::GetInstance() };
 	float textureHeight{};
 	float textureWidth{};
-	textureManager->GetTextureDimensions(m_Path, textureWidth, textureHeight);
+	textureManager.GetTextureDimensions(m_Path, textureWidth, textureHeight);
 	m_SourceRect.bottom = (textureHeight / m_Rows) * (rowOffset + 1);
 	m_SourceRect.left = (textureWidth / m_Frames) * m_CurrentFrame;
 }

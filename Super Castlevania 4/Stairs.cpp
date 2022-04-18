@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Stairs.h"
 #include "utils.h"
+#include "Character.h"
 #include <iostream>
 
 Stairs::Stairs(const std::vector<Point2f>& vertices, int lowPoint, int highPoint, bool autoMountTop, bool autoMountBottom, bool isBackground)
@@ -58,9 +59,9 @@ bool Stairs::TryInteraction(const Rectf& shape, bool& isOnBackground, bool& isOn
 	return isOnStairs;
 }
 
-bool Stairs::IsDoneInteracting(const Rectf& actorShape) const
+bool Stairs::IsDoneInteracting(const Character& character) const
 {
-	const Point2f& anchor{ actorShape.GetBottomCenter() };
+	const Point2f& anchor{ character.GetShape().GetBottomCenter() };
 	bool isDoneInteracting{  };
 	if (m_LowPoint.x < m_HighPoint.x)
 	{
@@ -82,8 +83,8 @@ bool Stairs::TryAutoInteracting(const Rectf& shape, bool& isOnStairs, bool& isOn
 	if (isOnBackground != m_IsBackground) return false;
 	const Point2f& anchor{ shape.GetBottomCenter() };
 	const float offset{ 2.0f };
-	if (m_IsAutoMountingBottom && IsAnchorInRange(anchor, m_LowPoint, offset)
-		|| m_IsAutoMountingTop && IsAnchorInRange(anchor, m_HighPoint, offset))
+	if (m_IsAutoMountingBottom && (IsCharacterInBounds(anchor) && IsAnchorInRange(anchor, m_LowPoint, offset))
+		|| m_IsAutoMountingTop && (IsCharacterInBounds(anchor) && IsAnchorInRange(anchor, m_HighPoint, offset)))
 	{
 		isOnStairs = true;
 		return isOnStairs;
@@ -113,20 +114,29 @@ bool Stairs::IsAnchorInRange(const Point2f& anchor, const Point2f& mountPoint, f
 	return isInXRange && isInYRange;
 }
 
-bool Stairs::HandleCollisions(const Rectf& actorShape, Transform& actorTransform, Vector2f& actorVelocity)
+bool Stairs::IsCharacterInBounds(const Point2f& anchor) const
 {
+	if (m_LowPoint.x < m_HighPoint.x)
+		return (m_LowPoint.x < anchor.x) && (anchor.x < m_HighPoint.x);
+	else
+		return (m_HighPoint.x < anchor.x) && (anchor.x < m_LowPoint.x);
+}
+
+bool Stairs::HandleCollisions(Character& character)
+{
+	Rectf actorShape{ character.GetShape() };
 	const float raycastOffset{ 5.0f };
 	utils::HitInfo hitInfo{};
 	if (utils::Raycast(m_Vertices, actorShape.GetCenter(), actorShape.GetBottomCenter(0, -raycastOffset), hitInfo))
 	{
-		actorTransform.positionY = hitInfo.intersectPoint.y;
-		actorVelocity.y = 0;
+		character.GetTransform().positionY = hitInfo.intersectPoint.y;
+		character.GetVelocity().y = 0;
 		return true;
 	}
 	return false;
 }
 
-bool Stairs::IsOnGround(const Rectf& actorShape, const Vector2f& actorVelocity)
+bool Stairs::IsOnGround(const Character& character)
 {
 	return false;
 }

@@ -48,7 +48,7 @@ bool Door::TryInteraction(const Rectf& shape, bool& isOnBackground, bool& isOnSt
 	return false;
 }
 
-bool Door::IsDoneInteracting(const Rectf& shape) const
+bool Door::IsDoneInteracting(const Character& character) const
 {
 	return true;
 }

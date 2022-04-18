@@ -9,7 +9,7 @@ public:
 	TextureManager(const TextureManager&) = delete;
 	TextureManager& operator=(const TextureManager&) = delete;
 
-	static TextureManager* GetInstance();
+	static TextureManager& GetInstance();
 	void DeleteTextureManager();
 	void DrawSprite(const std::string& fileName, const Transform& origin, const Rectf& sourceRect = Rectf{}, bool isFlipped = false);
 	void GetTextureDimensions(const std::string& fileName, float& width, float& height) const;

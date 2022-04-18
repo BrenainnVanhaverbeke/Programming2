@@ -39,9 +39,9 @@ void CrumblingBlock::Update(float elapsedSec)
 	}
 }
 
-bool CrumblingBlock::HandleCollisions(const Rectf& actorShape, Transform& actorTransform, Vector2f& actorVelocity)
+bool CrumblingBlock::HandleCollisions(Character& character)
 {
-	if (!m_IsFalling && TerrainObject::HandleCollisions(actorShape, actorTransform, actorVelocity))
+	if (!m_IsFalling && TerrainObject::HandleCollisions(character))
 	{
 		m_IsOverlapped = true;
 		return true;
@@ -50,12 +50,12 @@ bool CrumblingBlock::HandleCollisions(const Rectf& actorShape, Transform& actorT
 	return false;
 }
 
-bool CrumblingBlock::IsOnGround(const Rectf& actorShape, const Vector2f& actorVelocity)
+bool CrumblingBlock::IsOnGround(const Character& character)
 {
 	utils::HitInfo hitInfo{};
 	if (m_IsFalling)
 		return false;
-	return TerrainObject::IsOnGround(actorShape, actorVelocity);
+	return TerrainObject::IsOnGround(character);
 }
 
 void CrumblingBlock::CheckOverlap(const Rectf& overlappingShape)

@@ -17,8 +17,8 @@ public:
 	virtual void Draw() const override;
 	virtual void Update(float elapsedSec) override;
 
-	virtual bool HandleCollisions(const Rectf& actorShape, Transform& actorTransform, Vector2f& actorVelocity);
-	virtual bool IsOnGround(const Rectf& actorShape, const Vector2f& actorVelocity) override;
+	virtual bool HandleCollisions(Character& character);
+	virtual bool IsOnGround(const Character& character) override;
 
 private:
 	const float m_ActivationDelay;

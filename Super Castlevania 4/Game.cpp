@@ -17,8 +17,8 @@ Game::Game(const Window& window)
 Game::~Game()
 {
 	Cleanup();
-	TextureManager* instance{ TextureManager::GetInstance() };
-	instance->DeleteTextureManager();
+	TextureManager& instance{ TextureManager::GetInstance() };
+	instance.DeleteTextureManager();
 }
 
 void Game::Initialize()
@@ -63,14 +63,16 @@ void Game::Draw() const
 
 void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent& e)
 {
-	if (e.keysym.sym == SDLK_SPACE)
+	if (e.keysym.sym == SDLK_SPACE && e.repeat == 0)
 		m_pPlayer->Jump();
+	if ((e.keysym.sym == SDLK_w || e.keysym.sym == SDLK_UP) && e.repeat == 0)
+		m_pPlayer->AttemptInteraction();
+	if ((e.keysym.sym == SDLK_q) && e.repeat == 0)
+		m_pPlayer->Attack();
 }
 
 void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent& e)
 {
-	if (e.keysym.sym == SDLK_w || e.keysym.sym == SDLK_UP)
-		m_pPlayer->AttemptInteraction();
 	if (e.keysym.sym == SDLK_o)
 	{
 		m_pLevelManager->ToggleDebugDraw();

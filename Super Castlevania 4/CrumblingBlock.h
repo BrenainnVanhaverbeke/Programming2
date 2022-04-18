@@ -10,8 +10,8 @@ public:
 	virtual void CheckOverlap(const Rectf& overlappingShape) override;
 	virtual bool IsOverlapping(const Rectf& overlappingShape) override;
 
-	virtual bool HandleCollisions(const Rectf& actorShape, Transform& actorTransform, Vector2f& actorVelocity) override;
-	virtual bool IsOnGround(const Rectf& actorShape, const Vector2f& actorVelocity) override;
+	virtual bool HandleCollisions(Character& character) override;
+	virtual bool IsOnGround(const Character& character) override;
 
 private:
 	float m_StepOnTime;

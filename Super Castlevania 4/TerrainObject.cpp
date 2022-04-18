@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "TerrainObject.h"
+#include "Character.h"
 #include <iostream>
 
 TerrainObject::TerrainObject(const std::vector<Point2f>& vertices, bool isBackground)
@@ -42,16 +43,17 @@ bool TerrainObject::IsOverlapping(const Rectf& overlappingShape)
 	return false;
 }
 
-bool TerrainObject::HandleCollisions(const Rectf& actorShape, Transform& actorTransform, Vector2f& actorVelocity)
+bool TerrainObject::HandleCollisions(Character& character)
 {
 	utils::HitInfo hitInfo{};
-	bool verticalCollision{ CheckVerticalCollisions(m_Vertices, actorShape, actorTransform, actorVelocity, hitInfo) };
-	bool horizontalCollision{ CheckHorizontalCollisions(m_Vertices, actorShape, actorTransform, actorVelocity, hitInfo) };
+	bool verticalCollision{ CheckVerticalCollisions(m_Vertices, character, hitInfo) };
+	bool horizontalCollision{ CheckHorizontalCollisions(m_Vertices, character, hitInfo) };
 	return verticalCollision || horizontalCollision;
 }
 
-bool TerrainObject::IsOnGround(const Rectf& actorShape, const Vector2f& actorVelocity)
+bool TerrainObject::IsOnGround(const Character& character)
 {
+	Rectf actorShape{ character.GetShape() };
 	utils::HitInfo hitInfo{};
 	if (utils::Raycast(m_Vertices, actorShape.GetCenterLeft(), actorShape.GetBottomLeft(0, -1.0f), hitInfo)
 		|| utils::Raycast(m_Vertices, actorShape.GetCenterRight(), actorShape.GetBottomRight(0, -1.0f), hitInfo))
@@ -64,8 +66,11 @@ bool TerrainObject::IsBackground() const
 	return m_IsBackground;
 }
 
-bool TerrainObject::CheckVerticalCollisions(const std::vector<Point2f>& vertices, const Rectf& actorShape, Transform& actorTransform, Vector2f& actorVelocity, utils::HitInfo hitInfo) const
+bool TerrainObject::CheckVerticalCollisions(const std::vector<Point2f>& vertices, Character& character, utils::HitInfo hitInfo) const
 {
+	Rectf actorShape{ character.GetShape() };
+	Vector2f& actorVelocity{ character.GetVelocity() };
+	Transform& actorTransform{ character.GetTransform() };
 	bool left{ utils::Raycast(vertices, actorShape.GetCenterLeft(m_AnchorOffset / 2), actorShape.GetBottomLeft(m_AnchorOffset, -1.0f), hitInfo) };
 	bool centre{ utils::Raycast(vertices, actorShape.GetCenter(), actorShape.GetBottomCenter(0, -1.0f), hitInfo) };
 	bool right{ utils::Raycast(vertices, actorShape.GetCenterRight(-m_AnchorOffset / 2), actorShape.GetBottomRight(-m_AnchorOffset, -1.0f), hitInfo) };
@@ -85,8 +90,11 @@ bool TerrainObject::CheckVerticalCollisions(const std::vector<Point2f>& vertices
 	return false;
 }
 
-bool TerrainObject::CheckHorizontalCollisions(const std::vector<Point2f>& vertices, const Rectf& actorShape, Transform& actorTransform, Vector2f& actorVelocity, utils::HitInfo hitInfo) const
+bool TerrainObject::CheckHorizontalCollisions(const std::vector<Point2f>& vertices, Character& character, utils::HitInfo hitInfo) const
 {
+	Rectf actorShape{ character.GetShape() };
+	Vector2f& actorVelocity{ character.GetVelocity() };
+	Transform& actorTransform{ character.GetTransform() };
 	std::vector<Point2f> raycastAnchors{ GetRaycastAnchors(actorShape) };
 	size_t nrOfAnchors{ raycastAnchors.size() };
 	for (size_t i{ 0 }; i < nrOfAnchors; ++i)

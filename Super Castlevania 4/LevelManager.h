@@ -6,6 +6,7 @@ class LevelLoader;
 class TerrainObject;
 class InteractableObject;
 class Sprite;
+class Character;
 
 class LevelManager
 {
@@ -22,11 +23,12 @@ public:
 	void Update(float elapsedSec, const Rectf& actorShape);
 	void Draw() const;
 
-	void HandleCollisions(const Rectf& actorShape, Transform& actorTransform, Vector2f& actorVelocity);
-	bool IsOnGround(const Rectf& actorShape, const Vector2f& actorVelocity) const;
+	void HandleCollisions(Character& character);
+	bool IsOnGround(const Character& character) const;
 	bool IsOnStairs() const;
 	bool IsUpstairs(const Vector2f& actorVelocity) const;
 	bool IsInTransitionArea(const Rectf& actorShape) const;
+	void ReloadCheckpoint();
 
 	void ToggleDebugDraw();
 	void AttemptInteraction(const Rectf& player);
@@ -45,11 +47,11 @@ private:
 	int m_BackgroundSpriteId;
 	int m_StageCounter;
 	int m_SegmentCounter;
+	int m_CheckpointCounter;
 	bool m_IsOnBackground;
 	bool m_IsOnStairs;
 	bool m_DrawDebug;
 
-	void LoadBackground();
 	void LoadSegment();
 	void UnloadSegment();
 	void AttemptResetActiveInteractable(const Point2f& spawnPoint);
