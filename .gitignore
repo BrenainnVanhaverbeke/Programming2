@@ -3,4 +3,7 @@ Debug/
 x64/
 *.rar
 *.pdf
+*.mp4
 Resources/
+
+!Super Castlevania 4/Resources/
