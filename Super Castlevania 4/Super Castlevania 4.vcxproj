@@ -224,6 +224,7 @@
   <ItemGroup>
     <None Include="SDLWin32.props" />
     <None Include="SDLx64.props" />
+    <None Include="Vanhaverbeke_Brenainn_Super_Castlevania_IV.xlsx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

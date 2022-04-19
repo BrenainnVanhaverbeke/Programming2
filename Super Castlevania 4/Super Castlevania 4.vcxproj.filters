@@ -228,5 +228,8 @@
   <ItemGroup>
     <None Include="SDLWin32.props" />
     <None Include="SDLx64.props" />
+    <None Include="Vanhaverbeke_Brenainn_Super_Castlevania_IV.xlsx">
+      <Filter>Resource Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

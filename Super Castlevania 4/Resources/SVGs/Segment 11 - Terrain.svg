@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Entrance" xmlns="http://www.w3.org/2000/svg" width="7732" height="880" viewBox="0 0 7732 880">
+  <path id="Terrain" d="M649.5,445.5v31H9v-31"/>
+  <path id="Platform" d="M329,365v-16h96v16"/>
+</svg>

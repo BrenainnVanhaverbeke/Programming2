@@ -1,0 +1,1345 @@
+{
+    "stages": [
+        {
+            "spritesheet": "Stage 1.png",
+            "segments": [
+                {
+                    "isCheckPoint": true,
+                    "background": {
+                        "foreground": {
+                            "origin": [ 9, 477 ],
+                            "width": 1024,
+                            "height": 192
+                        },
+                        "parallax": {
+                            "origin": [ 10, 277 ],
+                            "width": 498,
+                            "height": 192
+                        }
+                    },
+                    "boundaries": {
+                        "width": 1024,
+                        "height": 192
+                    },
+                    "interactableObjects":[
+                        {
+                            "type": "stairs",
+                            "vertices":[
+                                [ 224, 32 ],
+                                [ 320, 128 ],
+                                [ 320, 112 ],
+                                [ 240, 32 ]
+                            ],
+                            "lowPoint": 0,
+                            "highPoint": 1,
+                            "autoMountBottom": false,
+                            "autoMountTop": true,
+                            "isBackground": false
+                        },
+                        {
+                            "type": "stairs",
+                            "vertices":[
+                                [ 512, 32 ],
+                                [ 416, 128 ],
+                                [ 416, 112 ],
+                                [ 496, 32 ]
+                            ],
+                            "lowPoint": 0,
+                            "highPoint": 1,
+                            "autoMountBottom": false,
+                            "autoMountTop": true,
+                            "isBackground": false
+                        }
+                    ],
+                    "playerSpawn": [ 3, 32 ],
+                    "terrain": [
+                        {
+                            "type": "default",
+                            "vertices":[
+                                [ 0, 0 ],
+                                [ 0, 32 ],
+                                [ 640, 32 ],
+                                [ 640, 0 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices":[
+                                [ 320, 112 ],
+                                [ 320, 128 ],
+                                [ 416, 128 ],
+                                [ 416, 112 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "crumblingBlock",
+                            "vertices":[
+                                [ 672, 32 ],
+                                [ 672, 48 ],
+                                [ 688, 48 ],
+                                [ 688, 32 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "crumblingBlock",
+                            "vertices":[
+                                [ 688, 32 ],
+                                [ 688, 48 ],
+                                [ 704, 48 ],
+                                [ 704, 32 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "crumblingBlock",
+                            "vertices":[
+                                [ 704, 32 ],
+                                [ 704, 48 ],
+                                [ 720, 48 ],
+                                [ 720, 32 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "crumblingBlock",
+                            "vertices":[
+                                [ 720, 32 ],
+                                [ 720, 48 ],
+                                [ 736, 48 ],
+                                [ 736, 32 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "drawBridge",
+                            "vertices": [
+                                [ 767, 32 ],
+                                [ 767, 47 ],
+                                [ 994, 47 ],
+                                [ 994, 32 ]
+                            ],
+                            "isBackground": false
+                        }
+                    ],
+                    "transitionArea":{
+                        "origin": [ 984, 47 ],
+                        "width": 10,
+                        "height": 145
+                    }
+                },
+                {
+                    "isCheckPoint": true,
+                    "background": {
+                        "foreground":{
+                            "origin": [ 1043, 476 ],
+                            "width": 2048,
+                            "height": 224
+                        },
+                        "parallax":{
+                            "origin": [ 2736, 489 ],
+                            "width": 1693,
+                            "height": 224
+                        }
+                    },
+                    "terrain":[
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 0, 0 ],
+                                [ 0, 32 ],
+                                [ 192, 32 ],
+                                [ 192, 48 ],
+                                [ 274, 48 ],
+                                [ 274, 32 ],
+                                [ 256, 32 ],
+                                [ 256, 16 ],
+                                [ 384, 16 ],
+                                [ 384, 80 ],
+                                [ 320, 80 ],
+                                [ 320, 96 ],
+                                [ 418, 96 ],
+                                [ 418, 16 ],
+                                [ 772, 16 ],
+                                [ 772, 0 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 448, 48 ],
+                                [ 448, 64 ],
+                                [ 546, 64 ],
+                                [ 546, 48 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type":"default",
+                            "vertices": [
+                                [ 862, 0 ],
+                                [ 862, 16 ],
+                                [ 1541, 16 ],
+                                [ 1541, 0 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 1632, 0 ],
+                                [ 1632, 16 ],
+                                [ 2016, 16 ],
+                                [ 2016, 0 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 0, 0 ],
+                                [ 0, 24 ],
+                                [ 1297, 24 ],
+                                [ 1297, 112 ],
+                                [ 1216, 112 ],
+                                [ 1216, 128 ],
+                                [ 1522, 128 ],
+                                [ 1522, 112 ],
+                                [ 1346, 112 ],
+                                [ 1346, 24 ],
+                                [ 2016, 24 ],
+                                [ 2016, 0 ]
+                            ],
+                            "isBackground": true
+                        },
+                        {
+                            "type": "default",
+                            "vertices":[
+                                [ 992, 32 ],
+                                [ 992, 48 ],
+                                [ 1090, 48 ],
+                                [ 1090, 32 ]
+                            ],
+                            "isBackground": true
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 1088, 48 ],
+                                [ 1088, 64 ],
+                                [ 1154, 64 ],
+                                [ 1154, 48 ]
+                            ],
+                            "isBackground": true
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 1568, 80 ],
+                                [ 1568, 96 ],
+                                [ 1664, 96 ],
+                                [ 1664, 80 ]
+                            ],
+                            "isBackground": true
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 1696, 32 ],
+                                [ 1696, 48 ],
+                                [ 1792, 48 ],
+                                [ 1792, 32 ]
+                            ],
+                            "isBackground": true
+                        }
+                    ],
+                    "boundaries":{
+                        "width": 2048,
+                        "height": 224
+                    },
+                    "interactableObjects":[
+                        {
+                            "type": "stairs",
+                            "vertices":[
+                                [ 272, 48 ],
+                                [ 320, 96 ],
+                                [ 320, 88 ],
+                                [ 280, 48 ]
+                            ],
+                            "lowPoint": 0,
+                            "highPoint": 1,
+                            "autoMountBottom": true,
+                            "autoMountTop": true,
+                            "isBackground": false
+                        },
+                        {
+                            "type": "stairs",
+                            "vertices":[
+                                [ 1152, 64 ],
+                                [ 1216, 128 ],
+                                [ 1216, 120 ],
+                                [ 1160, 64 ]
+                            ],
+                            "lowPoint": 0,
+                            "highPoint": 1,
+                            "autoMountBottom": true,
+                            "autoMountTop": true,
+                            "isBackground": true
+                        },
+                        {
+                            "type": "door",
+                            "vertices": [
+                                [ 688, 24 ],
+                                [ 688, 80 ],
+                                [ 720, 80 ],
+                                [ 720, 24 ]
+                            ]
+                        },
+                        {
+                            "type": "door",
+                            "vertices": [
+                                [ 1232, 24 ],
+                                [ 1232, 80 ],
+                                [ 1264, 80 ],
+                                [ 1264, 24 ]
+                            ]
+                        },
+                        {
+                            "type": "door",
+                            "vertices": [
+                                [ 1424, 24 ],
+                                [ 1424, 80 ],
+                                [ 1456, 80 ],
+                                [ 1456, 24 ]
+                            ]
+                        }
+                    ],
+                    "playerSpawn":[ 16, 32 ],
+                    "transitionArea":{
+                        "origin": [ 2000, 24 ],
+                        "width": 10,
+                        "height": 145
+                    }
+                },
+                {
+                    "isCheckPoint": true,
+                    "background": {
+                        "foreground":{
+                            "origin": [ 3106, 476 ],
+                            "width": 1280,
+                            "height": 224
+                        },
+                        "parallax":{
+                            "origin": [ 2736, 489 ],
+                            "width": 1693,
+                            "height": 224
+                        }
+                    },
+                    "terrain":[
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 0, 0 ],
+                                [ 0, 32 ],
+                                [ 256, 32 ],
+                                [ 256, 64 ],
+                                [ 288, 64 ],
+                                [ 288, 80 ],
+                                [ 320, 80 ],
+                                [ 320, 48 ],
+                                [ 352, 48 ],
+                                [ 352, 32 ],
+                                [ 528, 32 ],
+                                [ 528, 80 ],
+                                [ 448, 80 ],
+                                [ 448, 96 ],
+                                [ 416, 96 ],
+                                [ 416, 112 ],
+                                [ 352, 112 ],
+                                [ 352, 128 ],
+                                [ 416, 128 ],
+                                [ 416, 112 ], 
+                                [ 448, 112 ],
+                                [ 448, 96 ],
+                                [ 608, 96 ],
+                                [ 608, 80 ],
+                                [ 576, 80 ],
+                                [ 576, 32 ],
+                                [ 1248, 32 ],
+                                [ 1248, 144 ],
+                                [ 1120, 144 ],
+                                [ 1120, 160 ],
+                                [ 1248, 160 ],
+                                [ 1248, 224 ],
+                                [ 1280, 224 ],
+                                [ 1280, 0 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 608, 112 ],
+                                [ 608, 128 ],
+                                [ 704, 128 ],
+                                [ 704, 112 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 736, 80 ],
+                                [ 736, 96 ],
+                                [ 768, 96 ],
+                                [ 768, 224 ],
+                                [ 800, 224 ],
+                                [ 800, 96 ],
+                                [ 768, 96 ],
+                                [ 768, 80 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 832, 48 ],
+                                [ 832, 64 ],
+                                [ 864, 64 ],
+                                [ 864, 48 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 928, 112 ],
+                                [ 928, 128 ],
+                                [ 992, 128 ],
+                                [ 992, 112 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 1024, 128 ],
+                                [ 1024, 144 ],
+                                [ 1088, 144 ],
+                                [ 1088, 128 ]
+                            ],
+                            "isBackground": false
+                        }
+                    ],
+                    "boundaries":{
+                        "width": 1280,
+                        "height": 224
+                    },
+                    "interactableObjects":[
+                        {
+                            "type": "stairs",
+                            "vertices":[
+                                [ 864, 64 ],
+                                [ 928, 128 ],
+                                [ 928, 120 ],
+                                [ 872, 64 ]
+                            ],
+                            "lowPoint": 0,
+                            "highPoint": 1,
+                            "autoMountBottom": true,
+                            "autoMountTop": true,
+                            "isBackground": false
+                        },
+                        {
+                            "type": "stairs",
+                            "vertices": [
+                                [ 1184, 160 ],
+                                [ 1120, 232 ],
+                                [ 1120, 224 ],
+                                [ 1176, 160 ]
+                            ],
+                            "lowPoint": 0,
+                            "highPoint": 1,
+                            "autoMountBottom": false,
+                            "autoMountTop": false,
+                            "isBackground": false
+                        }
+                    ],
+                    "playerSpawn": [ 20, 32 ],
+                    "playerSpawnTest": [ 1197, 162 ],
+                    "transitionArea": {
+                        "origin": [ 1128, 274 ],
+                        "height": 20,
+                        "width": 20
+                    }
+                },
+                {
+                    "isCheckPoint": true,
+                    "background": {
+                        "foreground":{
+                            "origin": [ 4130, 239 ],
+                            "width": 1024,
+                            "height": 224
+                        },
+                        "parallax":{
+                            "origin": [ 2736, 489 ],
+                            "width": 1693,
+                            "height": 224
+                        }
+                    },
+                    "terrain": [
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 0, 16 ],
+                                [ 0, 32 ],
+                                [ 128, 32 ],
+                                [ 128, 16 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 128, 64 ],
+                                [ 128, 80 ],
+                                [ 192, 80 ],
+                                [ 192, 96 ],
+                                [ 256, 96 ],
+                                [ 256, 80 ],
+                                [ 192, 80 ],
+                                [ 192, 64 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 256, 48 ],
+                                [ 256, 64 ],
+                                [ 320, 64 ],
+                                [ 320, 48 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 320, 80 ],
+                                [ 320, 96 ],
+                                [ 512, 96 ],
+                                [ 512, 112 ],
+                                [ 554, 112 ],
+                                [ 554, 96 ],
+                                [ 512, 96 ],
+                                [ 512, 80 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "note": "Debug only",
+                            "vertices": [
+                                [ 570, 96 ],
+                                [ 570, 112 ],
+                                [ 608, 112 ],
+                                [ 608, 96 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 624, 96 ],
+                                [ 624, 112 ],
+                                [ 672, 112 ],
+                                [ 672, 96 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "note": "Debug only",
+                            "vertices": [
+                                [ 688, 96 ],
+                                [ 688, 112 ],
+                                [ 752, 112 ],
+                                [ 752, 96 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 768, 16 ],
+                                [ 768, 128 ],
+                                [ 1024, 128 ],
+                                [ 1024, 112 ],
+                                [ 784, 112 ],
+                                [ 784, 32 ],
+                                [ 896, 32 ],
+                                [ 896, 16 ]
+                            ],
+                            "isBackground": false
+                        }
+                    ],
+                    "boundaries": {
+                        "width": 1024,
+                        "height": 224
+                    },
+                    "interactableObjects": [
+                        {
+                            "type": "stairs",
+                            "vertices": [
+                                [ 96, 0 ],
+                                [ 64, 32 ],
+                                [ 64, 24 ],
+                                [ 88, 0]
+                            ],
+                            "lowPoint": 1,
+                            "highPoint": 0,
+                            "autoMountBottom": false,
+                            "autoMountTop": false,
+                            "isBackground": false
+                        },
+                        {
+                            "type": "stairs",
+                            "vertices": [
+                                [ 864, 32 ],
+                                [ 960, 128 ],
+                                [ 960, 120 ],
+                                [ 872, 32 ]
+                            ],
+                            "lowPoint": 0,
+                            "highPoint": 1,
+                            "autoMountBottom": false,
+                            "autoMountTop": false,
+                            "isBackground": false
+                        },
+                        {
+                            "type": "stairs",
+                            "vertices": [
+                                [ 896, 32 ],
+                                [ 928, 0 ],
+                                [ 920, 0 ],
+                                [ 896, 24 ]
+                            ],
+                            "lowPoint": 1,
+                            "highPoint": 0,
+                            "autoMountBottom": true,
+                            "autoMountTop": true,
+                            "isBackground": false
+                        }
+                    ],
+                    "playerSpawn": [ 80, 12 ],
+                    "transitionArea":{
+                        "origin": [ 920, 8 ],
+                        "height": 8,
+                        "width": 8
+                    }
+                },
+                {
+                    "isCheckPoint": true,
+                    "background": {
+                        "foreground":{
+                            "origin": [ 4899, 476 ],
+                            "width": 768,
+                            "height": 224
+                        },
+                        "parallax":{
+                            "origin": [ 2736, 489 ],
+                            "width": 1693,
+                            "height": 224
+                        }
+                    },
+                    "terrain": [
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 0, 0 ],
+                                [ 0, 80 ],
+                                [ 96, 80 ],
+                                [ 96, 32 ],
+                                [ 768, 32 ],
+                                [ 768, 0 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 128, 144 ],
+                                [ 128, 160 ],
+                                [ 288, 160 ],
+                                [ 288, 224 ],
+                                [ 320, 244 ],
+                                [ 320, 144 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 320, 48 ],
+                                [ 320, 64 ],
+                                [ 384, 64 ],
+                                [ 384, 48 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 448, 112 ],
+                                [ 448, 128 ],
+                                [ 576, 128 ],
+                                [ 576, 112 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 736, 96 ],
+                                [ 736, 224 ],
+                                [ 768, 224 ],
+                                [ 768, 96 ]
+                            ],
+                            "isBackground": false
+                        }
+                    ],
+                    "boundaries": {
+                        "width": 768,
+                        "height": 224
+                    },
+                    "interactableObjects": [
+                        {
+                            "type": "stairs",
+                            "vertices": [
+                                [ 160, 224 ],
+                                [ 160, 216 ],
+                                [ 216, 160 ],
+                                [ 224, 160]
+                            ],
+                            "lowPoint": 3,
+                            "highPoint": 0,
+                            "autoMountBottom": false,
+                            "autoMountTop": false,
+                            "isBackground": false
+                        },
+                        {
+                            "type": "stairs",
+                            "vertices": [
+                                [ 48, 80 ],
+                                [ 128, 160 ],
+                                [ 128, 152],
+                                [ 54, 80 ]
+                            ],
+                            "lowPoint": 0,
+                            "highPoint": 1,
+                            "autoMountBottom": false,
+                            "autoMountTop": true,
+                            "isBackground": false
+                        },
+                        {
+                            "type": "stairs",
+                            "vertices": [
+                                [ 384, 64 ],
+                                [ 448, 128 ],
+                                [ 448, 120 ],
+                                [ 392, 64 ]
+                            ],
+                            "lowPoint": 0,
+                            "highPoint": 1,
+                            "autoMountBottom": true,
+                            "autoMountTop": true,
+                            "isBackground": false
+                        }
+                    ],
+                    "playerSpawn": [ 172, 208 ],
+                    "transitionArea": {
+                        "origin": [ 752, 32 ],
+                        "height": 96,
+                        "width": 768
+                    }
+                },
+                {
+                    "isCheckPoint": true,
+                    "background": {
+                        "foreground":{
+                            "origin": [ 5681, 476 ],
+                            "width": 1504,
+                            "height": 224
+                        },
+                        "parallax":{
+                            "origin": [ 2736, 489 ],
+                            "width": 1693,
+                            "height": 224
+                        }
+                    },
+                    "boundaries": {
+                        "width": 1504,
+                        "height": 224
+                    },
+                    "terrain": [
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 0, 0 ],
+                                [ 0, 16 ],
+                                [ 1472, 16 ],
+                                [ 1472, 224 ],
+                                [ 1504, 224 ],
+                                [ 1504, 0 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 1312, 80 ], 
+                                [ 1312, 96 ],
+                                [ 1344, 96 ],
+                                [ 1344, 80 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 1248, 112 ],
+                                [ 1248, 128 ],
+                                [ 1280, 128 ],
+                                [ 1280, 112 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 736, 112 ],
+                                [ 736, 128 ],
+                                [ 1216, 128 ],
+                                [ 1216, 112 ],
+                                [ 1184, 112 ],
+                                [ 1184, 96 ],
+                                [ 928, 96 ],
+                                [ 928, 112 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 256, 96 ],
+                                [ 256, 224 ],
+                                [ 544, 224 ],
+                                [ 544, 192 ],
+                                [ 272, 192 ],
+                                [ 272, 112 ],
+                                [ 288, 112 ],
+                                [ 288, 96 ]
+                            ],
+                            "isBackground": false
+                        }
+                    ],
+                    "interactableObjects": [
+                        {
+                            "type": "stairs",
+                            "vertices": [
+                                [ 1424, 16 ],
+                                [ 1344, 96 ],
+                                [ 1344, 88 ],
+                                [ 1416, 16 ]
+                            ],
+                            "lowPoint": 0,
+                            "highPoint": 1,
+                            "autoMountBottom": false,
+                            "autoMountTop": true,
+                            "isBackground": false
+                        },
+                        {
+                            "type": "stairs",
+                            "vertices": [
+                                [ 736, 128 ],
+                                [ 640, 224 ],
+                                [ 640, 216 ],
+                                [ 728, 128 ]
+                            ],
+                            "lowPoint": 0,
+                            "highPoint": 1,
+                            "autoMountBottom": true,
+                            "autoMountTop": true,
+                            "isBackground": false
+                        }
+                    ],
+                    "playerSpawn": [ 16, 16 ],
+                    "transitionArea": {
+                        "origin": [ 640, 224 ],
+                        "width": 8,
+                        "height": 8
+                    }
+                },
+                {
+                    "isCheckPoint": true,
+                    "background": {
+                        "foreground":{
+                            "origin": [ 6193, 237 ],
+                            "width": 1536,
+                            "height": 224
+                        },
+                        "parallax":{
+                            "origin": [ 2736, 489 ],
+                            "width": 1693,
+                            "height": 224
+                        }
+                    },
+                    "boundaries": {
+                        "width": 1536,
+                        "height": 224
+                    },
+                    "terrain": [
+                        {
+                            "type": "trapDoor",
+                            "vertices": [
+                                [ 192, 24 ],
+                                [ 192, 32 ],
+                                [ 224, 32 ],
+                                [ 224, 24 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "trapDoor",
+                            "vertices": [
+                                [ 288, 24 ],
+                                [ 288, 32 ],
+                                [ 320, 32 ],
+                                [ 320, 24 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "trapDoor",
+                            "vertices": [
+                                [ 448, 24 ],
+                                [ 448, 32 ],
+                                [ 480, 32 ],
+                                [ 480, 24 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "trapDoor",
+                            "vertices": [
+                                [ 608, 24 ],
+                                [ 608, 32 ],
+                                [ 640, 32 ],
+                                [ 640, 24 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "trapDoor",
+                            "vertices": [
+                                [ 704, 24 ],
+                                [ 704, 32 ],
+                                [ 736, 32 ],
+                                [ 736, 24 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "trapDoor",
+                            "vertices": [
+                                [ 800, 24 ],
+                                [ 800, 32 ],
+                                [ 832, 32 ],
+                                [ 832, 24 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "trapDoor",
+                            "vertices": [
+                                [ 864, 24 ],
+                                [ 864, 32 ],
+                                [ 896, 32 ],
+                                [ 896, 24 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "trapDoor",
+                            "vertices": [
+                                [ 960, 24 ],
+                                [ 960, 32 ],
+                                [ 992, 32 ],
+                                [ 992, 24 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "trapDoor",
+                            "vertices": [
+                                [ 1440, 24 ],
+                                [ 1440, 32 ],
+                                [ 1472, 32 ],
+                                [ 1472, 24 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 0, 0 ],
+                                [ 0, 224 ],
+                                [ 32, 224 ],
+                                [ 32, 32 ],
+                                [ 96, 32 ],
+                                [ 96, 16 ],
+                                [ 32, 16 ],
+                                [ 32, 0 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 128, 16 ],
+                                [ 128, 32 ],
+                                [ 192, 32 ],
+                                [ 192, 16 ]
+                            ],
+                            "isBackground": false
+                        }, 
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 224, 16 ],
+                                [ 224, 32 ],
+                                [ 288, 32 ],
+                                [ 288, 16 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 320, 16 ],
+                                [ 320, 32 ],
+                                [ 448, 32 ],
+                                [ 448, 16 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 480, 16 ],
+                                [ 480, 32 ],
+                                [ 608, 32 ],
+                                [ 608, 16 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 640, 16 ],
+                                [ 640, 32 ],
+                                [ 704, 32 ],
+                                [ 704, 16 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 736, 16 ],
+                                [ 736, 32 ],
+                                [ 800, 32 ],
+                                [ 800, 16 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 832, 16 ],
+                                [ 832, 32 ],
+                                [ 864, 32 ],
+                                [ 864, 16 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 896, 16 ],
+                                [ 896, 32 ],
+                                [ 960, 32 ],
+                                [ 960, 16 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 992, 16 ],
+                                [ 992, 32 ],
+                                [ 1008, 32 ],
+                                [ 1008, 64 ],
+                                [ 1072, 64 ],
+                                [ 1072, 80 ],
+                                [ 1056, 80 ],
+                                [ 1056, 96 ],
+                                [ 1072, 96 ],
+                                [ 1072, 128 ],
+                                [ 1376, 128 ],
+                                [ 1376, 112 ],
+                                [ 1360, 112 ],
+                                [ 1360, 96 ], 
+                                [ 1440, 96 ],
+                                [ 1440, 80 ],
+                                [ 1344, 80 ],
+                                [ 1344, 112 ],
+                                [ 1088, 112 ],
+                                [ 1088, 64 ],
+                                [ 1152, 64 ],
+                                [ 1152, 48 ],
+                                [ 1136, 48 ],
+                                [ 1136, 0 ],
+                                [ 1120, 0 ],
+                                [ 1120, 48 ],
+                                [ 1024, 48 ],
+                                [ 1024, 16 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 1280, 0 ],
+                                [ 1280, 32 ],
+                                [ 1440, 32 ],
+                                [ 1440, 16 ],
+                                [ 1320, 16 ],
+                                [ 1320, 0 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 1472, 16 ],
+                                [ 1472, 32 ],
+                                [ 1536, 32 ],
+                                [ 1536, 16 ]
+                            ],
+                            "isBackground": false
+                        }
+                    ],
+                    "interactableObjects": [
+                        {
+                            "type": "stairs",
+                            "vertices": [
+                                [ 128, 0 ],
+                                [ 120, 0 ],
+                                [ 96, 24 ],
+                                [ 96, 32 ]
+                            ],
+                            "lowPoint": 0,
+                            "highPoint": 3,
+                            "autoMountBottom": true,
+                            "autoMountTop": true,
+                            "isBackground": false
+                        },
+                        {
+                            "type": "stairs",
+                            "vertices": [
+                                [ 1280, 32 ],
+                                [ 1280, 24 ],
+                                [ 1256, 0 ],
+                                [ 1248, 0 ]
+                            ],
+                            "lowPoint": 3,
+                            "highPoint": 0,
+                            "autoMountBottom": true,
+                            "autoMountTop": true,
+                            "isBackground": false
+                        }
+                    ],
+                    "playerSpawn": [ 113, 10 ],
+                    "transitionArea": {
+                        "origin": [ 1248, 0 ],
+                        "width": 8,
+                        "height": 8
+                    }
+                },
+                {
+                    "isCheckPoint": true,
+                    "background": {
+                        "foreground":{
+                            "origin": [ 7185, 476 ],
+                            "width": 1504,
+                            "height": 224
+                        },
+                        "parallax":{
+                            "origin": [ 2736, 489 ],
+                            "width": 1693,
+                            "height": 224
+                        }
+                    },
+                    "boundaries": {
+                        "width": 544,
+                        "height": 224
+                    },
+                    "terrain": [
+                        {
+                            "type": "trapDoor",
+                            "vertices": [
+                                [ 128, 24 ],
+                                [ 128, 32 ],
+                                [ 160, 32 ],
+                                [ 160, 24 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "trapDoor",
+                            "vertices": [
+                                [ 224, 24 ],
+                                [ 224, 32 ],
+                                [ 256, 32 ],
+                                [ 256, 24 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 0, 0 ],
+                                [ 0, 224 ],
+                                [ 32, 224 ],
+                                [ 32, 32 ],
+                                [ 128, 32 ],
+                                [ 128, 0 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 160, 0 ],
+                                [ 160, 32 ],
+                                [ 224, 32 ],
+                                [ 224, 0 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 256, 0 ],
+                                [ 256, 32 ],
+                                [ 544, 32 ],
+                                [ 544, 0 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 320, 48 ],
+                                [ 320, 64 ],
+                                [ 352, 64 ],
+                                [ 352, 48 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 288, 144 ],
+                                [ 288, 224 ],
+                                [ 320, 224 ],
+                                [ 320, 144 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 512, 144 ],
+                                [ 512, 224 ],
+                                [ 544, 224 ],
+                                [ 544, 144 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 160, 144 ],
+                                [ 160, 160 ],
+                                [ 192, 160 ],
+                                [ 192, 144 ]
+                            ],
+                            "isBackground": false
+                        },
+                        {
+                            "type": "default",
+                            "vertices": [
+                                [ 64, 80 ],
+                                [ 64, 96 ],
+                                [ 128, 96 ],
+                                [ 128, 80 ]
+                            ],
+                            "isBackground": false
+                        }
+                    ],
+                    "interactableObjects": [
+                        {
+                            "type": "stairs",
+                            "vertices": [
+                                [ 192, 160 ],
+                                [ 256, 224 ],
+                                [ 264, 224 ],
+                                [ 192, 152 ]
+                            ],
+                            "lowPoint": 0,
+                            "highPoint": 1,
+                            "autoMountBottom": true,
+                            "autoMountTop": true,
+                            "isBackground": false
+                        },
+                        {
+                            "type": "stairs",
+                            "vertices": [
+                                [ 160, 160 ],
+                                [ 96, 96 ],
+                                [ 104, 96 ],
+                                [ 160, 152 ]
+                            ],
+                            "lowPoint": 1,
+                            "highPoint": 0,
+                            "autoMountBottom": false,
+                            "autoMountTop": true,
+                            "isBackground": false
+                        }
+                    ],
+                    "playerSpawn": [ 245, 211 ],
+                    "transitionArea": {
+                        "origin": [ 9999, 9999 ],
+                        "height": 0,
+                        "width": 0
+                    }
+                }
+            ]
+        }
+    ]
+}

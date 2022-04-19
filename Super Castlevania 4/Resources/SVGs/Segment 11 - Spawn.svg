@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Entrance" xmlns="http://www.w3.org/2000/svg" width="7732" height="880" viewBox="0 0 7732 880">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #000;
+        stroke-miterlimit: 10;
+      }
+    </style>
+  </defs>
+  <path id="Spawn" class="cls-1" d="M14,445h3"/>
+</svg>

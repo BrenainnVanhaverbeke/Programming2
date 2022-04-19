@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Entrance" xmlns="http://www.w3.org/2000/svg" width="7732" height="880" viewBox="0 0 7732 880">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #000;
+        stroke-miterlimit: 10;
+      }
+    </style>
+  </defs>
+  <path id="Crumbling_Block" data-name="Crumbling Block" class="cls-1" d="M681,445v-3"/>
+  <path id="Crumbling_Block-2" data-name="Crumbling Block" class="cls-1" d="M697.0286,445v-3"/>
+  <path id="Crumbling_Block-3" data-name="Crumbling Block" class="cls-1" d="M713.0394,445v-3"/>
+  <path id="Crumbling_Block-4" data-name="Crumbling Block" class="cls-1" d="M729.0432,445v-3"/>
+</svg>
