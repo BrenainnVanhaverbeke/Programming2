@@ -5,6 +5,7 @@
 #include "ProjectileManager.h"
 #include "Player.h"
 #include "Camera.h"
+#include "Pendulum.h"
 #include <iostream>
 
 Game::Game(const Window& window)
@@ -13,6 +14,7 @@ Game::Game(const Window& window)
 	, m_pPlayer{ new Player(m_pLevelManager) }
 	, m_pCamera{ new Camera(window.width, window.height) }
 	, m_pProjectileManager{ new ProjectileManager() }
+	, m_pPendulum{ new Pendulum(window.width / 2, window.height / 2) }
 {
 	Initialize();
 	DisplayInstructions();
@@ -36,10 +38,12 @@ void Game::Cleanup()
 	delete m_pCamera;
 	delete m_pLevelManager;
 	delete m_pProjectileManager;
+	delete m_pPendulum;
 	m_pPlayer = nullptr;
 	m_pCamera = nullptr;
 	m_pLevelManager = nullptr;
 	m_pProjectileManager = nullptr;
+	m_pPendulum = nullptr;
 }
 
 void Game::Update(float elapsedSec)
@@ -54,6 +58,7 @@ void Game::Update(float elapsedSec)
 		m_pPlayer->Relocate(m_pLevelManager->GetSpawn());
 		m_pCamera->SetLevelBoundaries(m_pLevelManager->GetBoundaries());
 	}
+	m_pPendulum->Update(elapsedSec);
 }
 
 void Game::Draw() const
@@ -71,6 +76,7 @@ void Game::Draw() const
 		m_pProjectileManager->Draw();
 	}
 	glPopMatrix();
+	m_pPendulum->Draw();
 }
 
 void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent& e)

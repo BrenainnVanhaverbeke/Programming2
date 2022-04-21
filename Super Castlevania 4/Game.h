@@ -4,6 +4,7 @@ class Player;
 class Camera;
 class LevelManager;
 class ProjectileManager;
+class Pendulum;
 
 class Game final
 {
@@ -33,6 +34,7 @@ private:
 	ProjectileManager* m_pProjectileManager;
 	Player* m_pPlayer;
 	Camera* m_pCamera;
+	Pendulum* m_pPendulum;
 
 	// FUNCTIONS
 	void Initialize( );

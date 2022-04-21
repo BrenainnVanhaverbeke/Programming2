@@ -159,6 +159,7 @@
     <ClCompile Include="DrawBridge.cpp" />
     <ClCompile Include="InteractableObject.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
+    <ClCompile Include="Pendulum.cpp" />
     <ClCompile Include="ProjectileManager.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="TerrainObject.cpp" />
@@ -198,6 +199,7 @@
     <ClInclude Include="InteractableObject.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="LevelLoader.h" />
+    <ClInclude Include="Pendulum.h" />
     <ClInclude Include="ProjectileManager.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="TerrainObject.h" />

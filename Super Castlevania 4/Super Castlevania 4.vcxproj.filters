@@ -99,9 +99,6 @@
     <ClCompile Include="LevelLoader.cpp">
       <Filter>Game Files\Loader Class</Filter>
     </ClCompile>
-    <ClCompile Include="LevelManager.cpp">
-      <Filter>Game Files\Loader Class</Filter>
-    </ClCompile>
     <ClCompile Include="Door.cpp">
       <Filter>Game Files\Terrain Objects</Filter>
     </ClCompile>
@@ -128,6 +125,12 @@
     </ClCompile>
     <ClCompile Include="ProjectileTag.cpp">
       <Filter>Game Files\Projectile Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelManager.cpp">
+      <Filter>Game Files\Manager Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Pendulum.cpp">
+      <Filter>Game Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -223,6 +226,9 @@
     </ClInclude>
     <ClInclude Include="LevelManager.h">
       <Filter>Game Files\Manager Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Pendulum.h">
+      <Filter>Game Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
