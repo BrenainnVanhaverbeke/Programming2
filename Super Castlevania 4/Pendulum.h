@@ -13,6 +13,10 @@ public:
 	virtual void CheckOverlap(const Rectf& overlappingShape) override;
 	virtual bool IsOverlapping(const Rectf& overlappingShape) override;
 
+	void ReleasePendulum();
+	void ResetPendulum();
+	void ModifyReleaseCompensation(float compensationModifier);
+
 private:
 	float m_Length;
 	float m_AngleVelocity;
@@ -20,7 +24,15 @@ private:
 	float m_Radius;
 	float m_Damping;
 	float m_Gravity;
+	float m_ReleaseSpeedCompensation;
+	bool m_IsReleased;
 	Point2f m_Position;
+	Vector2f m_ReleaseVector;
 	
+	void UpdateSwing(float elapsedSec);
+	void UpdateRelease(float elapsedSec);
 	void UpdateInput(float elapsedSec);
+	float ToRadians(float degrees);
+	float ToDegrees(float radians);
+	Vector2f GetReleaseVector();
 };

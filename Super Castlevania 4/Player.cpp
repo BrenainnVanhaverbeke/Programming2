@@ -8,7 +8,7 @@
 #include <iostream>
 
 Player::Player(LevelManager* pLevelManager)
-	: Character(Transform{}, 28, 46.0f, Vector2f{ 0, -981.0f })
+	: Character(Transform{}, 28, 46.0f, Vector2f{ 0, utils::g_Gravity })
 	, m_HorizontalSpeed{ 75.0f }
 	, m_JumpForce{ 325.0f }
 	, m_ActionState{ ActionState::idle }

@@ -82,13 +82,22 @@ void Game::Draw() const
 void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent& e)
 {
 	if (e.keysym.sym == SDLK_SPACE && e.repeat == 0)
+	{
 		m_pPlayer->Jump();
+		m_pPendulum->ReleasePendulum();
+	}
 	if ((e.keysym.sym == SDLK_w || e.keysym.sym == SDLK_UP) && e.repeat == 0)
 		m_pPlayer->AttemptInteraction();
 	if ((e.keysym.sym == SDLK_q) && e.repeat == 0)
 		m_pPlayer->Attack();
 	if ((e.keysym.sym == SDLK_e) && e.repeat == 0)
-		m_pProjectileManager->AddProjectile(m_pPlayer->Shoot(), m_pPlayer->GetShape().GetCenter(), true, m_pPlayer->IsFlipped());
+		m_pProjectileManager->AddProjectile(m_pPlayer->Shoot(), m_pPlayer->GetShape().GetCenter(), tru, m_pPlayer->IsFlipped());
+	if ((e.keysym.sym == SDLK_r) && e.repeat == 0)
+		m_pPendulum->ResetPendulum();
+	if ((e.keysym.sym == SDLK_a) && e.repeat == 0)
+		m_pPendulum->ModifyReleaseCompensation(-5.0f);
+	if ((e.keysym.sym == SDLK_d) && e.repeat == 0)
+		m_pPendulum->ModifyReleaseCompensation(5.0f);
 }
 
 void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent& e)

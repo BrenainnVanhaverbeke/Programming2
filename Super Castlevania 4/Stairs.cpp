@@ -40,7 +40,7 @@ void Stairs::CheckOverlap(const Rectf& overlappingShape)
 
 bool Stairs::IsOverlapping(const Rectf& shape)
 {
-	return utils::IsPointInPolygon(shape.GetBottomCenter(), m_Vertices);
+	return utils::IsPointInPolygon(shape.GetBottomCenter(0, 1.0f), m_Vertices);
 }
 
 bool Stairs::TryInteraction(const Rectf& shape, bool& isOnBackground, bool& isOnStairs)
@@ -55,9 +55,7 @@ bool Stairs::TryInteraction(const Rectf& shape, bool& isOnBackground, bool& isOn
 		return isOnStairs;
 	}
 	if (IsOverlapping(shape))
-	{
 		isOnStairs = true;
-	}
 	return isOnStairs;
 }
 
