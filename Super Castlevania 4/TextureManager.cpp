@@ -3,7 +3,7 @@
 #include "Texture.h"
 #include <iostream>
 
-TextureManager* TextureManager::m_Instance{ nullptr };
+TextureManager* TextureManager::m_pInstance{ nullptr };
 
 TextureManager::TextureManager()
 {
@@ -24,15 +24,15 @@ TextureManager::~TextureManager()
 
 TextureManager& TextureManager::GetInstance()
 {
-	if (!m_Instance)
-		m_Instance = new TextureManager();
-	return *m_Instance;
+	if (!m_pInstance)
+		m_pInstance = new TextureManager();
+	return *m_pInstance;
 }
 
 void TextureManager::DeleteTextureManager()
 {
-	delete m_Instance;
-	m_Instance = nullptr;
+	delete m_pInstance;
+	m_pInstance = nullptr;
 }
 
 void TextureManager::GetTextureDimensions(const std::string& fileName, float& width, float& height) const

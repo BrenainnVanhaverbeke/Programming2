@@ -6,11 +6,6 @@ class Texture;
 class TextureManager
 {
 public:
-	TextureManager(const TextureManager&) = delete;
-	TextureManager(TextureManager&&) = delete;
-	TextureManager& operator=(const TextureManager&) = delete;
-	TextureManager& operator=(TextureManager&&) = delete;
-
 	static TextureManager& GetInstance();
 	void DeleteTextureManager();
 	void DrawTexture(const std::string& fileName, const Rectf& sourceRect = Rectf{}, bool isFlipped = false);
@@ -20,7 +15,11 @@ public:
 private:
 	TextureManager();
 	~TextureManager();
-	static TextureManager* m_Instance;
+	TextureManager(const TextureManager&) = delete;
+	TextureManager(TextureManager&&) = delete;
+	TextureManager& operator=(const TextureManager&) = delete;
+	TextureManager& operator=(TextureManager&&) = delete;
+	static TextureManager* m_pInstance;
 	std::unordered_map<std::string, Texture*> m_pTextures;
 
 	void LoadTexture(const std::string& fileName);

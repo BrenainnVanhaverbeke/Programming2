@@ -10,7 +10,7 @@ public:
 	Character& operator=(Character&& rhs) = delete;
 	Character(const Character& other) = delete;
 	Character(Character&& other) = delete;
-	virtual ~Character();
+	virtual ~Character() = default;
 
 	virtual Rectf GetShape() const;
 	virtual Vector2f& GetVelocity();

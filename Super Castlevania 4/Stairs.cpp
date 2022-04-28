@@ -13,10 +13,6 @@ Stairs::Stairs(const std::vector<Point2f>& vertices, int lowPoint, int highPoint
 {
 }
 
-Stairs::~Stairs()
-{
-}
-
 void Stairs::Draw() const
 {
 	const Color4f autoMount{ 0, 1.0f, 0, 1.0f };

@@ -19,10 +19,6 @@ Sprite::Sprite(std::string fileName, const Rectf& sourceRect, int frames, int ro
 {
 }
 
-Sprite::~Sprite()
-{
-}
-
 void Sprite::Update(float elapsedSec, int rowOffset, bool freezeFrame)
 {
 	m_AccumulatedTime += elapsedSec;

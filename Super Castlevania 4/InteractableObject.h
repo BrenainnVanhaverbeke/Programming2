@@ -9,7 +9,7 @@ public:
 	InteractableObject& operator=(InteractableObject&& rhs) = delete;
 	InteractableObject(const InteractableObject& other) = delete;
 	InteractableObject(InteractableObject&& other) = delete;
-	virtual ~InteractableObject();
+	virtual ~InteractableObject() = default;
 
 	virtual bool TryInteraction(const Rectf& shape, bool& isOnBackground, bool& isOnStairs) = 0;
 	virtual bool IsDoneInteracting(const Character& character) const = 0;

@@ -10,7 +10,7 @@ public:
 	Sprite& operator= (Sprite&& rhs) = delete;
 	Sprite(const Sprite& other) = delete;
 	Sprite(Sprite&& other) = delete;
-	~Sprite();
+	~Sprite() = default;
 
 	void Update(float elapsedSec, int rowOffset = 0, bool freezeFrame = false);
 	void Draw(const Transform& origin, bool isFlipped = false) const;

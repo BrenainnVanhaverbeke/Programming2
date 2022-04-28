@@ -13,10 +13,6 @@ CrumblingBlock::CrumblingBlock(const std::vector<Point2f>& vertices, bool isBack
 {
 }
 
-CrumblingBlock::~CrumblingBlock()
-{
-}
-
 void CrumblingBlock::Update(float elapsedSec)
 {
 	if (m_IsOverlapped)

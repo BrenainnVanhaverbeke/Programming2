@@ -139,10 +139,10 @@ json LevelLoader::GetJsonObject(int stage, int segment, std::string& objectName)
 	if (!parsedJson.at("stages").at(stage).at("segments").at(segment).contains(objectName))
 		return json{};
 	return parsedJson.at("stages")
-					 .at(stage)
-					 .at("segments")
-					 .at(segment)
-					 .at(objectName);
+		.at(stage)
+		.at("segments")
+		.at(segment)
+		.at(objectName);
 }
 
 std::vector<Point2f> LevelLoader::GetVerticesFromJsonObject(const json& jsonObject) const

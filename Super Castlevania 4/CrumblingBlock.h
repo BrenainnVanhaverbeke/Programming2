@@ -5,7 +5,7 @@ class CrumblingBlock final : public TerrainObject
 {
 public:
 	explicit CrumblingBlock(const std::vector<Point2f>& vertices, bool isBackground);
-	virtual ~CrumblingBlock();
+	virtual ~CrumblingBlock() = default;
 	CrumblingBlock& operator=(const CrumblingBlock& rhs) = delete;
 	CrumblingBlock& operator=(CrumblingBlock&& rhs) = delete;
 	CrumblingBlock(const CrumblingBlock& other) = delete;

@@ -10,7 +10,7 @@ public:
 	Stairs& operator=(Stairs&& rhs) = delete;
 	Stairs(const Stairs& other) = delete;
 	Stairs(Stairs&& other) = delete;
-	virtual ~Stairs();
+	virtual ~Stairs() = default;
 
 	virtual void Draw() const override;
 	virtual void Update(float elapsedSec) override;

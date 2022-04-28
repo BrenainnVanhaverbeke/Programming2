@@ -9,7 +9,7 @@ public:
 	GameObject& operator=(GameObject&& rhs) = delete;
 	GameObject(const GameObject& other) = delete;
 	GameObject(GameObject&& other) = delete;
-	virtual ~GameObject();
+	virtual ~GameObject() = default;
 
 	virtual void Update(float elapsedSec) = 0;
 	virtual void Draw() const = 0;

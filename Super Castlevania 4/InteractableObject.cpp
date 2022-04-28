@@ -8,10 +8,6 @@ InteractableObject::InteractableObject(const std::vector<Point2f>& vertices, boo
 {
 }
 
-InteractableObject::~InteractableObject()
-{
-}
-
 bool InteractableObject::CheckDirection(const Vector2f& actorVelocity) const
 {
     return false;

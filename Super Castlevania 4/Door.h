@@ -8,7 +8,7 @@ public:
 	Door& operator=(Door&& rhs) = delete;
 	Door(const Door& other) = delete;
 	Door(Door&& other) = delete;
-	virtual ~Door();
+	virtual ~Door() = default;
 
 	virtual void Update(float elapsedSec) override;
 	virtual void Draw() const override;

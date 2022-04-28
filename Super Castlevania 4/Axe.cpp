@@ -9,10 +9,6 @@ Axe::Axe(const Point2f& origin, bool isFlipped)
 {
 }
 
-Axe::~Axe()
-{
-}
-
 Sprite* Axe::CreateSprite()
 {
 	const Rectf sourceRect{ 112.0f, 33.0f, 15.0f, 15.0f };

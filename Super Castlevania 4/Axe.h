@@ -5,7 +5,7 @@ class Axe final : public Projectile
 {
 public:
 	explicit Axe(const Point2f& origin, bool isFlipped);
-	virtual ~Axe();
+	virtual ~Axe() = default;
 	Axe& operator=(const Axe& rhs) = delete;
 	Axe& operator=(Axe&& rhs) = delete;
 	Axe(const Axe& other) = delete;
