@@ -27,14 +27,7 @@ LinkedList::~LinkedList()
 // Wrap the value in a new Node object and add it as first Node of the list
 void LinkedList::PushFront(int  value)
 {
-	Node* newNode{ new Node(value) };
-	if (m_pFirstNode)
-	{
-		newNode->pNext = m_pFirstNode;
-		m_pFirstNode = newNode;
-	}
-	else
-		m_pFirstNode = newNode;
+	m_pFirstNode = new Node(value, m_pFirstNode);
 	++m_Size;
 }
 
@@ -46,7 +39,6 @@ void LinkedList::PopFront()
 		Node* firstNode{ m_pFirstNode };
 		m_pFirstNode = firstNode->pNext;
 		delete firstNode;
-		firstNode = nullptr;
 		--m_Size;
 	}
 }
