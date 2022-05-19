@@ -34,6 +34,12 @@
     <Filter Include="Game Files\Loader Class">
       <UniqueIdentifier>{9c017081-4c1c-4d9d-b04a-688abb807798}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Files\Movement Behaviours">
+      <UniqueIdentifier>{670ac429-30ba-4498-ad54-f1682612f9ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\Enum Classes">
+      <UniqueIdentifier>{322c444c-511f-4ed3-b190-871c8db9275f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -130,6 +136,18 @@
       <Filter>Game Files\Manager Classes</Filter>
     </ClCompile>
     <ClCompile Include="Pendulum.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MovementBehaviour.cpp">
+      <Filter>Game Files\Abstract Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerBehaviour.cpp">
+      <Filter>Game Files\Movement Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionState.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DefaultMovement.cpp">
       <Filter>Game Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -229,6 +247,18 @@
     </ClInclude>
     <ClInclude Include="Pendulum.h">
       <Filter>Game Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MovementBehaviour.h">
+      <Filter>Game Files\Abstract Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerBehaviour.h">
+      <Filter>Game Files\Movement Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionState.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DefaultMovement.h">
+      <Filter>Framework Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

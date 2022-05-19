@@ -151,15 +151,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ActionState.cpp" />
     <ClCompile Include="Axe.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="CrumblingBlock.cpp" />
+    <ClCompile Include="DefaultMovement.cpp" />
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="DrawBridge.cpp" />
     <ClCompile Include="InteractableObject.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
+    <ClCompile Include="MovementBehaviour.cpp" />
     <ClCompile Include="Pendulum.cpp" />
+    <ClCompile Include="PlayerBehaviour.cpp" />
     <ClCompile Include="ProjectileManager.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="TerrainObject.cpp" />
@@ -190,16 +194,20 @@
     <ClCompile Include="Vector2f.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ActionState.h" />
     <ClInclude Include="Axe.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="CrumblingBlock.h" />
+    <ClInclude Include="DefaultMovement.h" />
     <ClInclude Include="Door.h" />
     <ClInclude Include="DrawBridge.h" />
     <ClInclude Include="InteractableObject.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="LevelLoader.h" />
+    <ClInclude Include="MovementBehaviour.h" />
     <ClInclude Include="Pendulum.h" />
+    <ClInclude Include="PlayerBehaviour.h" />
     <ClInclude Include="ProjectileManager.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="TerrainObject.h" />

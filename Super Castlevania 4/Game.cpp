@@ -94,10 +94,6 @@ void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent& e)
 		m_pProjectileManager->AddProjectile(m_pPlayer->Shoot(), m_pPlayer->GetShape().GetCenter(), true, m_pPlayer->IsFlipped());
 	if ((e.keysym.sym == SDLK_r) && e.repeat == 0)
 		m_pPendulum->ResetPendulum();
-	if ((e.keysym.sym == SDLK_a) && e.repeat == 0)
-		m_pPendulum->ModifyReleaseCompensation(-5.0f);
-	if ((e.keysym.sym == SDLK_d) && e.repeat == 0)
-		m_pPendulum->ModifyReleaseCompensation(5.0f);
 }
 
 void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent& e)
