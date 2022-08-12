@@ -22,15 +22,6 @@
     <Filter Include="Game Files\Manager Classes">
       <UniqueIdentifier>{d7a69220-4be7-42e8-aac0-fe67b2cf0935}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game Files\Terrain Objects">
-      <UniqueIdentifier>{da7f1377-b080-4566-89c1-52f6f4c74786}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Files\Character Objects">
-      <UniqueIdentifier>{39dddf1c-7a1a-4fdd-a697-94b61dcef9ef}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Game Files\Projectile Objects">
-      <UniqueIdentifier>{0576a853-116c-4824-a09d-7d411e715eaa}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game Files\Loader Class">
       <UniqueIdentifier>{9c017081-4c1c-4d9d-b04a-688abb807798}</UniqueIdentifier>
     </Filter>
@@ -39,6 +30,15 @@
     </Filter>
     <Filter Include="Game Files\Enum Classes">
       <UniqueIdentifier>{322c444c-511f-4ed3-b190-871c8db9275f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\Character Classes">
+      <UniqueIdentifier>{39dddf1c-7a1a-4fdd-a697-94b61dcef9ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\Projectile Classes">
+      <UniqueIdentifier>{0576a853-116c-4824-a09d-7d411e715eaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\Terrain Classes">
+      <UniqueIdentifier>{da7f1377-b080-4566-89c1-52f6f4c74786}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -88,31 +88,31 @@
       <Filter>Game Files\Abstract Classes</Filter>
     </ClCompile>
     <ClCompile Include="Stairs.cpp">
-      <Filter>Game Files\Terrain Objects</Filter>
+      <Filter>Game Files\Terrain Classes</Filter>
     </ClCompile>
     <ClCompile Include="TextureManager.cpp">
       <Filter>Game Files\Manager Classes</Filter>
     </ClCompile>
     <ClCompile Include="CrumblingBlock.cpp">
-      <Filter>Game Files\Terrain Objects</Filter>
+      <Filter>Game Files\Terrain Classes</Filter>
     </ClCompile>
     <ClCompile Include="DrawBridge.cpp">
-      <Filter>Game Files\Terrain Objects</Filter>
+      <Filter>Game Files\Terrain Classes</Filter>
     </ClCompile>
     <ClCompile Include="TerrainObject.cpp">
-      <Filter>Game Files\Terrain Objects</Filter>
+      <Filter>Game Files\Terrain Classes</Filter>
     </ClCompile>
     <ClCompile Include="LevelLoader.cpp">
       <Filter>Game Files\Loader Class</Filter>
     </ClCompile>
     <ClCompile Include="Door.cpp">
-      <Filter>Game Files\Terrain Objects</Filter>
+      <Filter>Game Files\Terrain Classes</Filter>
     </ClCompile>
     <ClCompile Include="InteractableObject.cpp">
-      <Filter>Game Files\Terrain Objects</Filter>
+      <Filter>Game Files\Terrain Classes</Filter>
     </ClCompile>
     <ClCompile Include="Trapdoor.cpp">
-      <Filter>Game Files\Terrain Objects</Filter>
+      <Filter>Game Files\Terrain Classes</Filter>
     </ClCompile>
     <ClCompile Include="Sprite.cpp">
       <Filter>Game Files</Filter>
@@ -121,16 +121,16 @@
       <Filter>Game Files\Abstract Classes</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
-      <Filter>Game Files\Character Objects</Filter>
+      <Filter>Game Files\Character Classes</Filter>
     </ClCompile>
     <ClCompile Include="ProjectileManager.cpp">
       <Filter>Game Files\Manager Classes</Filter>
     </ClCompile>
     <ClCompile Include="Axe.cpp">
-      <Filter>Game Files\Projectile Objects</Filter>
+      <Filter>Game Files\Projectile Classes</Filter>
     </ClCompile>
     <ClCompile Include="ProjectileTag.cpp">
-      <Filter>Game Files\Projectile Objects</Filter>
+      <Filter>Game Files\Projectile Classes</Filter>
     </ClCompile>
     <ClCompile Include="LevelManager.cpp">
       <Filter>Game Files\Manager Classes</Filter>
@@ -141,14 +141,23 @@
     <ClCompile Include="MovementBehaviour.cpp">
       <Filter>Game Files\Abstract Classes</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerBehaviour.cpp">
-      <Filter>Game Files\Movement Behaviours</Filter>
-    </ClCompile>
     <ClCompile Include="ActionState.cpp">
       <Filter>Game Files</Filter>
     </ClCompile>
-    <ClCompile Include="DefaultMovement.cpp">
+    <ClCompile Include="PlayerMovement.cpp">
+      <Filter>Game Files\Movement Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="Background.cpp">
       <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Bat.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SinewaveMovement.cpp">
+      <Filter>Game Files\Movement Behaviours</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -195,7 +204,7 @@
       <Filter>Game Files\Abstract Classes</Filter>
     </ClInclude>
     <ClInclude Include="Stairs.h">
-      <Filter>Game Files\Terrain Objects</Filter>
+      <Filter>Game Files\Terrain Classes</Filter>
     </ClInclude>
     <ClInclude Include="json.hpp">
       <Filter>External Libraries</Filter>
@@ -204,43 +213,43 @@
       <Filter>Game Files\Manager Classes</Filter>
     </ClInclude>
     <ClInclude Include="CrumblingBlock.h">
-      <Filter>Game Files\Terrain Objects</Filter>
+      <Filter>Game Files\Terrain Classes</Filter>
     </ClInclude>
     <ClInclude Include="DrawBridge.h">
-      <Filter>Game Files\Terrain Objects</Filter>
+      <Filter>Game Files\Terrain Classes</Filter>
     </ClInclude>
     <ClInclude Include="TerrainObject.h">
-      <Filter>Game Files\Terrain Objects</Filter>
+      <Filter>Game Files\Terrain Classes</Filter>
     </ClInclude>
     <ClInclude Include="LevelLoader.h">
       <Filter>Game Files\Loader Class</Filter>
     </ClInclude>
     <ClInclude Include="Door.h">
-      <Filter>Game Files\Terrain Objects</Filter>
+      <Filter>Game Files\Terrain Classes</Filter>
     </ClInclude>
     <ClInclude Include="InteractableObject.h">
-      <Filter>Game Files\Terrain Objects</Filter>
+      <Filter>Game Files\Terrain Classes</Filter>
     </ClInclude>
     <ClInclude Include="Trapdoor.h">
-      <Filter>Game Files\Terrain Objects</Filter>
+      <Filter>Game Files\Terrain Classes</Filter>
     </ClInclude>
     <ClInclude Include="Sprite.h">
       <Filter>Game Files</Filter>
     </ClInclude>
     <ClInclude Include="Player.h">
-      <Filter>Game Files\Character Objects</Filter>
+      <Filter>Game Files\Character Classes</Filter>
     </ClInclude>
     <ClInclude Include="ProjectileManager.h">
       <Filter>Game Files\Manager Classes</Filter>
     </ClInclude>
     <ClInclude Include="Axe.h">
-      <Filter>Game Files\Projectile Objects</Filter>
+      <Filter>Game Files\Projectile Classes</Filter>
     </ClInclude>
     <ClInclude Include="Projectile.h">
       <Filter>Game Files\Abstract Classes</Filter>
     </ClInclude>
     <ClInclude Include="ProjectileTag.h">
-      <Filter>Game Files\Projectile Objects</Filter>
+      <Filter>Game Files\Projectile Classes</Filter>
     </ClInclude>
     <ClInclude Include="LevelManager.h">
       <Filter>Game Files\Manager Classes</Filter>
@@ -251,14 +260,23 @@
     <ClInclude Include="MovementBehaviour.h">
       <Filter>Game Files\Abstract Classes</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerBehaviour.h">
-      <Filter>Game Files\Movement Behaviours</Filter>
-    </ClInclude>
     <ClInclude Include="ActionState.h">
       <Filter>Framework Files</Filter>
     </ClInclude>
-    <ClInclude Include="DefaultMovement.h">
+    <ClInclude Include="PlayerMovement.h">
+      <Filter>Game Files\Movement Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="Background.h">
+      <Filter>Game Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Bat.h">
       <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SinewaveMovement.h">
+      <Filter>Game Files\Movement Behaviours</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
