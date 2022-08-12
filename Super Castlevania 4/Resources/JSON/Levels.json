@@ -51,7 +51,7 @@
                             "isBackground": false
                         }
                     ],
-                    "playerSpawn": [ 3, 32 ],
+                    "playerSpawn": [ 40, 32 ],
                     "terrain": [
                         {
                             "type": "default",
