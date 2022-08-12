@@ -43,6 +43,11 @@ Point2f Vector2f::ToPoint2f() const
 	return Point2f{ x, y };
 }
 
+void Vector2f::Log() const
+{
+	std::cout << ToString();
+}
+
 float Vector2f::DotProduct(const Vector2f& other) const
 {
 	return x * other.x + y * other.y;

@@ -27,6 +27,7 @@ struct Vector2f final
 	// -------------------------
 	// Convert to Point2f	
 	Point2f	ToPoint2f( ) const;
+	void Log() const;
 
 	// Are two vectors equal within a threshold?				
 	// u.Equals(v)
