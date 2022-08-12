@@ -5,6 +5,7 @@
 class Texture;
 class LevelManager;
 class Sprite;
+class MovementBehaviour;
 enum class ProjectileTag;
 
 class Player final : public Character
@@ -50,7 +51,7 @@ private:
 	const float m_JumpForce;
 	
 	LevelManager* m_pLevelManager;
-	Sprite* m_pSprite;
+	//Sprite* m_pSprite;
 	ProjectileTag m_ProjectileTag;
 	ActionState m_ActionState;
 	Rectf m_Weapon;
@@ -62,9 +63,6 @@ private:
 	float m_AttackTime;
 
 	void UpdateState(const Uint8* pKeysState);
-	void UpdateVelocity(float elapsedSec, const Uint8* pKeysState);
-	void UpdateHorizontalVelocity(float elapsedSec, const Uint8* pKeysState);
-	void UpdateVerticalVelocity(float elapsedsec, const Uint8* pKeysState);
 	void UpdateAttack(float elapsedSec);
 	void MovePlayer(float elapsedSec);
 	void Clamp();

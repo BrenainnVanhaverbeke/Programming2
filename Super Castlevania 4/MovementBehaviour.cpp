@@ -6,3 +6,8 @@ MovementBehaviour::MovementBehaviour(const Vector2f acceleration)
 	, m_Velocity{ 0, 0 }
 {
 }
+
+Vector2f& MovementBehaviour::GetVelocity()
+{
+	return m_Velocity;
+}
