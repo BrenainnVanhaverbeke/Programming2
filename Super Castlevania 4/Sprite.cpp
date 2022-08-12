@@ -67,6 +67,11 @@ void Sprite::SetSourceRect(const Rectf& sourceRect)
 	m_SourceRect = sourceRect;
 }
 
+Rectf Sprite::GetSourceRect()
+{
+	return m_SourceRect;
+}
+
 void Sprite::UpdateSourceRect(int rowOffset)
 {
 	TextureManager& textureManager{ TextureManager::GetInstance() };

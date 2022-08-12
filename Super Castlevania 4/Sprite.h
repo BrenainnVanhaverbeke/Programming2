@@ -17,6 +17,7 @@ public:
 	void DrawRotatedCenter(const Transform& origin, float width, float height, bool isFlipped = false);
 
 	void SetSourceRect(const Rectf& sourceRect);
+	Rectf GetSourceRect();
 
 private:
 	const std::string m_Path;
