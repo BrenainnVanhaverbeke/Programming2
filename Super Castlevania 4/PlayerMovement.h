@@ -3,7 +3,7 @@
 
 class Character;
 
-class PlayerMovement : public MovementBehaviour
+class PlayerMovement final : public MovementBehaviour
 {
 public:
 	PlayerMovement(const Vector2f& acceleration);
@@ -11,8 +11,10 @@ public:
 
 	// Inherited via MovementBehaviour
 	virtual void Update(float elapsedSec, Character& character, const Rectf& boundaries) override;
+	virtual void Jump() override;
 
 private:
+	const float m_JumpForce;
 	const float m_HorizontalSpeed;
 
 	virtual void UpdateVelocity(float elapsedSec, const Uint8* pKeysState) override;

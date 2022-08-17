@@ -5,16 +5,21 @@
 PlayerMovement::PlayerMovement(const Vector2f& acceleration)
 	: MovementBehaviour(acceleration)
 	, m_HorizontalSpeed{ 75.0f }
+	, m_JumpForce{ 325.0f }
 {
 }
 
 void PlayerMovement::Update(float elapsedSec, Character& character, const Rectf& boundaries)
 {
 	const Uint8* pKeysState{ SDL_GetKeyboardState(nullptr) };
-	m_Velocity.Log();
 	UpdateVelocity(elapsedSec, pKeysState);
 	Move(elapsedSec, character.GetTransform());
 	Clamp(character.GetTransform(), boundaries, character.GetShape().width);
+}
+
+void PlayerMovement::Jump()
+{
+	m_Velocity.y += m_JumpForce;
 }
 
 void PlayerMovement::UpdateVelocity(float elapsedSec, const Uint8* pKeysState)
