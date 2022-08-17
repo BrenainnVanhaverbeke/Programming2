@@ -10,6 +10,7 @@ public:
 	virtual ~MovementBehaviour() = default;
 
 	virtual void Update(float elapsedSec, Character& character, const Rectf& boundaries) = 0;
+	virtual void Jump(); 
 	virtual Vector2f& GetVelocity() final;
 
 protected:
