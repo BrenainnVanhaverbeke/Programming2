@@ -19,11 +19,9 @@ public:
 	virtual Vector2f& GetVelocity() const;
 
 protected:
-	const Vector2f m_Acceleration;
 	Sprite* m_pSprite;
 	MovementBehaviour* m_pMovementBehaviour;
 
 	float m_Width;
 	float m_Height;
-	Vector2f m_Velocity;
 };

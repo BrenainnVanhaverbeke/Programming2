@@ -8,8 +8,6 @@ Character::Character(Transform transform, Sprite* sprite, float width, float hei
 	, m_pSprite{ sprite }
 	, m_Width{ width }
 	, m_Height{ height }
-	, m_Acceleration{ acceleration }
-	, m_Velocity{}
 	, m_pMovementBehaviour{ nullptr }
 {
 }
