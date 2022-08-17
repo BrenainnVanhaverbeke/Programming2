@@ -10,7 +10,7 @@
 
 Game::Game(const Window& window)
 	: m_Window{ window }
-	, m_pLevelManager{ new LevelManager() }
+	, m_pLevelManager{ new LevelManager(window.width, window.height) }
 	, m_pPlayer{ new Player(m_pLevelManager) }
 	, m_pCamera{ new Camera(window.width, window.height) }
 	, m_pProjectileManager{ new ProjectileManager() }
@@ -48,8 +48,9 @@ void Game::Cleanup()
 
 void Game::Update(float elapsedSec)
 {
+	const Point2f& cameraBottomLeft{ m_pCamera->Track(m_pPlayer->GetShape()) };
 	m_pPlayer->Update(elapsedSec);
-	m_pLevelManager->Update(elapsedSec);
+	m_pLevelManager->Update(elapsedSec, cameraBottomLeft);
 	m_pLevelManager->CheckOverlap(m_pPlayer->GetShape());
 	m_pProjectileManager->Update(elapsedSec);
 	if (m_pLevelManager->IsInTransitionArea(m_pPlayer->GetShape()))
@@ -67,7 +68,7 @@ void Game::Draw() const
 	ClearBackground();
 	glPushMatrix();
 	{
-		m_pCamera->Transform(m_pPlayer->GetShape());
+		m_pCamera->Transform();
 		if (!isOnBackground)
 			m_pLevelManager->Draw();
 		m_pPlayer->Draw();
