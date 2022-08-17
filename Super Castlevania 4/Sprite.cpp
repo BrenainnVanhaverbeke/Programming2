@@ -43,7 +43,7 @@ void Sprite::Draw(const Transform& transform, bool isFlipped) const
 			glScalef(-1, 1, 1);
 			glTranslatef(-m_SourceRect.width, 0, 0);
 		}
-		textureManager.DrawTexture(m_Path, m_SourceRect, isFlipped);
+		textureManager.DrawTexture(m_Path, m_SourceRect);
 	}
 	glPopMatrix();
 }
@@ -57,7 +57,7 @@ void Sprite::DrawRotatedCenter(const Transform& origin, float width, float heigh
 		glTranslatef(pivot.x, pivot.y, 0);
 		glRotatef(origin.angle, 0, 0, 1);
 		glTranslatef(-width / 2, -height / 2, 0);
-		textureManager.DrawTexture(m_Path, m_SourceRect, isFlipped);
+		textureManager.DrawTexture(m_Path, m_SourceRect);
 	}
 	glPopMatrix();
 }

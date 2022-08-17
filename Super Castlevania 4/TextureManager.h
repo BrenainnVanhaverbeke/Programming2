@@ -8,8 +8,8 @@ class TextureManager
 public:
 	static TextureManager& GetInstance();
 	void DeleteTextureManager();
-	void DrawTexture(const std::string& fileName, const Rectf& sourceRect = Rectf{}, bool isFlipped = false);
-	void DrawTexture(const std::string& fileName, const Point2f& point, const Rectf& sourceRect = Rectf{}, bool isFlipped = false);
+	void DrawTexture(const std::string& fileName, const Rectf& sourceRect = Rectf{});
+	void DrawTexture(const std::string& fileName, const Point2f& point, const Rectf& sourceRect = Rectf{});
 	void GetTextureDimensions(const std::string& fileName, float& width, float& height) const;
 
 private:
