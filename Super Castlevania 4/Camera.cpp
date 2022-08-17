@@ -6,7 +6,7 @@ Camera::Camera(float width, float height)
 	: m_Width{ width }
 	, m_Height{ height }
 	, m_Bottom{}
-	, m_ScaleFactor{ 2.0f }
+	, m_ScaleFactor{ G_SCALEFACTOR }
 {
 }
 
@@ -15,21 +15,20 @@ void Camera::SetLevelBoundaries(const Rectf& levelBoundaries)
 	m_LevelBoundaries = levelBoundaries;
 }
 
-Point2f Camera::Transform(const Rectf& target) const
+Point2f Camera::Track(const Rectf& target)
 {
-	Point2f bottomLeftPos{ Track(target) };
-	Clamp(bottomLeftPos);
-	glScalef(m_ScaleFactor, m_ScaleFactor, 1.0f);
-	glTranslatef(-bottomLeftPos.x, -bottomLeftPos.y, 0);
-	return bottomLeftPos;
+	m_BottomLeftPosition = utils::GetRectCentre(target);
+	m_BottomLeftPosition.x -= (m_Width / 2) / m_ScaleFactor;
+	Clamp(m_BottomLeftPosition);
+	return m_BottomLeftPosition;
 }
 
-Point2f Camera::Track(const Rectf& target) const
+void Camera::Transform() const
 {
-	Point2f bottomLeftPos{ utils::GetRectCentre(target) };
-	bottomLeftPos.x -= (m_Width / 2) / m_ScaleFactor;
-	return bottomLeftPos;
+	glScalef(m_ScaleFactor, m_ScaleFactor, 1.0f);
+	glTranslatef(-m_BottomLeftPosition.x, -m_BottomLeftPosition.y, 0);
 }
+
 
 void Camera::Clamp(Point2f& bottomLeftPos) const
 {
