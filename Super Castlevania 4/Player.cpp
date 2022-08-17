@@ -10,7 +10,6 @@
 Player::Player( LevelManager* pLevelManager)
 	: Character(Transform{}, new Sprite("Player_Movement.png", Rectf(0, 0, 32.0f, 48.0f), 6, 7, 6), 28, 46.0f, Vector2f{ 0, utils::g_Gravity })
 	, m_HorizontalSpeed{ 75.0f }
-	, m_JumpForce{ 325.0f }
 	, m_ActionState{ ActionState::idle }
 	, m_pLevelManager{ pLevelManager }
 	, m_IsDrawDebug{ false }
@@ -86,7 +85,7 @@ void Player::AttemptInteraction()
 void Player::Jump()
 {
 	if (!m_IsAttacking && m_pLevelManager->IsOnGround(*this))
-		m_Velocity.y += m_JumpForce;
+		m_pMovementBehaviour->Jump();
 }
 
 void Player::Attack()
@@ -166,22 +165,6 @@ void Player::UpdateAttack(float elapsedSec)
 		m_AttackTime = 0;
 		m_IsAttacking = false;
 	}
-}
-
-void Player::MovePlayer(float elapsedSec)
-{
-	m_Transform.positionX += m_Velocity.x * elapsedSec;
-	m_Transform.positionY += m_Velocity.y * elapsedSec;
-	Clamp();
-}
-
-void Player::Clamp()
-{
-	const Rectf& boundaries{ m_pLevelManager->GetBoundaries() };
-	if (m_Transform.positionX < boundaries.left)
-		m_Transform.positionX = boundaries.left;
-	if (boundaries.left + boundaries.width < m_Transform.positionX + m_Width)
-		m_Transform.positionX = boundaries.left + boundaries.width - m_Width;
 }
 
 std::string Player::GetActionStateString() const

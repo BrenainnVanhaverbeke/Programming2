@@ -48,7 +48,6 @@ public:
 
 private:
 	const float m_HorizontalSpeed;
-	const float m_JumpForce;
 	
 	LevelManager* m_pLevelManager;
 	//Sprite* m_pSprite;
@@ -64,8 +63,6 @@ private:
 
 	void UpdateState(const Uint8* pKeysState);
 	void UpdateAttack(float elapsedSec);
-	void MovePlayer(float elapsedSec);
-	void Clamp();
 	void CheckDeath();
 
 	void DrawDebug() const;
