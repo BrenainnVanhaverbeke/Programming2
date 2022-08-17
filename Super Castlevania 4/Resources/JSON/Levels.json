@@ -11,11 +11,15 @@
                             "width": 1024,
                             "height": 192
                         },
-                        "parallax": {
-                            "origin": [ 10, 277 ],
-                            "width": 498,
-                            "height": 192
-                        }
+                        "parallax": [
+                            {
+                                "origin": [ 10, 277 ],
+                                "width": 498,
+                                "height": 192,
+                                "yOffset": 0
+                            }
+                        ]
+                        
                     },
                     "boundaries": {
                         "width": 1024,
@@ -138,11 +142,14 @@
                             "width": 2048,
                             "height": 224
                         },
-                        "parallax":{
-                            "origin": [ 2736, 489 ],
-                            "width": 1693,
-                            "height": 224
-                        }
+                        "parallax": [
+                            {
+                                "origin": [ 1043, 713 ],
+                                "width": 1693,
+                                "height": 224,
+                                "yOffset": 0
+                            } 
+                        ]
                     },
                     "terrain":[
                         {
@@ -332,11 +339,20 @@
                             "width": 1280,
                             "height": 224
                         },
-                        "parallax":{
-                            "origin": [ 2736, 489 ],
-                            "width": 1693,
-                            "height": 224
-                        }
+                        "parallax":[
+                            {
+                                "origin": [ 3926, 582 ],
+                                "width": 268,
+                                "height": 97,
+                                "yOffset": 127
+                            },
+                            {
+                                "origin": [ 3777, 684 ],
+                                "width": 608,
+                                "height": 95,
+                                "yOffset": 32
+                            }
+                        ]
                     },
                     "terrain":[
                         {
@@ -484,11 +500,32 @@
                             "width": 1024,
                             "height": 224
                         },
-                        "parallax":{
-                            "origin": [ 2736, 489 ],
-                            "width": 1693,
-                            "height": 224
-                        }
+                        "parallax":[
+                            {
+                                "origin": [ 4475, 365 ],
+                                "width": 326,
+                                "height": 112,
+                                "yOffset": 112
+                            },
+                            {
+                                "origin": [ 4388, 384 ],
+                                "width": 508,
+                                "height": 16,
+                                "yOffset": 96
+                            },
+                            {
+                                "origin": [ 4388, 420 ],
+                                "width": 508,
+                                "height": 33,
+                                "yOffset": 63
+                            },
+                            {
+                                "origin": [ 4419, 487 ],
+                                "width": 417,
+                                "height": 63,
+                                "yOffset": 0
+                            }
+                        ]
                     },
                     "terrain": [
                         {
@@ -649,11 +686,20 @@
                             "width": 768,
                             "height": 224
                         },
-                        "parallax":{
-                            "origin": [ 2736, 489 ],
-                            "width": 1693,
-                            "height": 224
-                        }
+                        "parallax":[
+                            {
+                                "origin": [ 3926, 582 ],
+                                "width": 268,
+                                "height": 97,
+                                "yOffset": 127
+                            },
+                            {
+                                "origin": [ 3777, 684 ],
+                                "width": 608,
+                                "height": 95,
+                                "yOffset": 32
+                            }
+                        ]
                     },
                     "terrain": [
                         {
@@ -774,11 +820,20 @@
                             "width": 1504,
                             "height": 224
                         },
-                        "parallax":{
-                            "origin": [ 2736, 489 ],
-                            "width": 1693,
-                            "height": 224
-                        }
+                        "parallax":[
+                            {
+                                "origin": [ 5681, 568 ],
+                                "width": 256,
+                                "height": 80,
+                                "yOffset": 128
+                            },
+                            {
+                                "origin": [ 5681, 681 ],
+                                "width": 665,
+                                "height": 112,
+                                "yOffset": 16
+                            }
+                        ]
                     },
                     "boundaries": {
                         "width": 1504,
@@ -891,11 +946,20 @@
                             "width": 1536,
                             "height": 224
                         },
-                        "parallax":{
-                            "origin": [ 2736, 489 ],
-                            "width": 1693,
-                            "height": 224
-                        }
+                        "parallax":[
+                            {
+                                "origin": [ 5509, 136 ],
+                                "width": 577,
+                                "height": 51,
+                                "yOffset": 108
+                            },
+                            {
+                                "origin": [ 5427, 172 ],
+                                "width": 758,
+                                "height": 32,
+                                "yOffset": 76
+                            }
+                        ]
                     },
                     "boundaries": {
                         "width": 1536,
@@ -1185,14 +1249,17 @@
                     "background": {
                         "foreground":{
                             "origin": [ 7185, 476 ],
-                            "width": 1504,
+                            "width": 544,
                             "height": 224
                         },
-                        "parallax":{
-                            "origin": [ 2736, 489 ],
-                            "width": 1693,
-                            "height": 224
-                        }
+                        "parallax":[
+                            {
+                                "origin": [ 5681, 568 ],
+                                "width": 256,
+                                "height": 80,
+                                "yOffset": 128
+                            }
+                        ]
                     },
                     "boundaries": {
                         "width": 544,
