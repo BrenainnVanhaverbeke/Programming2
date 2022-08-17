@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -164,6 +164,7 @@
     <ClCompile Include="InteractableObject.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
     <ClCompile Include="MovementBehaviour.cpp" />
+    <ClCompile Include="ParallaxLayer.cpp" />
     <ClCompile Include="Pendulum.cpp" />
     <ClCompile Include="PlayerMovement.cpp" />
     <ClCompile Include="ProjectileManager.cpp" />
@@ -211,6 +212,7 @@
     <ClInclude Include="json.hpp" />
     <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="MovementBehaviour.h" />
+    <ClInclude Include="ParallaxLayer.h" />
     <ClInclude Include="Pendulum.h" />
     <ClInclude Include="PlayerMovement.h" />
     <ClInclude Include="ProjectileManager.h" />

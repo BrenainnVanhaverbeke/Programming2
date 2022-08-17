@@ -7,11 +7,12 @@ class TerrainObject;
 class InteractableObject;
 class Sprite;
 class Character;
+class Background;
 
 class LevelManager
 {
 public:
-	LevelManager();
+	LevelManager(float screenWidth, float screenHeight);
 	~LevelManager();
 
 	void NextStage();
@@ -19,8 +20,9 @@ public:
 
 	Rectf GetBoundaries() const;
 	Point2f GetSpawn() const;
+	Background* GetBackground() const;
 
-	void Update(float elapsedSec) const;
+	void Update(float elapsedSec, const Point2f& cameraBottomLeft) const;
 	void Draw() const;
 	void DrawBackground() const;
 
@@ -37,14 +39,17 @@ public:
 	void CheckOverlap(const Rectf& shape);
 
 private:
+
 	LevelLoader* m_pLevelLoader;
 	std::vector<TerrainObject*> m_pTerrain;
 	std::vector<InteractableObject*> m_pInteractableObjects;
 	InteractableObject* m_pActiveInteractable;
 	Rectf m_Boundaries;
 	Rectf m_TransitionArea;
+	Rectf m_WindowSize;
 	Point2f m_SpawnPoint;
-	Sprite* m_pBackground;
+	Sprite* m_pBackgroundLegacy;
+	Background* m_pBackground;
 
 	int m_BackgroundSpriteId;
 	int m_StageCounter;

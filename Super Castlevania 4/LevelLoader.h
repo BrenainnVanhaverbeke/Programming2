@@ -8,12 +8,14 @@ class InteractableObject;
 class Stairs;
 class Door;
 class Sprite;
+class Background;
+class ParallaxLayer;
 
 class LevelLoader
 {
 public:
 	LevelLoader();
-	~LevelLoader();
+	~LevelLoader() = default;
 	LevelLoader(const LevelLoader& levelLoader) = delete;
 	void operator = (const LevelLoader& levelLoader) = delete;
 
@@ -25,7 +27,8 @@ public:
 	std::vector<TerrainObject*> LoadTerrain(int stage, int segment) const;
 	std::vector<InteractableObject*> LoadInteractables(int stage, int segment) const;
 	bool IsSegmentCheckpoint(int stage, int segment) const;
-	Sprite* GetBackground(int stage, int segment) const;
+	Sprite* GetBackgroundSprite(int stage, int segment) const;
+	Background* GetBackground(int stage, int segment) const;
 
 private:
 	std::string m_RawJson;
@@ -39,4 +42,5 @@ private:
 	Stairs* CreateStairs(const std::vector<Point2f>& vertices, const json& jsonObject) const;
 	Rectf GetRectFromJson(const json& jsonObject) const;
 	Point2f GetPointFromJson(const json& jsonObject) const;
+	std::vector<ParallaxLayer*> GetParallaxLayers(int stage, int segment, float staticBackgroundWidth) const;
 };

@@ -6,6 +6,8 @@
 #include "DrawBridge.h"
 #include "Trapdoor.h"
 #include "Sprite.h"
+#include "Background.h"
+#include "ParallaxLayer.h"
 
 #include <fstream>
 #include <iostream>
@@ -13,10 +15,6 @@
 
 LevelLoader::LevelLoader()
 	: m_RawJson{ LoadRawJson() }
-{
-}
-
-LevelLoader::~LevelLoader()
 {
 }
 
@@ -94,24 +92,48 @@ bool LevelLoader::IsSegmentCheckpoint(int stage, int segment) const
 	return GetJsonObject(stage, segment, objectName);
 }
 
+Background* LevelLoader::GetBackground(int stage, int segment) const
+{
+	Sprite* staticBackground{ GetBackgroundSprite(stage, segment) };
+	float staticBackgroundWidth{ staticBackground->GetSourceRect().width };
+	std::vector<ParallaxLayer*> parallaxLayers{ GetParallaxLayers(stage, segment, staticBackgroundWidth) };
+	//std::vector<ParallaxLayer*> parallaxLayers{  };
+	return new Background(staticBackground, parallaxLayers);
+}
+
+Sprite* LevelLoader::GetBackgroundSprite(int stage, int segment) const
+{
+	std::string path{ GetSpriteSheetString(stage) };
+	std::string objectName{ "background" };
+	json sourceRectJson{ GetJsonObject(stage, segment, objectName) };
+	Rectf sourceRect{ GetRectFromJson(sourceRectJson.at("foreground")) };
+	return new Sprite(path, sourceRect);
+}
+
+std::vector<ParallaxLayer*> LevelLoader::GetParallaxLayers(int stage, int segment, float staticBackgroundWidth) const
+{
+	std::vector<ParallaxLayer*> parallaxVector{};
+	std::string path{ GetSpriteSheetString(stage) };
+	std::string objectName{ "background" };
+	json parallaxJson{ GetJsonObject(stage, segment, objectName)
+		.at("parallax") };
+	size_t parallaxLayers{ parallaxJson.size() };
+	for (size_t i{ 0 }; i < parallaxLayers; ++i)
+	{
+		Rectf parallaxSource{GetRectFromJson(parallaxJson.at(i))};
+		Sprite* parallaxSprite{ new Sprite(path, parallaxSource) };
+		float offsetY{ parallaxJson.at(i).at("yOffset") };
+		parallaxVector.push_back(new ParallaxLayer(parallaxSprite, staticBackgroundWidth, offsetY));
+	}
+	return parallaxVector;
+}
+
 std::string LevelLoader::GetSpriteSheetString(int stage) const
 {
 	json parsedJson{ json::parse(m_RawJson) };
 	return parsedJson.at("stages")
 		.at(stage)
 		.at("spritesheet");
-}
-
-Sprite* LevelLoader::GetBackground(int stage, int segment) const
-{
-	json parsedJson{ json::parse(m_RawJson) };
-	std::string path{ parsedJson.at("stages")
-								.at(stage)
-								.at("spritesheet") };
-	std::string objectName{ "background" };
-	json durr{ GetJsonObject(stage, segment, objectName) };
-	Rectf sourceRect{ GetRectFromJson(durr.at("foreground")) };
-	return new Sprite(path, sourceRect);
 }
 
 std::string LevelLoader::LoadRawJson() const
@@ -204,6 +226,6 @@ Point2f LevelLoader::GetPointFromJson(const json& jsonObject) const
 {
 	if (!jsonObject.contains("origin"))
 		return Point2f{};
-	json origin{ jsonObject.at("origin")};
+	json origin{ jsonObject.at("origin") };
 	return Point2f{ origin.at(0), origin.at(1) };
 }

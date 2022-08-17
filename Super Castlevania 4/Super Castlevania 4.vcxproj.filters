@@ -40,6 +40,9 @@
     <Filter Include="Game Files\Terrain Classes">
       <UniqueIdentifier>{da7f1377-b080-4566-89c1-52f6f4c74786}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Files\Background Classes">
+      <UniqueIdentifier>{ab437d58-07fc-424b-a054-87abbdff5d02}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
@@ -141,23 +144,26 @@
     <ClCompile Include="MovementBehaviour.cpp">
       <Filter>Game Files\Abstract Classes</Filter>
     </ClCompile>
-    <ClCompile Include="ActionState.cpp">
-      <Filter>Game Files</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerMovement.cpp">
       <Filter>Game Files\Movement Behaviours</Filter>
     </ClCompile>
     <ClCompile Include="Background.cpp">
       <Filter>Game Files</Filter>
     </ClCompile>
-    <ClCompile Include="Bat.cpp">
-      <Filter>Game Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>Game Files</Filter>
-    </ClCompile>
     <ClCompile Include="SinewaveMovement.cpp">
       <Filter>Game Files\Movement Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="ParallaxLayer.cpp">
+      <Filter>Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionState.cpp">
+      <Filter>Game Files\Enum Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Game Files\Abstract Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Bat.cpp">
+      <Filter>Game Files\Character Classes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -260,23 +266,26 @@
     <ClInclude Include="MovementBehaviour.h">
       <Filter>Game Files\Abstract Classes</Filter>
     </ClInclude>
-    <ClInclude Include="ActionState.h">
-      <Filter>Framework Files</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerMovement.h">
       <Filter>Game Files\Movement Behaviours</Filter>
     </ClInclude>
     <ClInclude Include="Background.h">
       <Filter>Game Files</Filter>
     </ClInclude>
-    <ClInclude Include="Bat.h">
-      <Filter>Framework Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>Framework Files</Filter>
-    </ClInclude>
     <ClInclude Include="SinewaveMovement.h">
       <Filter>Game Files\Movement Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionState.h">
+      <Filter>Game Files\Enum Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Game Files\Abstract Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Bat.h">
+      <Filter>Game Files\Character Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="ParallaxLayer.h">
+      <Filter>Game Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
