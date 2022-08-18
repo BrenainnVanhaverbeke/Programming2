@@ -13,7 +13,7 @@ public:
 
 	virtual bool IsFlaggedForDeletion() const override;
 	virtual void Update(float elapsedSec) override;
-	virtual void Draw() const override;
+	virtual void Draw(int zIndex) const override;
 
 private:
 	const float m_RotationSpeed;

@@ -9,9 +9,7 @@ public:
 
 	// Inherited via GameObject
 	virtual void Update(float elapsedSec) override;
-	virtual void Draw() const override;
-	virtual void CheckOverlap(const Rectf& overlappingShape) override;
-	virtual bool IsOverlapping(const Rectf& overlappingShape) override;
+	virtual void Draw(int zIndex) const override;
 
 	void ReleasePendulum();
 	void ResetPendulum();

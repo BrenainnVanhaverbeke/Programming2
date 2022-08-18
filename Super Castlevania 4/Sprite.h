@@ -15,6 +15,7 @@ public:
 	void Update(float elapsedSec, int rowOffset = 0, bool freezeFrame = false);
 	void Draw(const Transform& origin, bool isFlipped = false) const;
 	void DrawRotatedCenter(const Transform& origin, float width, float height, bool isFlipped = false);
+	void Reset();
 
 	void SetSourceRect(const Rectf& sourceRect);
 	Rectf GetSourceRect();
@@ -24,10 +25,9 @@ private:
 	const int m_Frames;
 	const int m_Rows;
 	const float m_MaxFrameTime;
+	const Point2f m_Origin;
 	
 	Rectf m_SourceRect;
-
-	
 	int m_CurrentFrame;
 	float m_AccumulatedTime;
 

@@ -37,7 +37,7 @@ private:
 	std::string GetSpriteSheetString(int stage) const;
 	json GetJsonObject(int stage, int segment, std::string& objectName) const;
 	std::vector<Point2f> GetVerticesFromJsonObject(const json& jsonObject) const;
-	TerrainObject* TerrainFactory(const std::string& terrainType, const std::vector<Point2f>& vertices, bool isBackground) const;
+	TerrainObject* TerrainFactory(const std::string& terrainType, const std::vector<Point2f>& vertices, int zIndex) const;
 	InteractableObject* InteractableFactory(const std::string& interactableType, const std::vector<Point2f>& vertices, const json& jsonObject) const;
 	Stairs* CreateStairs(const std::vector<Point2f>& vertices, const json& jsonObject) const;
 	Rectf GetRectFromJson(const json& jsonObject) const;

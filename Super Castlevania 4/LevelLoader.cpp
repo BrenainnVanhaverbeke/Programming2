@@ -64,8 +64,8 @@ std::vector<TerrainObject*> LevelLoader::LoadTerrain(int stage, int segment) con
 		json& test{ terrainJson.at(i) };
 		std::string terrainType{ test.at("type") };
 		std::vector<Point2f> vertices{ GetVerticesFromJsonObject(test.at("vertices")) };
-		bool isBackground{ test.at("isBackground") };
-		pDynamicTerrain.push_back(TerrainFactory(terrainType, vertices, isBackground));
+		int zIndex{ test.at("zIndex") };
+		pDynamicTerrain.push_back(TerrainFactory(terrainType, vertices, zIndex));
 	}
 	return pDynamicTerrain;
 }
@@ -96,9 +96,10 @@ Background* LevelLoader::GetBackground(int stage, int segment) const
 {
 	Sprite* staticBackground{ GetBackgroundSprite(stage, segment) };
 	float staticBackgroundWidth{ staticBackground->GetSourceRect().width };
+	std::string objectName{ "background" };
+	int zIndex{ GetJsonObject(stage, segment, objectName).at("foreground").at("zIndex")};
 	std::vector<ParallaxLayer*> parallaxLayers{ GetParallaxLayers(stage, segment, staticBackgroundWidth) };
-	//std::vector<ParallaxLayer*> parallaxLayers{  };
-	return new Background(staticBackground, parallaxLayers);
+	return new Background(staticBackground, parallaxLayers, zIndex);
 }
 
 Sprite* LevelLoader::GetBackgroundSprite(int stage, int segment) const
@@ -123,7 +124,8 @@ std::vector<ParallaxLayer*> LevelLoader::GetParallaxLayers(int stage, int segmen
 		Rectf parallaxSource{GetRectFromJson(parallaxJson.at(i))};
 		Sprite* parallaxSprite{ new Sprite(path, parallaxSource) };
 		float offsetY{ parallaxJson.at(i).at("yOffset") };
-		parallaxVector.push_back(new ParallaxLayer(parallaxSprite, staticBackgroundWidth, offsetY));
+		int zIndex{ parallaxJson.at(i).at("zIndex") };
+		parallaxVector.push_back(new ParallaxLayer(parallaxSprite, staticBackgroundWidth, offsetY, zIndex));
 	}
 	return parallaxVector;
 }
@@ -181,15 +183,15 @@ std::vector<Point2f> LevelLoader::GetVerticesFromJsonObject(const json& jsonObje
 	return vertices;
 }
 
-TerrainObject* LevelLoader::TerrainFactory(const std::string& terrainType, const std::vector<Point2f>& vertices, bool isBackground) const
+TerrainObject* LevelLoader::TerrainFactory(const std::string& terrainType, const std::vector<Point2f>& vertices, int zIndex) const
 {
 	if (terrainType == "crumblingBlock")
-		return new CrumblingBlock(vertices, isBackground);
+		return new CrumblingBlock(vertices, zIndex);
 	if (terrainType == "drawBridge")
-		return new DrawBridge(vertices, isBackground);
+		return new DrawBridge(vertices, zIndex);
 	if (terrainType == "trapDoor")
-		return new TrapDoor(vertices, isBackground);
-	return new TerrainObject(vertices, isBackground);
+		return new TrapDoor(vertices, zIndex);
+	return new TerrainObject(vertices, zIndex);
 }
 
 InteractableObject* LevelLoader::InteractableFactory(const std::string& interactableType, const std::vector<Point2f>& vertices, const json& jsonObject) const
@@ -205,13 +207,13 @@ Stairs* LevelLoader::CreateStairs(const std::vector<Point2f>& vertices, const js
 {
 	bool autoMountTop{ jsonObject.at("autoMountTop") };
 	bool autoMountBottom{ jsonObject.at("autoMountBottom") };
-	bool isBackground{ jsonObject.at("isBackground") };
+	int zIndex{ jsonObject.at("zIndex") };
 	return new Stairs{ vertices,
 					   jsonObject.at("lowPoint"),
 					   jsonObject.at("highPoint"),
 					   autoMountTop,
 					   autoMountBottom,
-					   isBackground };
+					   zIndex };
 }
 
 Rectf LevelLoader::GetRectFromJson(const json& jsonObject) const

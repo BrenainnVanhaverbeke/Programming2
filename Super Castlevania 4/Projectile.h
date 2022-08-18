@@ -1,11 +1,12 @@
 #pragma once
 #include "Vector2f.h"
 #include "GameObject.h"
+#include "IOverlappingObject.h"
 
 class Sprite;
 enum class ProjectileTag;
 
-class Projectile : public GameObject
+class Projectile : public GameObject, public IOverlappingObject
 {
 public:
 	explicit Projectile(const Point2f& origin, const Vector2f& initialVelocity, const Vector2f& acceleration, Sprite* sprite, ProjectileTag tag, float width, float height, bool isFriendly, bool isFlipped);
@@ -18,11 +19,13 @@ public:
 
 	// Inherited via GameObject
 	virtual void Update(float elapsedSec) override;
-	virtual void Draw() const override;
-	virtual void DrawDebug() const;
+	virtual void Draw(int zIndex) const override;
+	
+	// Inherited via IOverlappingObject
 	virtual void CheckOverlap(const Rectf& overlappingShape) override;
 	virtual bool IsOverlapping(const Rectf& overlappingShape) override;
 
+	virtual void DrawDebug() const;
 	virtual void SetBoundaries(const Rectf& boundaries);
 	virtual bool IsFlaggedForDeletion() const = 0;
 	virtual std::string GetProjectileTag() const = 0;

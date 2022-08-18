@@ -3,15 +3,14 @@
 #include "Character.h"
 #include <iostream>
 
-TerrainObject::TerrainObject(const std::vector<Point2f>& vertices, bool isBackground)
-	: TerrainObject(vertices, vertices.at(0), isBackground)
+TerrainObject::TerrainObject(const std::vector<Point2f>& vertices, int zIndex)
+	: TerrainObject(vertices, vertices.at(0), zIndex)
 {
 }
 
-TerrainObject::TerrainObject(const std::vector<Point2f>& vertices, const Point2f& pivot, bool isBackground)
-	: GameObject(pivot)
+TerrainObject::TerrainObject(const std::vector<Point2f>& vertices, const Point2f& pivot, int zIndex)
+	: GameObject(pivot, zIndex)
 	, m_Vertices{ vertices }
-	, m_IsBackground{ isBackground }
 	, m_AnchorOffset{ 5.0f }
 	, m_RaycastOffset{ 1.0f }
 {
@@ -26,13 +25,13 @@ void TerrainObject::Update(float elapsedSec)
 {
 }
 
-void TerrainObject::Draw() const
+void TerrainObject::Draw(int zIndex) const
 {
 }
 
 void TerrainObject::DrawDebug() const
 {
-	utils::SetColor(m_IsBackground ? Color4f{ 1.0f, 0, 0, 1.0f } : Color4f{ 1.0f, 1.0f, 1.0f, 1.0f });
+	utils::SetColor(m_ZIndex == -1 ? Color4f{ 1.0f, 0, 0, 1.0f } : Color4f{ 1.0f, 1.0f, 1.0f, 1.0f });
 	utils::DrawPolygon(m_Vertices);
 	utils::SetColor(Color4f{ 1.0f, 0, 0, 1.0f });
 	utils::DrawPoint(m_Transform.GetTranslation());
@@ -63,11 +62,6 @@ bool TerrainObject::IsOnGround(const Character& character)
 		|| utils::Raycast(m_Vertices, actorShape.GetCenterRight(), actorShape.GetBottomRight(0, -1.0f), hitInfo))
 		return true;
 	return false;
-}
-
-bool TerrainObject::IsBackground() const
-{
-	return m_IsBackground;
 }
 
 bool TerrainObject::CheckVerticalCollisions(const std::vector<Point2f>& vertices, Character& character, utils::HitInfo hitInfo) const

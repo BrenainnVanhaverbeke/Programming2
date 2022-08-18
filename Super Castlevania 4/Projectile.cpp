@@ -39,9 +39,10 @@ void Projectile::Update(float elapsedSec)
 	m_Transform.SetTranslation(m_Transform.GetTranslation() + (m_Velocity * elapsedSec));
 }
 
-void Projectile::Draw() const
+void Projectile::Draw(int zIndex) const
 {
-	m_pSprite->Draw(m_Transform);
+	if (m_ZIndex == zIndex)
+		m_pSprite->Draw(m_Transform);
 }
 
 void Projectile::DrawDebug() const

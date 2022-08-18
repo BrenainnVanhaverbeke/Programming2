@@ -3,8 +3,8 @@
 #include "utils.h"
 
 
-InteractableObject::InteractableObject(const std::vector<Point2f>& vertices, bool isBackground)
-    : TerrainObject(vertices, isBackground)
+InteractableObject::InteractableObject(const std::vector<Point2f>& vertices, int zIndex)
+    : TerrainObject(vertices, zIndex)
 {
 }
 

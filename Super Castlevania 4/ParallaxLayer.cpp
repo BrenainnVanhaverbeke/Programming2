@@ -3,8 +3,9 @@
 #include "Sprite.h"
 #include <iostream>
 
-ParallaxLayer::ParallaxLayer(Sprite* sprite, float staticBackgroundWidth, float offsetY)
-	: m_pSprite{ sprite }
+ParallaxLayer::ParallaxLayer(Sprite* sprite, float staticBackgroundWidth, float offsetY, int zIndex)
+	: GameObject(zIndex)
+	, m_pSprite{ sprite }
 	, m_StaticWidth{ staticBackgroundWidth }
 	, m_OffsetX{ 0 }
 	, m_OffsetY{ offsetY }
@@ -20,9 +21,10 @@ ParallaxLayer::~ParallaxLayer()
 	m_pSprite = nullptr;
 }
 
-void ParallaxLayer::Draw()
+void ParallaxLayer::Draw(int zIndex) const
 {
-	m_pSprite->Draw(Transform{ m_OffsetX, m_OffsetY });
+	if (zIndex == m_ZIndex)
+		m_pSprite->Draw(Transform{ m_OffsetX, m_OffsetY });
 }
 
 void ParallaxLayer::Update(float elapsedSec, const Point2f& cameraBottomLeft)
@@ -37,4 +39,8 @@ void ParallaxLayer::SetWindowSize(Rectf& windowSize)
 	float foregroundDistance{ (m_StaticWidth - (windowSize.width / G_SCALEFACTOR)) };
 	float backgroundDistance{ m_StaticWidth - layerWidth };
 	parallaxFactor = (m_StaticWidth - layerWidth) / foregroundDistance;
+}
+
+void ParallaxLayer::Update(float elapsedSec)
+{
 }

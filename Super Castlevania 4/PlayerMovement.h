@@ -1,8 +1,6 @@
 #pragma once
 #include "MovementBehaviour.h"
 
-class Character;
-
 class PlayerMovement final : public MovementBehaviour
 {
 public:
@@ -10,7 +8,7 @@ public:
 	virtual ~PlayerMovement() = default;
 
 	// Inherited via MovementBehaviour
-	virtual void Update(float elapsedSec, Character& character, const Rectf& boundaries) override;
+	virtual void Update(float elapsedSec, Transform& transform, const Rectf& shape, const Rectf& boundaries) override;
 	virtual void Jump() override;
 
 private:

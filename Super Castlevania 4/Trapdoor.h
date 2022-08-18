@@ -13,14 +13,14 @@ class TrapDoor final : public TerrainObject
 	};
 
 public:
-	explicit TrapDoor(const std::vector<Point2f>& vertices, bool isBackground);
+	explicit TrapDoor(const std::vector<Point2f>& vertices, int zIndex);
 	TrapDoor& operator= (const TrapDoor& rhs) = delete;
 	TrapDoor& operator= (TrapDoor&& rhs) = delete;
 	TrapDoor(const TrapDoor& other) = delete;
 	TrapDoor(TrapDoor&& other) = delete;
 	virtual ~TrapDoor();
 
-	virtual void Draw() const override;
+	virtual void Draw(int zIndex) const override;
 	virtual void Update(float elapsedSec) override;
 
 	virtual bool HandleCollisions(Character& character);

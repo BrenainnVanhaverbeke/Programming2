@@ -5,14 +5,14 @@
 class Stairs final : public InteractableObject
 {
 public:
-	explicit Stairs(const std::vector<Point2f>& vercices, int lowPoint, int highPoint, bool autoMountTop, bool autoMountBottom, bool isBackground);
+	explicit Stairs(const std::vector<Point2f>& vercices, int lowPoint, int highPoint, bool autoMountTop, bool autoMountBottom, int zIndex);
 	Stairs& operator=(const Stairs& rhs) = delete;
 	Stairs& operator=(Stairs&& rhs) = delete;
 	Stairs(const Stairs& other) = delete;
 	Stairs(Stairs&& other) = delete;
 	virtual ~Stairs() = default;
 
-	virtual void Draw() const override;
+	virtual void Draw(int zIndex) const override;
 	virtual void Update(float elapsedSec) override;
 	virtual void CheckOverlap(const Rectf& overlappingShape) override;
 
@@ -20,10 +20,10 @@ public:
 	virtual bool HandleCollisions(Character& character) override;
 	virtual bool IsOnGround(const Character& character) override;
 	
-	virtual bool TryInteraction(const Rectf& shape, bool& isOnBackground, bool& isOnStairs) override;
+	virtual bool TryInteraction(const Rectf& shape, int& zIndex, bool& isOnStairs) override;
 	virtual bool IsDoneInteracting(const Character& character) const override;
 	virtual bool IsAutoInteracting() const override;
-	virtual bool TryAutoInteracting(const Rectf& shape, bool& isOnStairs, bool& isOnBackground) const override;
+	virtual bool TryAutoInteracting(const Rectf& shape, bool& isOnStairs, int& zIndex) const override;
 	virtual bool CheckIfActive(const Point2f& point) const override;
 	virtual bool CheckDirection(const Vector2f& velocity) const override;
 

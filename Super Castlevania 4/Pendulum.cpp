@@ -25,20 +25,14 @@ void Pendulum::Update(float elapsedSec)
 		UpdateRelease(elapsedSec);
 }
 
-void Pendulum::Draw() const
+void Pendulum::Draw(int zIndex) const
 {
-	if (!m_IsReleased)
-		utils::DrawLine(m_Transform.GetTranslation(), m_Position);
-	utils::FillEllipse(m_Position, m_Radius, m_Radius);
-}
-
-void Pendulum::CheckOverlap(const Rectf& overlappingShape)
-{
-}
-
-bool Pendulum::IsOverlapping(const Rectf& overlappingShape)
-{
-	return false;
+	if (zIndex == m_ZIndex)
+	{
+		if (!m_IsReleased)
+			utils::DrawLine(m_Transform.GetTranslation(), m_Position);
+		utils::FillEllipse(m_Position, m_Radius, m_Radius);
+	}
 }
 
 Vector2f Pendulum::GetReleaseVector()

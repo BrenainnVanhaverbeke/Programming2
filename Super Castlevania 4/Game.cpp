@@ -5,7 +5,9 @@
 #include "ProjectileManager.h"
 #include "Player.h"
 #include "Camera.h"
-#include "Pendulum.h"
+#include "Bat.h"
+#include "Sprite.h"
+#include "utils.h"
 #include <iostream>
 
 Game::Game(const Window& window)
@@ -14,7 +16,7 @@ Game::Game(const Window& window)
 	, m_pPlayer{ new Player(m_pLevelManager) }
 	, m_pCamera{ new Camera(window.width, window.height) }
 	, m_pProjectileManager{ new ProjectileManager() }
-	, m_pPendulum{ new Pendulum(window.width / 2, window.height / 2) }
+	, m_pBat{ new Bat(Transform{32, 100}, new Sprite("Enemies.png", Rectf{233, 2330, 16, 16}, 4, 1, 6), 1) }
 {
 	Initialize();
 	DisplayInstructions();
@@ -38,12 +40,12 @@ void Game::Cleanup()
 	delete m_pCamera;
 	delete m_pLevelManager;
 	delete m_pProjectileManager;
-	delete m_pPendulum;
+	delete m_pBat;
 	m_pPlayer = nullptr;
 	m_pCamera = nullptr;
 	m_pLevelManager = nullptr;
 	m_pProjectileManager = nullptr;
-	m_pPendulum = nullptr;
+	m_pBat = nullptr;
 }
 
 void Game::Update(float elapsedSec)
@@ -51,7 +53,7 @@ void Game::Update(float elapsedSec)
 	const Point2f& cameraBottomLeft{ m_pCamera->Track(m_pPlayer->GetShape()) };
 	m_pPlayer->Update(elapsedSec);
 	m_pLevelManager->Update(elapsedSec, cameraBottomLeft);
-	m_pLevelManager->CheckOverlap(m_pPlayer->GetShape());
+	m_pLevelManager->CheckOverlap(m_pPlayer->GetShape(), m_pPlayer->GetZIndex());
 	m_pProjectileManager->Update(elapsedSec);
 	if (m_pLevelManager->IsInTransitionArea(m_pPlayer->GetShape()))
 	{
@@ -59,34 +61,31 @@ void Game::Update(float elapsedSec)
 		m_pPlayer->Relocate(m_pLevelManager->GetSpawn());
 		m_pCamera->SetLevelBoundaries(m_pLevelManager->GetBoundaries());
 	}
-	m_pPendulum->Update(elapsedSec);
+	m_pBat->Update(elapsedSec);
 }
 
 void Game::Draw() const
 {
-	bool isOnBackground{ m_pLevelManager->IsOnBackground() };
 	ClearBackground();
 	glPushMatrix();
 	{
 		m_pCamera->Transform();
-		if (!isOnBackground)
-			m_pLevelManager->Draw();
-		m_pPlayer->Draw();
-		if (isOnBackground)
-			m_pLevelManager->Draw();
-		m_pProjectileManager->Draw();
+		for (int i{ -5 }; i < 5; ++i)
+		{
+			m_pLevelManager->Draw(i);
+			m_pPlayer->Draw(i);
+			m_pProjectileManager->Draw(i);
+			m_pBat->Draw(i);
+		}
+		utils::DrawLine(m_Window.width * 0.75f, m_Window.height, m_Window.width * 0.75f, 0);
 	}
 	glPopMatrix();
-	m_pPendulum->Draw();
 }
 
 void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent& e)
 {
 	if (e.keysym.sym == SDLK_SPACE && e.repeat == 0)
-	{
 		m_pPlayer->Jump();
-		m_pPendulum->ReleasePendulum();
-	}
 	if ((e.keysym.sym == SDLK_w || e.keysym.sym == SDLK_UP) && e.repeat == 0)
 		m_pPlayer->AttemptInteraction();
 	if ((e.keysym.sym == SDLK_q) && e.repeat == 0)
@@ -94,7 +93,11 @@ void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent& e)
 	if ((e.keysym.sym == SDLK_e) && e.repeat == 0)
 		m_pProjectileManager->AddProjectile(m_pPlayer->Shoot(), m_pPlayer->GetShape().GetCenter(), true, m_pPlayer->IsFlipped());
 	if ((e.keysym.sym == SDLK_r) && e.repeat == 0)
-		m_pPendulum->ResetPendulum();
+	{
+		delete m_pBat;
+		m_pBat = nullptr;
+		m_pBat = new Bat(Transform{ 32, 100 }, new Sprite("Enemies.png", Rectf{ 233, 2330, 16, 16 }, 4, 1, 4), 1);
+	}
 }
 
 void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent& e)

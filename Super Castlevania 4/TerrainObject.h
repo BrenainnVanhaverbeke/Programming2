@@ -9,8 +9,8 @@ class Character;
 class TerrainObject : public GameObject
 {
 public:
-	explicit TerrainObject(const std::vector<Point2f>& vertices, bool isBackground);
-	explicit TerrainObject(const std::vector<Point2f>& vertices, const Point2f& pivot, bool isBackground);
+	explicit TerrainObject(const std::vector<Point2f>& vertices, int zIndex);
+	explicit TerrainObject(const std::vector<Point2f>& vertices, const Point2f& pivot, int zIndex);
 	TerrainObject& operator=(const TerrainObject& rhs) = delete;
 	TerrainObject& operator=(TerrainObject&& rhs) = delete;
 	TerrainObject(const TerrainObject& other) = delete;
@@ -18,7 +18,7 @@ public:
 	virtual ~TerrainObject();
 
 	virtual void Update(float elapsedSec) override;
-	virtual void Draw() const override;
+	virtual void Draw(int zIndex) const override;
 	virtual void DrawDebug() const;
 	virtual void CheckOverlap(const Rectf& overlappingShape);
 	virtual bool IsOverlapping(const Rectf& overlappingShape);
@@ -26,13 +26,10 @@ public:
 	virtual bool HandleCollisions(Character& character);
 	virtual bool IsOnGround(const Character& character);
 
-	bool IsBackground() const;
-
 protected:
 	const float m_AnchorOffset;
 	const float m_RaycastOffset;
 	std::vector<Point2f> m_Vertices;
-	bool m_IsBackground;
 
 	bool CheckVerticalCollisions(const std::vector<Point2f>& vertices, Character& character, utils::HitInfo hitInfo) const;
 	bool CheckHorizontalCollisions(const std::vector<Point2f>& vertices, Character& character, utils::HitInfo hitInfo) const;

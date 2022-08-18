@@ -1,10 +1,11 @@
 #pragma once
 #include <vector>
+#include "GameObject.h"
 
 class Projectile;
 enum class ProjectileTag;
 
-class ProjectileManager
+class ProjectileManager final : public GameObject
 {
 public:
 	ProjectileManager();
@@ -14,12 +15,14 @@ public:
 	ProjectileManager(ProjectileManager&& other) = delete;
 	~ProjectileManager();
 
-	void Update(float elapsedSec);
-	void Draw() const;
 	void AddProjectile(ProjectileTag tag, const Point2f& origin, bool isFriendly, bool isFlipped);
 	void SetBoundaries(const Rectf& boundaries);
 
 	void ToggleDrawDebug();
+
+	// Inherited via GameObject
+	virtual void Update(float elapsedSec) override;
+	virtual void Draw(int zIndex) const override;
 
 private:
 	bool m_IsDrawDebug;

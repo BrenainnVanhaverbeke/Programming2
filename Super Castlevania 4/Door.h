@@ -11,16 +11,16 @@ public:
 	virtual ~Door() = default;
 
 	virtual void Update(float elapsedSec) override;
-	virtual void Draw() const override;
+	virtual void Draw(int zIndex) const override;
 	virtual bool HandleCollisions(const Rectf& actorShape, Transform& actorTransform, Vector2f& actorVelocity);
 	virtual bool IsOnGround(const Rectf& actorShape, const Vector2f& actorVelocity) const;
 
 	virtual void CheckOverlap(const Rectf& overlappingShape) override;
 	bool IsOverlapping(const Rectf& shape);
 
-	virtual bool TryInteraction(const Rectf& shape, bool& isOnBackground, bool& isOnStairs) override;
+	virtual bool TryInteraction(const Rectf& shape, int& zIndex, bool& isOnStairs) override;
 	virtual bool IsDoneInteracting(const Character& character) const override;
 	virtual bool IsAutoInteracting() const override;
-	virtual bool TryAutoInteracting(const Rectf& shape, bool& isOnStairs, bool& isOnBackground) const override;
+	virtual bool TryAutoInteracting(const Rectf& shape, bool& isOnStairs, int& zIndex) const override;
 	virtual bool CheckIfActive(const Point2f& point) const override;
 };

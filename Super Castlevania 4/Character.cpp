@@ -3,19 +3,21 @@
 #include "Sprite.h"
 #include "MovementBehaviour.h"
 
-Character::Character(Transform transform, Sprite* sprite, float width, float height, const Vector2f& acceleration)
-	: GameObject(transform)
+Character::Character(Transform transform, Sprite* sprite, MovementBehaviour* movement, float width, float height, int zIndex)
+	: GameObject(transform, zIndex)
 	, m_pSprite{ sprite }
 	, m_Width{ width }
 	, m_Height{ height }
-	, m_pMovementBehaviour{ nullptr }
+	, m_pMovementBehaviour{ movement }
 {
 }
 
 Character::~Character()
 {
 	delete m_pSprite;
+	delete m_pMovementBehaviour;
 	m_pSprite = nullptr;
+	m_pMovementBehaviour = nullptr;
 }
 
 Rectf Character::GetShape() const

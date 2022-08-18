@@ -7,9 +7,15 @@
 #include "utils.h"
 #include <iostream>
 
-Player::Player( LevelManager* pLevelManager)
-	: Character(Transform{}, new Sprite("Player_Movement.png", Rectf(0, 0, 32.0f, 48.0f), 6, 7, 6), 28, 46.0f, Vector2f{ 0, utils::g_Gravity })
-	, m_HorizontalSpeed{ 75.0f }
+Player::Player(LevelManager* pLevelManager)
+	: Character(Transform{}
+		, new Sprite("Player_Movement.png", Rectf(0, 0, 32.0f, 48.0f), 6, 7, 6)
+		, new PlayerMovement(Vector2f{ 0, utils::g_Gravity })
+		, 28
+		, 46.0f
+		, 0
+	)
+	, m_pAttackSprite{ new Sprite("Player_Attack.png", Rectf(0, 0, 140, 112),3, 1, 8) }
 	, m_ActionState{ ActionState::idle }
 	, m_pLevelManager{ pLevelManager }
 	, m_IsDrawDebug{ false }
@@ -25,26 +31,31 @@ Player::Player( LevelManager* pLevelManager)
 	spawnPoint.x -= m_Width / 2;
 	spawnPoint.y += 1.0f;
 	m_Transform.SetTranslation(spawnPoint);
-	m_pMovementBehaviour = new PlayerMovement(Vector2f{ 0, utils::g_Gravity });
+
 }
 
 Player::~Player()
 {
 	delete m_pMovementBehaviour;
+	delete m_pAttackSprite;
 	m_pMovementBehaviour = nullptr;
+	m_pAttackSprite = nullptr;
 }
 
 void Player::Update(float elapsedSec)
 {
 	const Uint8* pKeysState{ SDL_GetKeyboardState(nullptr) };
 	UpdateState(pKeysState);
-	m_pMovementBehaviour->Update(elapsedSec, *this, m_pLevelManager->GetBoundaries());
+	m_pMovementBehaviour->Update(elapsedSec, m_Transform, GetShape(), m_pLevelManager->GetBoundaries());
 	if (m_IsAttacking)
+	{
+		m_pAttackSprite->Update(elapsedSec);
 		UpdateAttack(elapsedSec);
+	}
 	CheckDeath();
 	m_pSprite->Update(elapsedSec, (int)m_ActionState, m_IsStill);
 	m_pLevelManager->HandleCollisions(*this);
-	m_pLevelManager->CheckOverlap(GetShape());
+	m_pLevelManager->CheckOverlap(GetShape(), m_ZIndex);
 }
 
 void Player::CheckOverlap(const Rectf& overlappingShape)
@@ -56,11 +67,21 @@ bool Player::IsOverlapping(const Rectf& overlappingShape)
 	return utils::IsOverlapping(GetShape(), overlappingShape);
 }
 
-void Player::Draw() const
+void Player::Draw(int zIndex) const
 {
-	m_pSprite->Draw(m_Transform, m_IsFlipped);
-	if (m_IsDrawDebug)
-		DrawDebug();
+	if (zIndex == m_ZIndex)
+	{
+		if (m_IsAttacking)
+		{
+			Transform attackTransform{ m_Transform };
+			attackTransform.positionX -= m_pAttackSprite->GetSourceRect().width / 2;
+			m_pAttackSprite->Draw(attackTransform, m_IsFlipped);
+		}
+		else
+			m_pSprite->Draw(m_Transform, m_IsFlipped);
+		if (m_IsDrawDebug)
+			DrawDebug();
+	}
 }
 
 Rectf Player::GetShape() const
@@ -79,7 +100,7 @@ void Player::Relocate(Point2f newLocation)
 
 void Player::AttemptInteraction()
 {
-	m_pLevelManager->AttemptInteraction(GetShape());
+	m_pLevelManager->AttemptInteraction(GetShape(), m_ZIndex);
 }
 
 void Player::Jump()
@@ -164,6 +185,7 @@ void Player::UpdateAttack(float elapsedSec)
 	{
 		m_AttackTime = 0;
 		m_IsAttacking = false;
+		m_pAttackSprite->Reset();
 	}
 }
 

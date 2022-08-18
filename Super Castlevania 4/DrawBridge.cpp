@@ -4,8 +4,8 @@
 
 #include <iostream>
 
-DrawBridge::DrawBridge(const std::vector<Point2f>& vertices, bool isBackground)
-	: TerrainObject(vertices, isBackground)
+DrawBridge::DrawBridge(const std::vector<Point2f>& vertices, int zIndex)
+	: TerrainObject(vertices, zIndex)
 	, m_BaseVertices{ m_Vertices }
 	, m_RotationAngle{ 0 }
 	, m_RotationSpeed{ -5.0f }

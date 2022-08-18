@@ -5,8 +5,8 @@
 #include "Character.h"
 #include "Sprite.h"
 
-TrapDoor::TrapDoor(const std::vector<Point2f>& vertices, bool isBackground)
-	: TerrainObject(vertices, isBackground)
+TrapDoor::TrapDoor(const std::vector<Point2f>& vertices, int zIndex)
+	: TerrainObject(vertices, zIndex)
 	, m_Pivot{ GetPivot(vertices) }
 	, m_ActivationDelay{ 0.3f }
 	, m_RotationSpeed{ 360.0f }
@@ -26,9 +26,10 @@ TrapDoor::~TrapDoor()
 	m_pSprite = nullptr;
 }
 
-void TrapDoor::Draw() const
+void TrapDoor::Draw(int zIndex) const
 {
-	m_pSprite->DrawRotatedCenter(m_Transform, m_Width, m_Height);
+	if (zIndex == m_ZIndex)
+		m_pSprite->DrawRotatedCenter(m_Transform, m_Width, m_Height);
 }
 
 void TrapDoor::Update(float elapsedSec)

@@ -4,8 +4,8 @@
 #include "Character.h"
 #include <iostream>
 
-Stairs::Stairs(const std::vector<Point2f>& vertices, int lowPoint, int highPoint, bool autoMountTop, bool autoMountBottom, bool isBackground)
-	: InteractableObject(vertices, isBackground)
+Stairs::Stairs(const std::vector<Point2f>& vertices, int lowPoint, int highPoint, bool autoMountTop, bool autoMountBottom, int zIndex)
+	: InteractableObject(vertices, zIndex)
 	, m_LowPoint{ m_Vertices.at(lowPoint) }
 	, m_HighPoint{ m_Vertices.at(highPoint) }
 	, m_IsAutoMountingTop{ autoMountTop }
@@ -13,17 +13,20 @@ Stairs::Stairs(const std::vector<Point2f>& vertices, int lowPoint, int highPoint
 {
 }
 
-void Stairs::Draw() const
+void Stairs::Draw(int zIndex) const
 {
-	const Color4f autoMount{ 0, 1.0f, 0, 1.0f };
-	const Color4f noAutoMount{ 1.0f, 0, 0, 1.0f };
-	const Color4f stairsColour{ 0, 1.0f, 1.0f, 1.0f };
-	utils::SetColor(stairsColour);
-	utils::DrawPolygon(m_Vertices);
-	utils::SetColor(m_IsAutoMountingBottom ? autoMount : noAutoMount);
-	utils::DrawPoint(m_LowPoint);
-	utils::SetColor(m_IsAutoMountingTop ? autoMount : noAutoMount);
-	utils::DrawPoint(m_HighPoint);
+	if (zIndex == m_ZIndex)
+	{
+		const Color4f autoMount{ 0, 1.0f, 0, 1.0f };
+		const Color4f noAutoMount{ 1.0f, 0, 0, 1.0f };
+		const Color4f stairsColour{ 0, 1.0f, 1.0f, 1.0f };
+		utils::SetColor(stairsColour);
+		utils::DrawPolygon(m_Vertices);
+		utils::SetColor(m_IsAutoMountingBottom ? autoMount : noAutoMount);
+		utils::DrawPoint(m_LowPoint);
+		utils::SetColor(m_IsAutoMountingTop ? autoMount : noAutoMount);
+		utils::DrawPoint(m_HighPoint);
+	}
 }
 
 void Stairs::Update(float elapsedSec)
@@ -39,9 +42,9 @@ bool Stairs::IsOverlapping(const Rectf& shape)
 	return utils::IsPointInPolygon(shape.GetBottomCenter(0, 1.0f), m_Vertices);
 }
 
-bool Stairs::TryInteraction(const Rectf& shape, bool& isOnBackground, bool& isOnStairs)
+bool Stairs::TryInteraction(const Rectf& shape, int& zIndex, bool& isOnStairs)
 {
-	if (isOnBackground != m_IsBackground)
+	if (zIndex != m_ZIndex)
 		return false;
 	const float offset{ 5.0f };
 	if (IsAnchorInRange(shape.GetBottomCenter(), m_LowPoint, offset)
@@ -73,10 +76,10 @@ bool Stairs::IsAutoInteracting() const
 	return m_IsAutoMountingBottom || m_IsAutoMountingTop;
 }
 
-bool Stairs::TryAutoInteracting(const Rectf& shape, bool& isOnStairs, bool& isOnBackground) const
+bool Stairs::TryAutoInteracting(const Rectf& shape, bool& isOnStairs, int& zIndex) const
 {
 	if (isOnStairs) return isOnStairs;
-	if (isOnBackground != m_IsBackground) return false;
+	if (zIndex != m_ZIndex) return false;
 	const Point2f& anchor{ shape.GetBottomCenter() };
 	const float offset{ 2.0f };
 	if (m_IsAutoMountingBottom && (IsCharacterInBounds(anchor) && IsAnchorInRange(anchor, m_LowPoint, offset))

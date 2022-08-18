@@ -1,16 +1,18 @@
 #pragma once
+#include "GameObject.h"
 
 class Sprite;
 
-class ParallaxLayer
+class ParallaxLayer final : public GameObject
 {
 public:
-	ParallaxLayer(Sprite* sprite, float staticBackgroundWidth, float offsetY);
+	explicit ParallaxLayer(Sprite* sprite, float staticBackgroundWidth, float offsetY, int zIndex);
 	~ParallaxLayer();
 
-	void Draw();
 	void Update(float elapsedSec, const Point2f& cameraBottomLeft);
 	void SetWindowSize(Rectf& windowSize);
+
+	virtual void Draw(int zIndex) const override;
 
 private:
 	const float m_StaticWidth;
@@ -23,5 +25,10 @@ private:
 	float length;
 	float parallaxFactor;
 	Sprite* m_pSprite;
+
+
+	// Inherited via GameObject
+	virtual void Update(float elapsedSec) override;
+
 
 };

@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "PlayerMovement.h"
-#include "Character.h"
 
 PlayerMovement::PlayerMovement(const Vector2f& acceleration)
 	: MovementBehaviour(acceleration)
@@ -9,12 +8,12 @@ PlayerMovement::PlayerMovement(const Vector2f& acceleration)
 {
 }
 
-void PlayerMovement::Update(float elapsedSec, Character& character, const Rectf& boundaries)
+void PlayerMovement::Update(float elapsedSec, Transform& transform, const Rectf& shape, const Rectf& boundaries)
 {
 	const Uint8* pKeysState{ SDL_GetKeyboardState(nullptr) };
 	UpdateVelocity(elapsedSec, pKeysState);
-	Move(elapsedSec, character.GetTransform());
-	Clamp(character.GetTransform(), boundaries, character.GetShape().width);
+	Move(elapsedSec, transform);
+	Clamp(transform, boundaries, shape.width);
 }
 
 void PlayerMovement::Jump()

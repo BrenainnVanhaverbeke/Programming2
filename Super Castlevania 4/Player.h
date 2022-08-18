@@ -1,6 +1,7 @@
 #pragma once
 #include "Vector2f.h"
 #include "Character.h"
+#include "IOverlappingObject.h"
 
 class Texture;
 class LevelManager;
@@ -8,7 +9,7 @@ class Sprite;
 class MovementBehaviour;
 enum class ProjectileTag;
 
-class Player final : public Character
+class Player final : public Character, public IOverlappingObject
 {
 	enum class ActionState
 	{
@@ -32,11 +33,14 @@ public:
 	Player& operator=(Player&& rhs) = delete;
 	~Player();
 
+	// Inherited via Character
+	void Draw(int zIndex) const override;
 	virtual void Update(float elapsedSec) override;
+	
+	// Inherited via IOverlappingObject
 	virtual void CheckOverlap(const Rectf& overlappingShape) override;
 	virtual bool IsOverlapping(const Rectf& overlappingShape) override;
 
-	void Draw() const override;
 	Rectf GetShape() const override;
 	void Relocate(Point2f newLocation);
 	void AttemptInteraction();
@@ -47,12 +51,12 @@ public:
 	void ToggleDrawDebug();
 
 private:
-	const float m_HorizontalSpeed;
-	
 	LevelManager* m_pLevelManager;
-	//Sprite* m_pSprite;
 	ProjectileTag m_ProjectileTag;
 	ActionState m_ActionState;
+
+	Sprite* m_pAttackSprite;
+
 	Rectf m_Weapon;
 	bool m_IsDrawDebug;
 	bool m_IsDucked;

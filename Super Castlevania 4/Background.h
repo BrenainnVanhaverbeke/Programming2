@@ -6,17 +6,19 @@ class Character;
 class Sprite;
 class ParallaxLayer;
 
-class Background{
+class Background final : GameObject {
 
 public:
-	Background(Sprite* staticBackground, std::vector<ParallaxLayer*> parallaxLayers);
-	~Background();
+	explicit Background(Sprite* staticBackground, std::vector<ParallaxLayer*> parallaxLayers, int zIndex);
+	virtual ~Background();
 
 	void SetParallaxLayers(std::vector<ParallaxLayer*>& parallaxLayers);
 	void Track(Character* character, const Rectf& boundaries);
-	void Draw() const;
 	void Update(float elapsedSec, const Point2f& cameraBottomLeft);
 	void SetWindowSize(Rectf& windowSize);
+	
+	// Inherited via GameObject
+	virtual void Draw(int zIndex) const override;
 
 private:
 	Sprite* m_pStaticBackground;
@@ -24,4 +26,8 @@ private:
 	Point2f m_pBottomLeft;
 
 	void DeleteParallaxLayers();
+
+	// Inherited via GameObject
+	virtual void Update(float elapsedSec) override;
+
 };

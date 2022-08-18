@@ -16,6 +16,7 @@ Sprite::Sprite(std::string fileName, const Rectf& sourceRect, int frames, int ro
 	, m_MaxFrameTime{ 1.0f / framePerSeconds }
 	, m_CurrentFrame{ 0 }
 	, m_AccumulatedTime{ 0 }
+	, m_Origin{ sourceRect.GetTopLeft() }
 {
 }
 
@@ -62,6 +63,12 @@ void Sprite::DrawRotatedCenter(const Transform& origin, float width, float heigh
 	glPopMatrix();
 }
 
+void Sprite::Reset()
+{
+	m_CurrentFrame = 0;
+	m_AccumulatedTime = 0;
+}
+
 void Sprite::SetSourceRect(const Rectf& sourceRect)
 {
 	m_SourceRect = sourceRect;
@@ -78,6 +85,6 @@ void Sprite::UpdateSourceRect(int rowOffset)
 	float textureHeight{};
 	float textureWidth{};
 	textureManager.GetTextureDimensions(m_Path, textureWidth, textureHeight);
-	m_SourceRect.bottom = (textureHeight / m_Rows) * (rowOffset + 1);
-	m_SourceRect.left = (textureWidth / m_Frames) * m_CurrentFrame;
+	m_SourceRect.left = m_Origin.x + (m_SourceRect.width * m_CurrentFrame);
+	m_SourceRect.bottom = m_Origin.y + (m_SourceRect.height * (rowOffset));
 }

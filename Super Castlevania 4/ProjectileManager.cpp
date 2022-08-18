@@ -26,12 +26,12 @@ void ProjectileManager::Update(float elapsedSec)
 		m_pProjectiles.at(i)->Update(elapsedSec);
 }
 
-void ProjectileManager::Draw() const
+void ProjectileManager::Draw(int zIndex) const
 {
 	size_t nrOfProjectiles{ m_pProjectiles.size() };
 	for (size_t i{ 0 }; i < nrOfProjectiles; ++i)
 	{
-		m_pProjectiles.at(i)->Draw();
+		m_pProjectiles.at(i)->Draw(zIndex);
 		if (m_IsDrawDebug)
 			m_pProjectiles.at(i)->DrawDebug();
 	}

@@ -2,9 +2,9 @@
 class GameObject
 {
 public:
-	GameObject();
-	explicit GameObject(const Point2f& origin);
-	explicit GameObject(const Transform& transform);
+	explicit GameObject(int zIndex = 0);
+	explicit GameObject(const Point2f& origin, int zIndex = 0);
+	explicit GameObject(const Transform& transform, int zIndex = 0);
 	GameObject& operator=(const GameObject& rhs) = delete;
 	GameObject& operator=(GameObject&& rhs) = delete;
 	GameObject(const GameObject& other) = delete;
@@ -12,13 +12,13 @@ public:
 	virtual ~GameObject() = default;
 
 	virtual void Update(float elapsedSec) = 0;
-	virtual void Draw() const = 0;
-	virtual void CheckOverlap(const Rectf& overlappingShape) = 0;
-	virtual bool IsOverlapping(const Rectf& overlappingShape) = 0;
+	virtual void Draw(int zIndex) const = 0;
+	virtual int GetZIndex() const;
 
 	Transform& GetTransform();
 
 protected:
 	Transform m_Transform;
 	bool m_IsOverlapped;
+	int m_ZIndex;
 };

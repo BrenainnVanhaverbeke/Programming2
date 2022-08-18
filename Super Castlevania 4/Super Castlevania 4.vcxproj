@@ -160,8 +160,10 @@
     <ClCompile Include="CrumblingBlock.cpp" />
     <ClCompile Include="Door.cpp" />
     <ClCompile Include="DrawBridge.cpp" />
-    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyManager.cpp" />
+    <ClCompile Include="EnemySpawner.cpp" />
     <ClCompile Include="InteractableObject.cpp" />
+    <ClCompile Include="IOverlappingObject.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
     <ClCompile Include="MovementBehaviour.cpp" />
     <ClCompile Include="ParallaxLayer.cpp" />
@@ -207,8 +209,10 @@
     <ClInclude Include="CrumblingBlock.h" />
     <ClInclude Include="Door.h" />
     <ClInclude Include="DrawBridge.h" />
-    <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyManager.h" />
+    <ClInclude Include="EnemySpawner.h" />
     <ClInclude Include="InteractableObject.h" />
+    <ClInclude Include="IOverlappingObject.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="MovementBehaviour.h" />

@@ -4,7 +4,7 @@
 class DrawBridge final : public TerrainObject
 {
 public:
-	explicit DrawBridge(const std::vector<Point2f>& vertices, bool isBackground);
+	explicit DrawBridge(const std::vector<Point2f>& vertices, int zIndex);
 	DrawBridge& operator=(const DrawBridge& rhs) = delete;
 	DrawBridge& operator=(DrawBridge&& rhs) = delete;
 	DrawBridge(const DrawBridge& other) = delete;

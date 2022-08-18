@@ -8,7 +8,7 @@ class MovementBehaviour;
 class Character : public GameObject
 {
 public:
-	explicit Character(Transform transform, Sprite* sprite, float width, float height, const Vector2f& acceleration);
+	explicit Character(Transform transform, Sprite* sprite, MovementBehaviour* movement, float width, float height, int zIndex);
 	Character& operator=(const Character& rhs) = delete;
 	Character& operator=(Character&& rhs) = delete;
 	Character(const Character& other) = delete;

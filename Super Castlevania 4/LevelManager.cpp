@@ -11,13 +11,12 @@
 
 LevelManager::LevelManager(float screenWidth, float screenHeight)
 	: m_StageCounter{ 0 }
-	, m_SegmentCounter{ 0 }
+	, m_SegmentCounter{ 1 }
 	, m_CheckpointCounter{ 0 }
 	, m_pLevelLoader{ new LevelLoader() }
 	, m_pActiveInteractable{ nullptr }
 	, m_pBackgroundLegacy{ nullptr }
 	, m_pBackground{ nullptr }
-	, m_IsOnBackground{ false }
 	, m_IsOnStairs{ true }
 	, m_BackgroundSpriteId{}
 	, m_DrawDebug{ false }
@@ -56,13 +55,13 @@ void LevelManager::Update(float elapsedSec, const Point2f& cameraBottomLeft) con
 	//	m_pTerrain.at(i)->Update(elapsedSec);
 }
 
-void LevelManager::Draw() const
+void LevelManager::Draw(int zIndex) const
 {
 	//m_pBackgroundLegacy->Draw(Transform{});
-	m_pBackground->Draw();
+	m_pBackground->Draw(zIndex);
 	size_t nrOfTerrainObjects{ m_pTerrain.size() };
 	for (size_t i{ 0 }; i < nrOfTerrainObjects; ++i)
-		m_pTerrain.at(i)->Draw();
+		m_pTerrain.at(i)->Draw(zIndex);
 	if (m_DrawDebug)
 		DrawDebug();
 }
@@ -75,8 +74,8 @@ void LevelManager::DrawBackground() const
 void LevelManager::DrawDebug() const
 {
 	size_t nrOfInteractableObjects{ m_pInteractableObjects.size() };
-	for (size_t i{ 0 }; i < nrOfInteractableObjects; i++)
-		m_pInteractableObjects.at(i)->Draw();
+	//for (size_t i{ 0 }; i < nrOfInteractableObjects; i++)
+	//	m_pInteractableObjects.at(i)->Draw(zIndex);
 	size_t nrOfTerrainObjects{ m_pTerrain.size() };
 	for (size_t i{ 0 }; i < nrOfTerrainObjects; ++i)
 		m_pTerrain.at(i)->DrawDebug();
@@ -84,6 +83,10 @@ void LevelManager::DrawDebug() const
 	utils::DrawRect(m_TransitionArea);
 	utils::SetColor(Color4f{ 0, 1.0f, 1.0f, 1.0f });
 	utils::DrawPoint(m_SpawnPoint);
+}
+
+void LevelManager::Update(float elapsedSec)
+{
 }
 
 void LevelManager::HandleCollisions(Character& character)
@@ -99,7 +102,7 @@ void LevelManager::HandleCollisions(Character& character)
 		size_t nrOfTerrainObjects{ m_pTerrain.size() };
 		for (size_t i{ 0 }; i < nrOfTerrainObjects; ++i)
 		{
-			if (m_pTerrain.at(i)->IsBackground() == m_IsOnBackground)
+			if (m_pTerrain.at(i)->GetZIndex() == character.GetZIndex())
 				m_pTerrain.at(i)->HandleCollisions(character);
 		}
 	}
@@ -112,7 +115,7 @@ bool LevelManager::IsOnGround(const Character& character) const
 		size_t nrOfTerrainObjects{ m_pTerrain.size() };
 		for (size_t i{ 0 }; i < nrOfTerrainObjects; ++i)
 		{
-			if (m_pTerrain.at(i)->IsBackground() == m_IsOnBackground
+			if (m_pTerrain.at(i)->GetZIndex() == character.GetZIndex()
 				&& m_pTerrain.at(i)->IsOnGround(character))
 				return true;
 		}
@@ -130,11 +133,6 @@ bool LevelManager::IsUpstairs(const Vector2f& actorVelocity) const
 	return m_pActiveInteractable->CheckDirection(actorVelocity);
 }
 
-bool LevelManager::IsOnBackground() const
-{
-	return m_IsOnBackground;
-}
-
 bool LevelManager::IsInTransitionArea(const Rectf& actorShape) const
 {
 	return utils::IsOverlapping(actorShape, m_TransitionArea);
@@ -145,14 +143,14 @@ void LevelManager::ToggleDebugDraw()
 	m_DrawDebug = !m_DrawDebug;
 }
 
-void LevelManager::AttemptInteraction(const Rectf& shape)
+void LevelManager::AttemptInteraction(const Rectf& shape, int& zIndex)
 {
 	if (!m_IsOnStairs)
 	{
 		size_t nrOfInteractableObjects{ m_pInteractableObjects.size() };
 		for (size_t i{ 0 }; i < nrOfInteractableObjects; ++i)
 		{
-			if (m_pInteractableObjects.at(i)->TryInteraction(shape, m_IsOnBackground, m_IsOnStairs))
+			if (m_pInteractableObjects.at(i)->TryInteraction(shape, zIndex, m_IsOnStairs))
 			{
 				m_pActiveInteractable = m_pInteractableObjects.at(i);
 				return;
@@ -161,14 +159,14 @@ void LevelManager::AttemptInteraction(const Rectf& shape)
 	}
 }
 
-void LevelManager::CheckOverlap(const Rectf& shape)
+void LevelManager::CheckOverlap(const Rectf& shape, int zIndex)
 {
 	size_t nrOfInteractableObjects{ m_pInteractableObjects.size() };
 	for (size_t i{ 0 }; i < nrOfInteractableObjects; ++i)
 	{
 		InteractableObject*& interactable{ m_pInteractableObjects.at(i) };
 		if (!m_IsOnStairs && interactable->IsAutoInteracting()
-			&& interactable->TryAutoInteracting(shape, m_IsOnStairs, m_IsOnBackground))
+			&& interactable->TryAutoInteracting(shape, m_IsOnStairs, zIndex))
 		{
 			m_pActiveInteractable = interactable;
 			return;
@@ -236,7 +234,6 @@ void LevelManager::UnloadSegment()
 		delete m_pBackground;
 		m_pBackground = nullptr;
 	}
-	m_IsOnBackground = false;
 }
 
 void LevelManager::ReloadCheckpoint()
