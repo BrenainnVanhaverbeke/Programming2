@@ -9,7 +9,7 @@ class Sprite;
 class MovementBehaviour;
 enum class ProjectileTag;
 
-class Player final : public Character, public IOverlappingObject
+class Player final : public Character
 {
 	enum class ActionState
 	{
@@ -42,12 +42,16 @@ public:
 	virtual bool IsOverlapping(const Rectf& overlappingShape) override;
 
 	Rectf GetShape() const override;
+	Rectf GetWeaponShape() const;
+	int GetWeaponDamage() const;
+
 	void Relocate(Point2f newLocation);
 	void AttemptInteraction();
 	void Jump();
 	void Attack();
 	ProjectileTag Shoot();
 	bool IsFlipped() const;
+	bool IsAttacking() const;
 	void ToggleDrawDebug();
 
 private:
@@ -58,6 +62,8 @@ private:
 	Sprite* m_pAttackSprite;
 
 	Rectf m_Weapon;
+	int m_WeaponDamage;
+
 	bool m_IsDrawDebug;
 	bool m_IsDucked;
 	bool m_IsStill;
@@ -71,4 +77,7 @@ private:
 
 	void DrawDebug() const;
 	std::string GetActionStateString() const;
+
+	// Inherited via Character
+	virtual Sprite* GetSprite() override;
 };

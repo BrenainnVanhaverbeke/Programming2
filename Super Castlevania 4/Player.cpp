@@ -9,11 +9,12 @@
 
 Player::Player(LevelManager* pLevelManager)
 	: Character(Transform{}
-		, new Sprite("Player_Movement.png", Rectf(0, 0, 32.0f, 48.0f), 6, 7, 6)
+		, GetSprite()
 		, new PlayerMovement(Vector2f{ 0, utils::g_Gravity })
 		, 28
 		, 46.0f
 		, 0
+		, 100
 	)
 	, m_pAttackSprite{ new Sprite("Player_Attack.png", Rectf(0, 0, 140, 112),3, 1, 8) }
 	, m_ActionState{ ActionState::idle }
@@ -92,10 +93,21 @@ Rectf Player::GetShape() const
 	return shape;
 }
 
+Rectf Player::GetWeaponShape() const
+{
+	return m_Weapon;
+}
+
+int Player::GetWeaponDamage() const
+{
+	return m_WeaponDamage;
+}
+
 void Player::Relocate(Point2f newLocation)
 {
 	newLocation.x -= m_Width / 2;
 	m_Transform.SetTranslation(newLocation);
+	m_ZIndex = 0;
 }
 
 void Player::AttemptInteraction()
@@ -123,6 +135,11 @@ ProjectileTag Player::Shoot()
 bool Player::IsFlipped() const
 {
 	return m_IsFlipped;
+}
+
+bool Player::IsAttacking() const
+{
+	return m_IsAttacking;
 }
 
 void Player::DrawDebug() const
@@ -216,6 +233,19 @@ std::string Player::GetActionStateString() const
 	default:
 		return "\n";
 	}
+}
+
+Sprite* Player::GetSprite()
+{
+	std::string path{ "Player_Movement.png" };
+	Point2f sourceRectOrigin{ 0, 0 };
+	float sourceWidth{ 32 };
+	float sourceHeight{ 48 };
+	Rectf sourceRect{ sourceRectOrigin, sourceWidth, sourceHeight };
+	int frames{ 6 };
+	int rows{ 7 };
+	int framesPerSecond{ 6 };
+	return new Sprite(path, sourceRect, frames, rows, framesPerSecond);
 }
 
 void Player::ToggleDrawDebug()
