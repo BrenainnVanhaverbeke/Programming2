@@ -3,9 +3,15 @@
 #include "SinewaveMovement.h"
 #include "Sprite.h"
 #include "utils.h"
+#include <iostream>
 
-Bat::Bat(Transform transform, Sprite* sprite, int zIndex)
-	: Character(transform, sprite, new SinewaveMovement(50, 25.0f, 2, transform.positionY, false), 16.0f, 16.0f, zIndex)
+Bat::Bat(const Transform& transform, int zIndex, bool isMovingLeft)
+	: Character(transform, GetSprite(), new SinewaveMovement(50, 25.0f, 2, transform.positionY, isMovingLeft), 16.0f, 16.0f, zIndex, 20)
+{
+}
+
+Bat::Bat(const Point2f location, int zIndex, bool isMovingLeft)
+	: Bat(Transform{ location }, zIndex, isMovingLeft)
 {
 }
 
@@ -28,5 +34,18 @@ void Bat::CheckOverlap(const Rectf& overlappingShape)
 
 bool Bat::IsOverlapping(const Rectf& overlappingShape)
 {
-	return false;
+	return utils::IsOverlapping(GetShape(), overlappingShape);
+}
+
+Sprite* Bat::GetSprite()
+{
+	std::string path{ "Enemies.png" };
+	Point2f sourceRectOrigin{ 233.0f, 2330.0f };
+	float sourceWidth{ 16 };
+	float sourceHeight{ 16 };
+	Rectf sourceRect{ sourceRectOrigin, sourceWidth, sourceHeight };
+	int frames{ 4 };
+	int rows{ 1 };
+	int framesPerSecond{ 4 };
+	return new Sprite(path, sourceRect, frames, rows, framesPerSecond);
 }
