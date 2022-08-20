@@ -11,11 +11,10 @@
 
 LevelManager::LevelManager(float screenWidth, float screenHeight)
 	: m_StageCounter{ 0 }
-	, m_SegmentCounter{ 1 }
+	, m_SegmentCounter{ 0 }
 	, m_CheckpointCounter{ 0 }
 	, m_pLevelLoader{ new LevelLoader() }
 	, m_pActiveInteractable{ nullptr }
-	, m_pBackgroundLegacy{ nullptr }
 	, m_pBackground{ nullptr }
 	, m_IsOnStairs{ true }
 	, m_BackgroundSpriteId{}
@@ -50,32 +49,26 @@ Background* LevelManager::GetBackground() const
 void LevelManager::Update(float elapsedSec, const Point2f& cameraBottomLeft) const
 {
 	m_pBackground->Update(elapsedSec, cameraBottomLeft);
-	//size_t nrOfTerrainObjects{ m_pTerrain.size() };
-	//for (size_t i{ 0 }; i < nrOfTerrainObjects; ++i)
-	//	m_pTerrain.at(i)->Update(elapsedSec);
+	size_t nrOfTerrainObjects{ m_pTerrain.size() };
+	for (size_t i{ 0 }; i < nrOfTerrainObjects; ++i)
+		m_pTerrain.at(i)->Update(elapsedSec);
 }
 
 void LevelManager::Draw(int zIndex) const
 {
-	//m_pBackgroundLegacy->Draw(Transform{});
 	m_pBackground->Draw(zIndex);
 	size_t nrOfTerrainObjects{ m_pTerrain.size() };
 	for (size_t i{ 0 }; i < nrOfTerrainObjects; ++i)
 		m_pTerrain.at(i)->Draw(zIndex);
 	if (m_DrawDebug)
-		DrawDebug();
+		DrawDebug(zIndex);
 }
 
-void LevelManager::DrawBackground() const
-{
-	//TODO: Implement parallax background layers
-}
-
-void LevelManager::DrawDebug() const
+void LevelManager::DrawDebug(int zIndex) const
 {
 	size_t nrOfInteractableObjects{ m_pInteractableObjects.size() };
-	//for (size_t i{ 0 }; i < nrOfInteractableObjects; i++)
-	//	m_pInteractableObjects.at(i)->Draw(zIndex);
+	for (size_t i{ 0 }; i < nrOfInteractableObjects; i++)
+		m_pInteractableObjects.at(i)->Draw(zIndex);
 	size_t nrOfTerrainObjects{ m_pTerrain.size() };
 	for (size_t i{ 0 }; i < nrOfTerrainObjects; ++i)
 		m_pTerrain.at(i)->DrawDebug();
@@ -212,7 +205,6 @@ void LevelManager::LoadSegment()
 	m_TransitionArea = m_pLevelLoader->LoadTransitionArea(m_StageCounter, m_SegmentCounter);
 	m_Boundaries = m_pLevelLoader->LoadBoundaries(m_StageCounter, m_SegmentCounter);
 	m_SpawnPoint = m_pLevelLoader->LoadPlayerSpawn(m_StageCounter, m_SegmentCounter);
-	m_pBackgroundLegacy = m_pLevelLoader->GetBackgroundSprite(m_StageCounter, m_SegmentCounter);
 	m_pBackground = m_pLevelLoader->GetBackground(m_StageCounter, m_SegmentCounter);
 	m_pBackground->SetWindowSize(m_WindowSize);
 	if (m_pLevelLoader->IsSegmentCheckpoint(m_StageCounter, m_SegmentCounter))
@@ -224,11 +216,6 @@ void LevelManager::UnloadSegment()
 {
 	DeleteTerrain();
 	DeleteInteractables();
-	if (m_pBackgroundLegacy)
-	{
-		delete m_pBackgroundLegacy;
-		m_pBackgroundLegacy = nullptr;
-	}
 	if (m_pBackground)
 	{
 		delete m_pBackground;

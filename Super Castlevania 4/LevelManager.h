@@ -24,7 +24,6 @@ public:
 	Background* GetBackground() const;
 
 	void Update(float elapsedSec, const Point2f& cameraBottomLeft) const;
-	void DrawBackground() const;
 
 	void HandleCollisions(Character& character);
 	bool IsOnGround(const Character& character) const;
@@ -49,7 +48,6 @@ private:
 	Rectf m_TransitionArea;
 	Rectf m_WindowSize;
 	Point2f m_SpawnPoint;
-	Sprite* m_pBackgroundLegacy;
 	Background* m_pBackground;
 
 	int m_BackgroundSpriteId;
@@ -66,9 +64,8 @@ private:
 	void DeleteTerrain();
 	void DeleteInteractables();
 
-	void DrawDebug() const;
+	void DrawDebug(int zIndex) const;
 
 	// Inherited via GameObject
 	virtual void Update(float elapsedSec) override;
-
 };
