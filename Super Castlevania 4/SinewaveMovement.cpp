@@ -2,7 +2,7 @@
 #include "SinewaveMovement.h"
 
 SinewaveMovement::SinewaveMovement(float xAcceleration, float amplitude, float frequency, float intercept, bool isMovingLeft)
-	: MovementBehaviour(Vector2f{xAcceleration, 0})
+	: MovementBehaviour(Vector2f{isMovingLeft ? -xAcceleration : xAcceleration, 0})
 	, m_Amplitude{ amplitude }
 	, m_Frequency{ frequency }
 	, m_Intercept{ intercept }
