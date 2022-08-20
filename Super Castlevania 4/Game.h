@@ -4,6 +4,7 @@ class Player;
 class Camera;
 class LevelManager;
 class ProjectileManager;
+class EnemyManager;
 class Bat;
 
 class Game final
@@ -32,9 +33,9 @@ private:
 
 	LevelManager* m_pLevelManager;
 	ProjectileManager* m_pProjectileManager;
+	EnemyManager* m_pEnemyManager;
 	Player* m_pPlayer;
 	Camera* m_pCamera;
-	Bat* m_pBat;
 
 	// FUNCTIONS
 	void Initialize( );

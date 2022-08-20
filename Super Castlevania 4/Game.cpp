@@ -3,10 +3,9 @@
 #include "LevelManager.h"
 #include "TextureManager.h"
 #include "ProjectileManager.h"
+#include "EnemyManager.h"
 #include "Player.h"
 #include "Camera.h"
-#include "Bat.h"
-#include "Sprite.h"
 #include "utils.h"
 #include <iostream>
 
@@ -16,7 +15,7 @@ Game::Game(const Window& window)
 	, m_pPlayer{ new Player(m_pLevelManager) }
 	, m_pCamera{ new Camera(window.width, window.height) }
 	, m_pProjectileManager{ new ProjectileManager() }
-	, m_pBat{ new Bat(Transform{32, 100}, new Sprite("Enemies.png", Rectf{233, 2330, 16, 16}, 4, 1, 6), 1) }
+	, m_pEnemyManager{ new EnemyManager() }
 {
 	Initialize();
 	DisplayInstructions();
@@ -40,12 +39,12 @@ void Game::Cleanup()
 	delete m_pCamera;
 	delete m_pLevelManager;
 	delete m_pProjectileManager;
-	delete m_pBat;
+	delete m_pEnemyManager;
 	m_pPlayer = nullptr;
 	m_pCamera = nullptr;
 	m_pLevelManager = nullptr;
 	m_pProjectileManager = nullptr;
-	m_pBat = nullptr;
+	m_pEnemyManager = nullptr;
 }
 
 void Game::Update(float elapsedSec)
@@ -55,13 +54,17 @@ void Game::Update(float elapsedSec)
 	m_pLevelManager->Update(elapsedSec, cameraBottomLeft);
 	m_pLevelManager->CheckOverlap(m_pPlayer->GetShape(), m_pPlayer->GetZIndex());
 	m_pProjectileManager->Update(elapsedSec);
+	m_pEnemyManager->Update(elapsedSec, m_pPlayer);
+	if (m_pPlayer->IsAttacking())
+	{
+		m_pEnemyManager->HandleAttack(m_pPlayer->GetWeaponShape(), m_pPlayer->GetWeaponDamage());
+	}
 	if (m_pLevelManager->IsInTransitionArea(m_pPlayer->GetShape()))
 	{
 		m_pLevelManager->NextSegment();
 		m_pPlayer->Relocate(m_pLevelManager->GetSpawn());
 		m_pCamera->SetLevelBoundaries(m_pLevelManager->GetBoundaries());
 	}
-	m_pBat->Update(elapsedSec);
 }
 
 void Game::Draw() const
@@ -75,9 +78,8 @@ void Game::Draw() const
 			m_pLevelManager->Draw(i);
 			m_pPlayer->Draw(i);
 			m_pProjectileManager->Draw(i);
-			m_pBat->Draw(i);
+			m_pEnemyManager->Draw(i);
 		}
-		utils::DrawLine(m_Window.width * 0.75f, m_Window.height, m_Window.width * 0.75f, 0);
 	}
 	glPopMatrix();
 }
@@ -92,12 +94,6 @@ void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent& e)
 		m_pPlayer->Attack();
 	if ((e.keysym.sym == SDLK_e) && e.repeat == 0)
 		m_pProjectileManager->AddProjectile(m_pPlayer->Shoot(), m_pPlayer->GetShape().GetCenter(), true, m_pPlayer->IsFlipped());
-	if ((e.keysym.sym == SDLK_r) && e.repeat == 0)
-	{
-		delete m_pBat;
-		m_pBat = nullptr;
-		m_pBat = new Bat(Transform{ 32, 100 }, new Sprite("Enemies.png", Rectf{ 233, 2330, 16, 16 }, 4, 1, 4), 1);
-	}
 }
 
 void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent& e)
