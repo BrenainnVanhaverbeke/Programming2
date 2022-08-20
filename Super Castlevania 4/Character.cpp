@@ -3,12 +3,13 @@
 #include "Sprite.h"
 #include "MovementBehaviour.h"
 
-Character::Character(Transform transform, Sprite* sprite, MovementBehaviour* movement, float width, float height, int zIndex)
+Character::Character(Transform transform, Sprite* sprite, MovementBehaviour* movement, float width, float height, int zIndex, int health)
 	: GameObject(transform, zIndex)
 	, m_pSprite{ sprite }
 	, m_Width{ width }
 	, m_Height{ height }
 	, m_pMovementBehaviour{ movement }
+	, m_Health{ health }
 {
 }
 
@@ -33,4 +34,14 @@ Rectf Character::GetShape() const
 Vector2f& Character::GetVelocity() const
 {
 	return m_pMovementBehaviour->GetVelocity();
+}
+
+void Character::TakeDamage(int damage)
+{
+	m_Health -= damage;
+}
+
+int Character::GetHealth() const
+{
+	return m_Health;
 }
