@@ -341,20 +341,23 @@
                         "foreground":{
                             "origin": [ 3106, 476 ],
                             "width": 1280,
-                            "height": 224
+                            "height": 224,
+                            "zIndex": 0
                         },
                         "parallax":[
                             {
                                 "origin": [ 3926, 582 ],
                                 "width": 268,
                                 "height": 97,
-                                "yOffset": 127
+                                "yOffset": 127,
+                                "zIndex": -1
                             },
                             {
                                 "origin": [ 3777, 684 ],
                                 "width": 608,
                                 "height": 95,
-                                "yOffset": 32
+                                "yOffset": 32,
+                                "zIndex": -2
                             }
                         ]
                     },
@@ -502,32 +505,37 @@
                         "foreground":{
                             "origin": [ 4130, 239 ],
                             "width": 1024,
-                            "height": 224
+                            "height": 224,
+                            "zIndex": 0
                         },
                         "parallax":[
                             {
                                 "origin": [ 4475, 365 ],
                                 "width": 326,
                                 "height": 112,
-                                "yOffset": 112
+                                "yOffset": 112,
+                                "zIndex": -1
                             },
                             {
                                 "origin": [ 4388, 384 ],
                                 "width": 508,
                                 "height": 16,
-                                "yOffset": 96
+                                "yOffset": 96,
+                                "zIndex": -2
                             },
                             {
                                 "origin": [ 4388, 420 ],
                                 "width": 508,
                                 "height": 33,
-                                "yOffset": 63
+                                "yOffset": 63,
+                                "zIndex": -3
                             },
                             {
                                 "origin": [ 4419, 487 ],
                                 "width": 417,
                                 "height": 63,
-                                "yOffset": 0
+                                "yOffset": 0,
+                                "zIndex": -4
                             }
                         ]
                     },
@@ -688,20 +696,23 @@
                         "foreground":{
                             "origin": [ 4899, 476 ],
                             "width": 768,
-                            "height": 224
+                            "height": 224,
+                            "zIndex": 0
                         },
                         "parallax":[
                             {
                                 "origin": [ 3926, 582 ],
                                 "width": 268,
                                 "height": 97,
-                                "yOffset": 127
+                                "yOffset": 127,
+                                "zIndex": -1
                             },
                             {
                                 "origin": [ 3777, 684 ],
                                 "width": 608,
                                 "height": 95,
-                                "yOffset": 32
+                                "yOffset": 32,
+                                "zIndex": -2
                             }
                         ]
                     },
@@ -822,20 +833,23 @@
                         "foreground":{
                             "origin": [ 5681, 476 ],
                             "width": 1504,
-                            "height": 224
+                            "height": 224,
+                            "zIndex": 0
                         },
                         "parallax":[
                             {
                                 "origin": [ 5681, 568 ],
                                 "width": 256,
                                 "height": 80,
-                                "yOffset": 128
+                                "yOffset": 128,
+                                "zIndex": -1
                             },
                             {
                                 "origin": [ 5681, 681 ],
                                 "width": 665,
                                 "height": 112,
-                                "yOffset": 16
+                                "yOffset": 16,
+                                "zIndex": -2
                             }
                         ]
                     },
@@ -948,20 +962,23 @@
                         "foreground":{
                             "origin": [ 6193, 237 ],
                             "width": 1536,
-                            "height": 224
+                            "height": 224,
+                            "zIndex": 0
                         },
                         "parallax":[
                             {
                                 "origin": [ 5509, 136 ],
                                 "width": 577,
                                 "height": 51,
-                                "yOffset": 108
+                                "yOffset": 108,
+                                "zIndex": -1
                             },
                             {
                                 "origin": [ 5427, 172 ],
                                 "width": 758,
                                 "height": 32,
-                                "yOffset": 76
+                                "yOffset": 76,
+                                "zIndex": -2
                             }
                         ]
                     },
@@ -1254,14 +1271,16 @@
                         "foreground":{
                             "origin": [ 7185, 476 ],
                             "width": 544,
-                            "height": 224
+                            "height": 224,
+                            "zIndex": 0
                         },
                         "parallax":[
                             {
                                 "origin": [ 5681, 568 ],
                                 "width": 256,
                                 "height": 80,
-                                "yOffset": 128
+                                "yOffset": 128,
+                                "zIndex": -1
                             }
                         ]
                     },
