@@ -9,7 +9,7 @@ class MovementBehaviour;
 class Character : public GameObject, public IOverlappingObject
 {
 public:
-	explicit Character(Transform transform, Sprite* sprite, MovementBehaviour* movement, float width, float height, int zIndex, int health);
+	explicit Character(Transform transform, Sprite* sprite, MovementBehaviour* movement, float width, float height, int zIndex, int health, int id);
 	Character& operator=(const Character& rhs) = delete;
 	Character& operator=(Character&& rhs) = delete;
 	Character(const Character& other) = delete;
@@ -17,12 +17,22 @@ public:
 	virtual ~Character();
 
 	virtual Rectf GetShape() const;
-	virtual Vector2f& GetVelocity() const;
+	virtual Vector2f& GetVelocity() const final;
 	virtual void TakeDamage(int damage);
 
-	int GetHealth() const;
+	virtual int GetHealth() const final;
+	virtual int GetId() const final;
+
+	// Inherited via IOverlappingObject
+	virtual bool IsOverlapping(const Rectf& overlappingShape) override;
+	virtual bool IsOverlapping(const std::vector<Point2f>& overlappingShape) override;
+
+	// Inherited via GameObject
+	virtual void DrawDebug(int zIndex) const override;
 
 protected:
+	const int m_Id;
+
 	Sprite* m_pSprite;
 	MovementBehaviour* m_pMovementBehaviour;
 
@@ -30,5 +40,8 @@ protected:
 	float m_Height;
 	int m_Health;
 
-	virtual Sprite* GetSprite() = 0;
+	virtual Sprite* GetSprite() const = 0;
+
+
+
 };

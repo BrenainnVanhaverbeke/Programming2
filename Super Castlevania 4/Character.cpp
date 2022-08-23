@@ -2,14 +2,16 @@
 #include "Character.h"
 #include "Sprite.h"
 #include "MovementBehaviour.h"
+#include "utils.h"
 
-Character::Character(Transform transform, Sprite* sprite, MovementBehaviour* movement, float width, float height, int zIndex, int health)
+Character::Character(Transform transform, Sprite* sprite, MovementBehaviour* movement, float width, float height, int zIndex, int health, int id)
 	: GameObject(transform, zIndex)
 	, m_pSprite{ sprite }
 	, m_Width{ width }
 	, m_Height{ height }
 	, m_pMovementBehaviour{ movement }
 	, m_Health{ health }
+	, m_Id{ id }
 {
 }
 
@@ -44,4 +46,26 @@ void Character::TakeDamage(int damage)
 int Character::GetHealth() const
 {
 	return m_Health;
+}
+
+int Character::GetId() const
+{
+	return m_Id;
+}
+
+bool Character::IsOverlapping(const Rectf& overlappingShape)
+{
+	return utils::IsOverlapping(GetShape(), overlappingShape);
+}
+
+bool Character::IsOverlapping(const std::vector<Point2f>& overlappingShape)
+{
+	Rectf shape{ GetShape() };
+	return utils::IsOverlapping(overlappingShape, shape.ConvertToVector());
+}
+
+void Character::DrawDebug(int zIndex) const
+{
+	if (zIndex == m_ZIndex)
+		utils::DrawRect(GetShape());
 }
