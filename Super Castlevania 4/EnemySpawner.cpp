@@ -8,7 +8,6 @@
 #include "BonePillar.h"
 #include "Skeleton.h"
 #include "Sprite.h"
-#include <iostream>
 
 EnemySpawner::EnemySpawner(CharacterTypes enemyType, const Point2f& location, int zIndex)
 	: m_EnemyType{ enemyType }
@@ -21,7 +20,7 @@ EnemySpawner::EnemySpawner(CharacterTypes enemyType, const Point2f& location, in
 
 void EnemySpawner::Update(float elapsedSec, Character* player)
 {
-	const float spawnRange{ 384.0f };
+	const float spawnRange{ 290.0f };
 	float distance{ utils::GetDistance(player->GetTransform().GetTranslation(), m_Location) };
 	if (!m_HasActivated && distance < spawnRange)
 	{
@@ -29,7 +28,9 @@ void EnemySpawner::Update(float elapsedSec, Character* player)
 		m_ShouldSpawn = true;
 	}
 	if (m_HasActivated && spawnRange < distance)
+	{
 		m_HasActivated = false;
+	}
 }
 
 bool EnemySpawner::ShouldSpawn()
