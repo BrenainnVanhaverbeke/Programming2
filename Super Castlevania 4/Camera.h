@@ -11,7 +11,6 @@ private:
 	const float m_Width;
 	const float m_Height;
 	const float m_Bottom;
-	const float m_ScaleFactor;
 
 	Point2f m_BottomLeftPosition;
 	Rectf m_LevelBoundaries;
