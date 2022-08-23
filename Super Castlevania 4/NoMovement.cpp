@@ -6,7 +6,7 @@ NoMovement::NoMovement()
 {
 }
 
-void NoMovement::Update(float elapsedSec, Transform& transform, const Rectf& shape, const Rectf& boundaries)
+void NoMovement::Update(float elapsedSec, Transform& transform, const Rectf& shape, const Rectf& boundaries, const Vector2f& forcedMovement)
 {
 }
 
