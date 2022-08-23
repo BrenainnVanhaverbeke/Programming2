@@ -4,8 +4,7 @@
 class Axe final : public Projectile
 {
 public:
-	explicit Axe(const Point2f& origin, bool isFlipped);
-	virtual ~Axe() = default;
+	explicit Axe(const Point2f& origin, const Rectf& boundaries, bool isFlipped, int zIndex);
 	Axe& operator=(const Axe& rhs) = delete;
 	Axe& operator=(Axe&& rhs) = delete;
 	Axe(const Axe& other) = delete;
@@ -16,10 +15,11 @@ public:
 	virtual void Draw(int zIndex) const override;
 
 private:
+	const static int m_Damage{ 20 };
 	const float m_RotationSpeed;
 
 	// Inherited via Projectile
 	virtual Sprite* CreateSprite() override;
-	virtual std::string GetProjectileTag() const override;
+	virtual ProjectileTag GetProjectileTag() const override;
 };
 

@@ -2,9 +2,24 @@
 #include "Axe.h"
 #include "Sprite.h"
 #include "ProjectileTag.h"
+#include <iostream>
 
-Axe::Axe(const Point2f& origin, bool isFlipped)
-	: Projectile(Transform{ origin }, Vector2f{ 100.0f, 400.0f }, Vector2f{ 0, -980.0f }, CreateSprite(), ProjectileTag::axe, 15.0f, 15.0f, true, isFlipped)
+Axe::Axe(const Point2f& origin, const Rectf& boundaries, bool isFlipped, int zIndex)
+	: Projectile
+	(
+		Transform{ origin }, 
+		Vector2f{ 100.0f, 400.0f }, 
+		Vector2f{ 0, G_GRAVITY }, 
+		CreateSprite(), 
+		ProjectileTag::axe, 
+		boundaries, 
+		15.0f, 
+		15.0f, 
+		true, 
+		isFlipped, 
+		m_Damage, 
+		zIndex
+	)
 	, m_RotationSpeed{ -720.0f * (isFlipped ? -1 : 1) }
 {
 }
@@ -29,10 +44,10 @@ void Axe::Update(float elapsedSec)
 void Axe::Draw(int zIndex) const
 {
 	if (zIndex == m_ZIndex)
-		m_pSprite->DrawRotatedCenter(m_Transform, m_Width, m_Height, m_Velocity.x < 0);
+		m_pSprite->DrawRotatedCenter(m_Transform, m_Width, m_Height, m_IsFlipped);
 }
 
-std::string Axe::GetProjectileTag() const
+ProjectileTag Axe::GetProjectileTag() const
 {
-	return std::string();
+	return ProjectileTag::axe;
 }
