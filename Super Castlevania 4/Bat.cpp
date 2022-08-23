@@ -18,7 +18,7 @@ Bat::Bat(const Point2f location, int zIndex, bool isMovingLeft, int id)
 void Bat::Update(float elapsedSec)
 {
 	Rectf boundaries{ 0, 0, 1000, 1000 };
-	//m_pMovementBehaviour->Update(elapsedSec, m_Transform, GetShape(), boundaries);
+	m_pMovementBehaviour->Update(elapsedSec, m_Transform, GetShape(), boundaries);
 	m_pSprite->Update(elapsedSec);
 }
 
