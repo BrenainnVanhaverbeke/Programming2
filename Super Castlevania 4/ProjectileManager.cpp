@@ -5,6 +5,7 @@
 #include "Axe.h"
 #include "Cross.h"
 #include "Dagger.h"
+#include "Fireball.h"
 #include "Character.h"
 #include "utils.h"
 
@@ -129,6 +130,8 @@ Projectile* ProjectileManager::CreateProjectile(ProjectileTag tag, const Point2f
 		return new Dagger(origin, m_Boundaries, isFlipped, zIndex);
 	case ProjectileTag::axe:
 		return new Axe(origin, m_Boundaries, isFlipped, zIndex);
+	case ProjectileTag::fireball:
+		return new Fireball(origin, m_Boundaries, isFlipped, zIndex);
 	}
 	return nullptr;
 }
