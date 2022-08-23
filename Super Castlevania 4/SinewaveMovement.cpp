@@ -9,7 +9,7 @@ SinewaveMovement::SinewaveMovement(float xAcceleration, float amplitude, float f
 {
 }
 
-void SinewaveMovement::Update(float elapsedSec, Transform& transform, const Rectf& shape, const Rectf& boundaries)
+void SinewaveMovement::Update(float elapsedSec, Transform& transform, const Rectf& shape, const Rectf& boundaries, const Vector2f& forcedMovement)
 {
 	UpdateVelocity(elapsedSec, nullptr);
 	Move(elapsedSec, transform);
