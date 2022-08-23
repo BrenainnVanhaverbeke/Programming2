@@ -3,16 +3,18 @@
 #include "GameObject.h"
 
 class Character;
+class Player;
 class EnemySpawner;
+class ProjectileManager;
 
 class EnemyManager final : public GameObject
 {
 public:
-	EnemyManager();
+	explicit EnemyManager(ProjectileManager* projectileManager);
 	virtual ~EnemyManager();
 
 	void Update(float elapsedSec, Character* player);
-	void HandleAttack(const std::vector<Point2f>& weaponShape, int weaponDamage, int zIndex);
+	void HandleAttack(Player* player);
 	std::vector<Character*>& GetEnemies();
 
 	// Inherited via GameObject
@@ -20,7 +22,7 @@ public:
 	virtual void DrawDebug(int zIndex) const override;
 
 private:
-	const float m_DespawnDistance;
+	ProjectileManager* m_pProjectileManager;
 
 	std::vector<Character*> m_pEnemies;
 	std::vector<EnemySpawner*> m_pSpawners;
@@ -33,6 +35,7 @@ private:
 
 	void DeleteEnemies();
 	void DeleteSpawners();
+	void CheckDeletion();
 	
 	// Inherited via GameObject
 	// Unused implementation

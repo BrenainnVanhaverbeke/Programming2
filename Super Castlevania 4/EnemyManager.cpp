@@ -1,19 +1,24 @@
 #include "pch.h"
 #include "EnemyManager.h"
 #include "Character.h"
+#include "CharacterTypes.h"
+#include "ProjectileTag.h"
+#include "ProjectileManager.h"
+#include "Player.h"
 #include "EnemySpawner.h"
 #include "utils.h"
 #include <iostream>
 
-EnemyManager::EnemyManager()
+EnemyManager::EnemyManager(ProjectileManager* projectileManager)
 	: m_pEnemies{}
 	, m_pSpawners{}
-	, m_DespawnDistance{ 400.0f }
 	, m_EnemyCounter{ 0 }
+	, m_pProjectileManager{ projectileManager }
 {
-	m_pSpawners.push_back(new EnemySpawner("Bat", Point2f{ 200, 100 }, 0));
-	m_pSpawners.push_back(new EnemySpawner("Bat", Point2f{ 250, 100 }, 0));
-	m_pSpawners.push_back(new EnemySpawner("Bat", Point2f{ 300, 100 }, 0));
+	m_pSpawners.push_back(new EnemySpawner(CharacterTypes::bat, Point2f{ 200, 100 }, 0));
+	m_pSpawners.push_back(new EnemySpawner(CharacterTypes::bat, Point2f{ 250, 100 }, 0));
+	m_pSpawners.push_back(new EnemySpawner(CharacterTypes::bat, Point2f{ 300, 100 }, 0));
+	m_pSpawners.push_back(new EnemySpawner(CharacterTypes::bonePillar, Point2f{ 128, 32 }, 0));
 }
 
 EnemyManager::~EnemyManager()
@@ -26,6 +31,7 @@ void EnemyManager::Update(float elapsedSec, Character* player)
 {
 	UpdateEnemies(elapsedSec, player);
 	UpdateSpawners(elapsedSec, player);
+	CheckDeletion();
 }
 
 void EnemyManager::Draw(int zIndex) const
@@ -48,14 +54,20 @@ void EnemyManager::DrawDebug(int zIndex) const
 		m_pSpawners.at(i)->DrawDebug(zIndex);
 }
 
-void EnemyManager::HandleAttack(const std::vector<Point2f>& weaponShape, int weaponDamage, int zIndex)
+void EnemyManager::HandleAttack(Player* player)
 {
+	const std::vector<Point2f>& weaponShape{ player->GetWeaponShape() };
+	const std::vector<int>& immuneList{ player->GetImmunityList() };
 	size_t nrOfEnemies{ m_pEnemies.size() };
 	for (size_t i{ 0 }; i < nrOfEnemies; ++i)
 	{
 		Character*& enemy{ m_pEnemies.at(i) };
-		if (enemy->GetZIndex() == zIndex && enemy->IsOverlapping(weaponShape))
-			enemy->TakeDamage(weaponDamage);
+		if (enemy->GetZIndex() == player->GetZIndex() && enemy->IsOverlapping(weaponShape)
+			&& std::find(immuneList.begin(), immuneList.end(), enemy->GetId()) == immuneList.end())
+		{
+			player->AddImmuneId(enemy->GetId());
+			enemy->TakeDamage(player->GetWeaponDamage());
+		}
 	}
 }
 
@@ -71,6 +83,11 @@ void EnemyManager::UpdateEnemies(float elapsedSec, Character* player)
 	{
 		Character*& enemy{ m_pEnemies.at(i) };
 		m_pEnemies.at(i)->Update(elapsedSec);
+		if (enemy->ShouldFire())
+		{
+			m_pProjectileManager->AddProjectile(enemy->GetProjectileTag(), enemy->GetProjectileSpawn(), false, enemy->IsFlipped(), enemy->GetZIndex());
+		}
+		enemy->SetIsFlipped(player->GetTransform().positionX - enemy->GetTransform().positionX < 0);
 		if (ShouldEnemyDespawn(enemy, player))
 		{
 			nrOfEnemies--;
@@ -99,9 +116,9 @@ void EnemyManager::UpdateSpawners(float elapsedSec, Character* player)
 
 bool EnemyManager::ShouldEnemyDespawn(Character* enemy, Character* player)
 {
+	const float despawnDistance{ 300.0f };
 	float distance{ utils::GetDistance(enemy->GetShape().GetCenter(), player->GetShape().GetCenter()) };
-	
-	return enemy->GetHealth() <= 0 || m_DespawnDistance < distance;
+	return enemy->ShouldDie() || despawnDistance < distance;
 }
 
 void EnemyManager::DeleteEnemies()
@@ -124,6 +141,10 @@ void EnemyManager::DeleteSpawners()
 		m_pSpawners.at(i) = nullptr;
 	}
 	m_pSpawners.clear();
+}
+
+void EnemyManager::CheckDeletion()
+{
 }
 
 void EnemyManager::Update(float elapsedSec)
