@@ -155,8 +155,10 @@
     <ClCompile Include="Axe.cpp" />
     <ClCompile Include="Background.cpp" />
     <ClCompile Include="Bat.cpp" />
+    <ClCompile Include="BonePillar.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Character.cpp" />
+    <ClCompile Include="CharacterTypes.cpp" />
     <ClCompile Include="Cross.cpp" />
     <ClCompile Include="CrumblingBlock.cpp" />
     <ClCompile Include="Dagger.cpp" />
@@ -164,10 +166,12 @@
     <ClCompile Include="DrawBridge.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="EnemySpawner.cpp" />
+    <ClCompile Include="Fireball.cpp" />
     <ClCompile Include="InteractableObject.cpp" />
     <ClCompile Include="IOverlappingObject.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
     <ClCompile Include="MovementBehaviour.cpp" />
+    <ClCompile Include="NoMovement.cpp" />
     <ClCompile Include="ParabolicMovement.cpp" />
     <ClCompile Include="ParallaxLayer.cpp" />
     <ClCompile Include="Pendulum.cpp" />
@@ -200,6 +204,7 @@
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="Trapdoor.cpp" />
+    <ClCompile Include="UI.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="Vector2f.cpp" />
   </ItemGroup>
@@ -208,8 +213,10 @@
     <ClInclude Include="Axe.h" />
     <ClInclude Include="Background.h" />
     <ClInclude Include="Bat.h" />
+    <ClInclude Include="BonePillar.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Character.h" />
+    <ClInclude Include="CharacterTypes.h" />
     <ClInclude Include="Cross.h" />
     <ClInclude Include="CrumblingBlock.h" />
     <ClInclude Include="Dagger.h" />
@@ -217,11 +224,13 @@
     <ClInclude Include="DrawBridge.h" />
     <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="EnemySpawner.h" />
+    <ClInclude Include="Fireball.h" />
     <ClInclude Include="InteractableObject.h" />
     <ClInclude Include="IOverlappingObject.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="MovementBehaviour.h" />
+    <ClInclude Include="NoMovement.h" />
     <ClInclude Include="ParabolicMovement.h" />
     <ClInclude Include="ParallaxLayer.h" />
     <ClInclude Include="Pendulum.h" />
@@ -248,6 +257,7 @@
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="Trapdoor.h" />
+    <ClInclude Include="UI.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="Vector2f.h" />
   </ItemGroup>

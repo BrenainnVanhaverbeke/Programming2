@@ -37,9 +37,6 @@
     <Filter Include="Game Files\Projectile Classes">
       <UniqueIdentifier>{0576a853-116c-4824-a09d-7d411e715eaa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Game Files\Terrain Classes">
-      <UniqueIdentifier>{da7f1377-b080-4566-89c1-52f6f4c74786}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Game Files\Background Classes">
       <UniqueIdentifier>{ab437d58-07fc-424b-a054-87abbdff5d02}</UniqueIdentifier>
     </Filter>
@@ -57,6 +54,12 @@
     </Filter>
     <Filter Include="Game Files\Texture Classes">
       <UniqueIdentifier>{3252a414-1b02-4dee-b6d3-1ef49cec0824}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\UI Class">
+      <UniqueIdentifier>{e4323d41-d2f4-44fc-8de3-771133115e87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\Terrain Classes">
+      <UniqueIdentifier>{da7f1377-b080-4566-89c1-52f6f4c74786}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -198,6 +201,21 @@
     <ClCompile Include="Dagger.cpp">
       <Filter>Game Files\Projectile Classes</Filter>
     </ClCompile>
+    <ClCompile Include="UI.cpp">
+      <Filter>Game Files\UI Class</Filter>
+    </ClCompile>
+    <ClCompile Include="BonePillar.cpp">
+      <Filter>Game Files\Character Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="NoMovement.cpp">
+      <Filter>Game Files\Movement Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterTypes.cpp">
+      <Filter>Game Files\Character Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Fireball.cpp">
+      <Filter>Game Files\Projectile Classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -336,6 +354,21 @@
       <Filter>Game Files\Projectile Classes</Filter>
     </ClInclude>
     <ClInclude Include="Dagger.h">
+      <Filter>Game Files\Projectile Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="UI.h">
+      <Filter>Game Files\UI Class</Filter>
+    </ClInclude>
+    <ClInclude Include="BonePillar.h">
+      <Filter>Game Files\Character Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="NoMovement.h">
+      <Filter>Game Files\Movement Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterTypes.h">
+      <Filter>Game Files\Character Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Fireball.h">
       <Filter>Game Files\Projectile Classes</Filter>
     </ClInclude>
   </ItemGroup>
