@@ -17,10 +17,6 @@ EnemyManager::EnemyManager(ProjectileManager* pProjectileManager, LevelManager* 
 	, m_pProjectileManager{ pProjectileManager }
 	, m_pLevelManager{ pLevelManager }
 {
-	m_pSpawners.push_back(new EnemySpawner(CharacterTypes::bat, Point2f{ 200, 100 }, 0));
-	m_pSpawners.push_back(new EnemySpawner(CharacterTypes::bat, Point2f{ 250, 100 }, 0));
-	m_pSpawners.push_back(new EnemySpawner(CharacterTypes::bat, Point2f{ 300, 100 }, 0));
-	m_pSpawners.push_back(new EnemySpawner(CharacterTypes::bonePillar, Point2f{ 128, 32 }, 0));
 }
 
 EnemyManager::~EnemyManager()
@@ -73,9 +69,31 @@ void EnemyManager::HandleAttack(Player* pPlayer)
 	}
 }
 
+void EnemyManager::CheckOverlap(Player* player)
+{
+	const int contactDamage{ 10 };
+	size_t nrOfEnemies{ m_pEnemies.size() };
+	for (size_t i{ 0 }; i < nrOfEnemies; ++i)
+	{
+		if (player->GetZIndex() == m_pEnemies.at(i)->GetZIndex() && player->IsOverlapping(m_pEnemies.at(i)->GetShape()))
+		{
+			player->TakeDamage(10);
+			return;
+		}
+	}
+}
+
 std::vector<Character*>& EnemyManager::GetEnemies()
 {
 	return m_pEnemies;
+}
+
+
+void EnemyManager::LoadSegment()
+{
+	DeleteEnemies();
+	DeleteSpawners();
+	m_pSpawners = m_pLevelManager->GetEnemySpawners();
 }
 
 void EnemyManager::UpdateEnemies(float elapsedSec, Character* pPlayer)
@@ -108,7 +126,7 @@ void EnemyManager::UpdateSpawners(float elapsedSec, Character* pPlayer)
 	}
 }
 
-bool EnemyManager::ShouldEnemyDespawn(Character* pEnemy, Character* pPlayer)
+bool EnemyManager::ShouldEnemyDespawn(Character*& pEnemy, Character* pPlayer)
 {
 	const float despawnDistance{ 300.0f };
 	float distance{ utils::GetDistance(pEnemy->GetShape().GetCenter(), pPlayer->GetShape().GetCenter()) };
@@ -142,10 +160,10 @@ void EnemyManager::CheckDeletion(Character* pPlayer)
 	size_t nrOfEnemies{ m_pEnemies.size() };
 	for (size_t i{ 0 }; i < nrOfEnemies; ++i)
 	{
-		Character* enemy{ m_pEnemies.at(i) };
+		Character*& enemy{ m_pEnemies.at(i) };
 		if (ShouldEnemyDespawn(enemy, pPlayer))
 		{
-			nrOfEnemies--;
+			--nrOfEnemies;
 			std::swap(enemy, m_pEnemies.back());
 			delete m_pEnemies.back();
 			m_pEnemies.back() = nullptr;

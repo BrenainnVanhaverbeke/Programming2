@@ -20,7 +20,9 @@ public:
 
 	void Update(float elapsedSec, Character* player);
 	void HandleAttack(Player* player);
+	void CheckOverlap(Player* player);
 	std::vector<Character*>& GetEnemies();
+	void LoadSegment();
 
 	// Inherited via GameObject
 	virtual void Draw(int zIndex) const override;
@@ -37,7 +39,7 @@ private:
 	void UpdateEnemies(float elapsedSec, Character* player);
 	void UpdateSpawners(float elapsedSec, Character* player);
 
-	bool ShouldEnemyDespawn(Character* enemy, Character* player);
+	bool ShouldEnemyDespawn(Character*& enemy, Character* player);
 
 	void DeleteEnemies();
 	void DeleteSpawners();
