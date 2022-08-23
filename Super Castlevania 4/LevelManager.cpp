@@ -11,7 +11,7 @@
 
 LevelManager::LevelManager(float screenWidth, float screenHeight)
 	: m_StageCounter{ 0 }
-	, m_SegmentCounter{ 7 }
+	, m_SegmentCounter{ 0 }
 	, m_CheckpointCounter{ 0 }
 	, m_pLevelLoader{ new LevelLoader() }
 	, m_pActiveInteractable{ nullptr }
