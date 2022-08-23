@@ -5,7 +5,21 @@
 #include <iostream>
 
 Dagger::Dagger(const Point2f& origin, const Rectf& boundaries, bool isFlipped, int zIndex)
-	: Projectile(origin, Vector2f{ 150.0f, 0 }, Vector2f{}, CreateSprite(), ProjectileTag::dagger, boundaries, 16.0f, 4, true, isFlipped, 10, zIndex)
+	: Projectile
+	(
+		origin, 
+		Vector2f{ 150.0f, 0 }, 
+		Vector2f{}, 
+		CreateSprite(), 
+		ProjectileTag::dagger, 
+		boundaries, 
+		16.0f, 
+		4, 
+		true, 
+		isFlipped, 
+		10, 
+		zIndex
+	)
 	, m_HasHit{ false }
 {
 }
