@@ -6,5 +6,5 @@ enum class ProjectileTag
 	cross,
 	dagger,
 	axe,
-	holyWater
+	END
 };
