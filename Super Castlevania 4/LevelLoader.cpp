@@ -8,6 +8,8 @@
 #include "Sprite.h"
 #include "Background.h"
 #include "ParallaxLayer.h"
+#include "EnemySpawner.h"
+#include "CharacterTypes.h"
 
 #include <fstream>
 #include <iostream>
@@ -86,6 +88,34 @@ std::vector<InteractableObject*> LevelLoader::LoadInteractables(int stage, int s
 	return pInteractables;
 }
 
+std::vector<EnemySpawner*> LevelLoader::GetEnemySpawners(int stage, int segment) const
+{
+	std::string objectName{ "enemySpawners" };
+	json jsonSpawners{ GetJsonObject(stage, segment, objectName) };
+	size_t nrOfSpawners{ jsonSpawners.size() };
+	std::vector<EnemySpawner*> enemySpawners{};
+	for (size_t i{ 0 }; i < nrOfSpawners; ++i)
+	{
+		json& spawner{ jsonSpawners.at(i) };
+		enemySpawners.push_back(new EnemySpawner(GetCharacterType(spawner), GetPointFromJson(spawner), spawner.at("zIndex")));
+	}
+	return enemySpawners;
+}
+
+CharacterTypes LevelLoader::GetCharacterType(const json& jsonObject) const
+{
+	std::string type{ jsonObject.at("type") };
+	if (type == "bonePillar")
+		return CharacterTypes::bonePillar;
+	if (type == "bat")
+		return CharacterTypes::bat;
+	if (type == "skeleton")
+		return CharacterTypes::skeleton;
+
+	// If this is returned, shit went wrong.
+	return CharacterTypes::player;
+}
+
 bool LevelLoader::IsSegmentCheckpoint(int stage, int segment) const
 {
 	std::string objectName{ "isCheckPoint" };
@@ -97,7 +127,7 @@ Background* LevelLoader::GetBackground(int stage, int segment) const
 	Sprite* staticBackground{ GetBackgroundSprite(stage, segment) };
 	float staticBackgroundWidth{ staticBackground->GetSourceRect().width };
 	std::string objectName{ "background" };
-	int zIndex{ GetJsonObject(stage, segment, objectName).at("foreground").at("zIndex")};
+	int zIndex{ GetJsonObject(stage, segment, objectName).at("foreground").at("zIndex") };
 	std::vector<ParallaxLayer*> parallaxLayers{ GetParallaxLayers(stage, segment, staticBackgroundWidth) };
 	return new Background(staticBackground, parallaxLayers, zIndex);
 }
@@ -121,7 +151,7 @@ std::vector<ParallaxLayer*> LevelLoader::GetParallaxLayers(int stage, int segmen
 	size_t parallaxLayers{ parallaxJson.size() };
 	for (size_t i{ 0 }; i < parallaxLayers; ++i)
 	{
-		Rectf parallaxSource{GetRectFromJson(parallaxJson.at(i))};
+		Rectf parallaxSource{ GetRectFromJson(parallaxJson.at(i)) };
 		Sprite* parallaxSprite{ new Sprite(path, parallaxSource) };
 		float offsetY{ parallaxJson.at(i).at("yOffset") };
 		int zIndex{ parallaxJson.at(i).at("zIndex") };

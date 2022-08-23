@@ -3,6 +3,7 @@
 
 using json = nlohmann::json;
 
+enum class CharacterTypes;
 class TerrainObject;
 class InteractableObject;
 class Stairs;
@@ -10,6 +11,7 @@ class Door;
 class Sprite;
 class Background;
 class ParallaxLayer;
+class EnemySpawner;
 
 class LevelLoader final
 {
@@ -28,6 +30,7 @@ public:
 	Point2f LoadPlayerSpawn(int stage, int segment) const;
 	std::vector<TerrainObject*> LoadTerrain(int stage, int segment) const;
 	std::vector<InteractableObject*> LoadInteractables(int stage, int segment) const;
+	std::vector<EnemySpawner*> GetEnemySpawners(int stage, int segment) const;
 	bool IsSegmentCheckpoint(int stage, int segment) const;
 	Sprite* GetBackgroundSprite(int stage, int segment) const;
 	Background* GetBackground(int stage, int segment) const;
@@ -39,6 +42,7 @@ private:
 	std::string GetSpriteSheetString(int stage) const;
 	json GetJsonObject(int stage, int segment, std::string& objectName) const;
 	std::vector<Point2f> GetVerticesFromJsonObject(const json& jsonObject) const;
+	CharacterTypes GetCharacterType(const json& jsonObject) const;
 	TerrainObject* TerrainFactory(const std::string& terrainType, const std::vector<Point2f>& vertices, int zIndex) const;
 	InteractableObject* InteractableFactory(const std::string& interactableType, const std::vector<Point2f>& vertices, const json& jsonObject) const;
 	Stairs* CreateStairs(const std::vector<Point2f>& vertices, const json& jsonObject) const;
