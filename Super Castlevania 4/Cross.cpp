@@ -39,7 +39,7 @@ ProjectileTag Cross::GetProjectileTag() const
 
 Sprite* Cross::CreateSprite()
 {
-	const Rectf sourceRect{ 127.0f, 17.0f, 15.0f, 16.0f };
+	const Rectf sourceRect{ 127.0f, 17.0f, 16.0f, 16.0f };
 	return new Sprite("Items.png", sourceRect);
 }
 

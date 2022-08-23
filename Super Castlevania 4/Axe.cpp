@@ -13,8 +13,8 @@ Axe::Axe(const Point2f& origin, const Rectf& boundaries, bool isFlipped, int zIn
 		CreateSprite(), 
 		ProjectileTag::axe, 
 		boundaries, 
-		15.0f, 
-		15.0f, 
+		16.0f, 
+		16.0f, 
 		true, 
 		isFlipped, 
 		m_Damage, 
@@ -26,7 +26,7 @@ Axe::Axe(const Point2f& origin, const Rectf& boundaries, bool isFlipped, int zIn
 
 Sprite* Axe::CreateSprite()
 {
-	const Rectf sourceRect{ 112.0f, 33.0f, 15.0f, 15.0f };
+	const Rectf sourceRect{ 112.0f, 33.0f, 16.0f, 16.0f };
 	return new Sprite("Items.png", sourceRect);
 }
 

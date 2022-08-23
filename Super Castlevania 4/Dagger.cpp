@@ -23,7 +23,7 @@ ProjectileTag Dagger::GetProjectileTag() const
 
 Sprite* Dagger::CreateSprite()
 {
-	const Rectf sourceRect{ 49.0f, 33.0f, 16.0f, 4.0f };
+	const Rectf sourceRect{ 49.0f, 27.0f, 16.0f, 4.0f };
 	return new Sprite("Items.png", sourceRect);
 }
 
