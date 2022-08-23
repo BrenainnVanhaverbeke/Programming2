@@ -8,9 +8,13 @@ PlayerMovement::PlayerMovement(const Vector2f& acceleration)
 {
 }
 
-void PlayerMovement::Update(float elapsedSec, Transform& transform, const Rectf& shape, const Rectf& boundaries)
+void PlayerMovement::Update(float elapsedSec, Transform& transform, const Rectf& shape, const Rectf& boundaries, const Vector2f& forcedMovement)
 {
 	const Uint8* pKeysState{ SDL_GetKeyboardState(nullptr) };
+	if (m_LockMovement && forcedMovement.x != 0)
+		m_Velocity.x = forcedMovement.x;
+	else
+		m_LockMovement = false;
 	UpdateVelocity(elapsedSec, pKeysState);
 	Move(elapsedSec, transform);
 	Clamp(transform, boundaries, shape.width);
@@ -19,6 +23,12 @@ void PlayerMovement::Update(float elapsedSec, Transform& transform, const Rectf&
 void PlayerMovement::Jump()
 {
 	m_Velocity.y += m_JumpForce;
+}
+
+void PlayerMovement::Knockback(float force)
+{
+	m_LockMovement = true;
+	m_Velocity.y += force;
 }
 
 void PlayerMovement::UpdateVelocity(float elapsedSec, const Uint8* pKeysState)
@@ -43,7 +53,8 @@ void PlayerMovement::Clamp(Transform& m_Transform, const Rectf& boundaries, floa
 
 void PlayerMovement::UpdateHorizontalVelocity(float elapsedSec, const Uint8* pKeysState, Vector2f& velocity)
 {
-	velocity.x = 0;
+	if (!m_LockMovement)
+		velocity.x = 0;
 	if (pKeysState[SDL_SCANCODE_LEFT] || pKeysState[SDL_SCANCODE_A])
 		velocity.x -= m_HorizontalSpeed;
 	if (pKeysState[SDL_SCANCODE_RIGHT] || pKeysState[SDL_SCANCODE_D])
