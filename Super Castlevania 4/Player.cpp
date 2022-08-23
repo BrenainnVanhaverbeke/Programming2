@@ -5,25 +5,28 @@
 #include "ProjectileTag.h"
 #include "PlayerMovement.h"
 #include "utils.h"
+#include "Matrix2x3.h"
 #include <iostream>
 
 Player::Player(LevelManager* pLevelManager)
 	: Character(Transform{}
 		, GetSprite()
-		, new PlayerMovement(Vector2f{ 0, utils::g_Gravity })
-		, 28
+		, new PlayerMovement(Vector2f{ 0, G_GRAVITY })
+		, 28.0f
 		, 46.0f
 		, 0
 		, 100
+		, 0
 	)
-	, m_pAttackSprite{ new Sprite("Player_Attack.png", Rectf(0, 0, 140, 112),3, 1, 8) }
+	, m_pAttackSprite{ GetAttackSprite() }
 	, m_ActionState{ ActionState::idle }
+	, m_AttackDirection{ AttackDirection::right }
 	, m_pLevelManager{ pLevelManager }
 	, m_IsDrawDebug{ false }
 	, m_IsStill{ true }
 	, m_IsDucked{ false }
 	, m_IsFlipped{ false }
-	, m_Weapon{ 0, 0, 50.0f, 4.0f }
+	, m_WeaponBaseShape{ 0, 0, 50.0f, 4.0f }
 	, m_IsAttacking{ false }
 	, m_AttackTime{ 0.0f }
 	, m_ProjectileTag{ ProjectileTag::axe }
@@ -43,15 +46,45 @@ Player::~Player()
 	m_pAttackSprite = nullptr;
 }
 
+void Player::Draw(int zIndex) const
+{
+	if (zIndex == m_ZIndex)
+	{
+		if (m_IsAttacking)
+			m_pAttackSprite->Draw(m_AttackTransform, m_IsFlipped);
+		else
+			m_pSprite->Draw(m_Transform, m_IsFlipped);
+	}
+}
+
 void Player::Update(float elapsedSec)
 {
 	const Uint8* pKeysState{ SDL_GetKeyboardState(nullptr) };
+	const float thrownWeaponCooldown{ 3.0f };
 	UpdateState(pKeysState);
-	m_pMovementBehaviour->Update(elapsedSec, m_Transform, GetShape(), m_pLevelManager->GetBoundaries());
 	if (m_IsAttacking)
 	{
-		m_pAttackSprite->Update(elapsedSec);
+		int rowOffset{ ((int)m_ActionState) * 3 + (int)m_AttackDirection };
+		m_pAttackSprite->Update(elapsedSec, rowOffset);
 		UpdateAttack(elapsedSec);
+		// Horrid magic numbers of death. My deepest apologies to whomever has found this.
+		const float xCentering{ 54.0f };
+		const float yCentering{ 30.0f };
+		m_AttackTransform = m_Transform;
+		m_AttackTransform.positionX -= xCentering;
+		if (m_AttackDirection == AttackDirection::down)
+			m_AttackTransform.positionY -= yCentering;
+	}
+	if (!m_IsAttacking || m_IsAttacking && m_pMovementBehaviour->GetVelocity().y != 0)
+		m_pMovementBehaviour->Update(elapsedSec, m_Transform, GetShape(), m_pLevelManager->GetBoundaries());
+	if (!m_CanThrow)
+	{
+		m_AccumulatedTime += elapsedSec;
+		if (thrownWeaponCooldown < m_AccumulatedTime)
+		{
+			m_AccumulatedTime = 0;
+			m_CanThrow = true;
+		}
 	}
 	CheckDeath();
 	m_pSprite->Update(elapsedSec, (int)m_ActionState, m_IsStill);
@@ -63,28 +96,6 @@ void Player::CheckOverlap(const Rectf& overlappingShape)
 {
 }
 
-bool Player::IsOverlapping(const Rectf& overlappingShape)
-{
-	return utils::IsOverlapping(GetShape(), overlappingShape);
-}
-
-void Player::Draw(int zIndex) const
-{
-	if (zIndex == m_ZIndex)
-	{
-		if (m_IsAttacking)
-		{
-			Transform attackTransform{ m_Transform };
-			attackTransform.positionX -= m_pAttackSprite->GetSourceRect().width / 2;
-			m_pAttackSprite->Draw(attackTransform, m_IsFlipped);
-		}
-		else
-			m_pSprite->Draw(m_Transform, m_IsFlipped);
-		if (m_IsDrawDebug)
-			DrawDebug();
-	}
-}
-
 Rectf Player::GetShape() const
 {
 	Rectf shape{ Character::GetShape() };
@@ -93,9 +104,36 @@ Rectf Player::GetShape() const
 	return shape;
 }
 
-Rectf Player::GetWeaponShape() const
+// Again, my deepest apologies for magic number hell;
+std::vector<Point2f> Player::GetWeaponShape() const
 {
-	return m_Weapon;
+	const float bottomOffset{ 10.0f };
+	const float leftOffset{ 15.0f };
+	Rectf weaponShapeRect{ m_WeaponBaseShape };
+	float rotationAngle{};
+	if (m_AttackDirection == AttackDirection::upRight)
+	{
+		weaponShapeRect.bottom += bottomOffset;
+		weaponShapeRect.left += leftOffset;
+		rotationAngle = 45.0f;
+	}
+	if (m_AttackDirection == AttackDirection::downRight)
+		rotationAngle = -45.0f;
+	if (m_AttackDirection == AttackDirection::up
+		|| m_AttackDirection == AttackDirection::down)
+	{
+		weaponShapeRect.SetBottomLeft(GetShape().GetTopCenter());
+		weaponShapeRect.width = m_WeaponBaseShape.height;
+		weaponShapeRect.height = m_WeaponBaseShape.width;
+		if (m_IsFlipped)
+			weaponShapeRect.left -= weaponShapeRect.width;
+		if (m_AttackDirection == AttackDirection::down)
+			weaponShapeRect.bottom = GetShape().bottom - weaponShapeRect.height;
+	}
+	std::vector<Point2f> weaponShape{ weaponShapeRect.ConvertToVector() };
+	if (rotationAngle != 0)
+		return RotateWeaponShape(weaponShape, rotationAngle);
+	return weaponShape;
 }
 
 int Player::GetWeaponDamage() const
@@ -123,13 +161,28 @@ void Player::Jump()
 
 void Player::Attack()
 {
-	m_IsAttacking = true;
+	if (!m_IsAttacking)
+	{
+		m_IsAttacking = true;
+		UpdateAttackDirection();
+	}
 }
 
 ProjectileTag Player::Shoot()
 {
-	m_ActionState = ActionState::subweapon;
-	return m_ProjectileTag;
+	if (m_CanThrow)
+	{
+		m_ActionState = ActionState::subweapon;
+		return m_ProjectileTag;
+	}
+	return ProjectileTag::none;
+}
+
+void Player::CycleProjectileType()
+{
+	m_ProjectileTag = ProjectileTag(((int)m_ProjectileTag + 1) % (int)ProjectileTag::END);
+	if (m_ProjectileTag == ProjectileTag::none)
+		m_ProjectileTag = ProjectileTag::cross;
 }
 
 bool Player::IsFlipped() const
@@ -142,44 +195,47 @@ bool Player::IsAttacking() const
 	return m_IsAttacking;
 }
 
-void Player::DrawDebug() const
+void Player::DrawDebug(int zIndex) const
 {
-	float m_AnchorOffset{ 5.0f };
-	Rectf actorShape{ GetShape() };
-	Point2f topCenter{ actorShape.GetTopCenter(0, -m_AnchorOffset) };
-	Point2f center{ actorShape.GetCenter() };
-	Point2f bottomCenter{ actorShape.GetBottomCenter(0, m_AnchorOffset) };
-	Point2f topCenterMiddle{ utils::GetMiddle(topCenter, center) };
-	Point2f bottomCenterMiddle{ utils::GetMiddle(center, bottomCenter) };
-	Point2f centerLeft{ actorShape.GetCenterLeft(m_AnchorOffset / 2) };
-	Point2f centerRight{ actorShape.GetCenterRight(-m_AnchorOffset / 2) };
-	// Shape
-	utils::SetColor(Color4f{ 1.0f, 0, 1.0f, 1.0f });
-	utils::DrawRect(actorShape);
-	// Stairs anchor
-	utils::SetColor(Color4f{ 1.0f, 1.0f, 0, 1.0f });
-	utils::DrawPoint(actorShape.GetBottomCenter());
-	// Horizontal 'cast anchors
-	utils::SetColor(Color4f{ 1.0f, 0, 0, 1.0f });
-	utils::DrawPoint(topCenter);
-	utils::DrawPoint(center);
-	utils::DrawPoint(bottomCenter);
-	utils::DrawPoint(topCenterMiddle);
-	utils::DrawPoint(bottomCenterMiddle);
-	// Vertical 'cast anchors
-	utils::SetColor(Color4f{ 0, 1.0f, 0, 1.0f });
-	utils::DrawPoint(centerLeft);
-	utils::DrawPoint(centerRight);
-
-	// Transform: Location
-	utils::SetColor(Color4f{ 1.0f, 1.0f, 1.0f, 1.0f });
-	utils::DrawPoint(m_Transform.GetTranslation());
-
-	// Weapon
-	if (m_IsAttacking)
+	if (m_ZIndex == zIndex)
 	{
+		float m_AnchorOffset{ 5.0f };
+		Rectf actorShape{ GetShape() };
+		Point2f topCenter{ actorShape.GetTopCenter(0, -m_AnchorOffset) };
+		Point2f center{ actorShape.GetCenter() };
+		Point2f bottomCenter{ actorShape.GetBottomCenter(0, m_AnchorOffset) };
+		Point2f topCenterMiddle{ utils::GetMiddle(topCenter, center) };
+		Point2f bottomCenterMiddle{ utils::GetMiddle(center, bottomCenter) };
+		Point2f centerLeft{ actorShape.GetCenterLeft(m_AnchorOffset / 2) };
+		Point2f centerRight{ actorShape.GetCenterRight(-m_AnchorOffset / 2) };
+		// Shape
+		utils::SetColor(Color4f{ 1.0f, 0, 1.0f, 1.0f });
+		utils::DrawRect(actorShape);
+		// Stairs anchor
+		utils::SetColor(Color4f{ 1.0f, 1.0f, 0, 1.0f });
+		utils::DrawPoint(actorShape.GetBottomCenter());
+		// Horizontal 'cast anchors
 		utils::SetColor(Color4f{ 1.0f, 0, 0, 1.0f });
-		utils::DrawRect(m_Weapon);
+		utils::DrawPoint(topCenter);
+		utils::DrawPoint(center);
+		utils::DrawPoint(bottomCenter);
+		utils::DrawPoint(topCenterMiddle);
+		utils::DrawPoint(bottomCenterMiddle);
+		// Vertical 'cast anchors
+		utils::SetColor(Color4f{ 0, 1.0f, 0, 1.0f });
+		utils::DrawPoint(centerLeft);
+		utils::DrawPoint(centerRight);
+
+		// Transform: Location
+		utils::SetColor(Color4f{ 1.0f, 1.0f, 1.0f, 1.0f });
+		utils::DrawPoint(m_Transform.GetTranslation());
+
+		// Weapon
+		if (m_IsAttacking)
+		{
+			utils::SetColor(Color4f{ 1.0f, 0, 0, 1.0f });
+			utils::DrawPolygon(GetWeaponShape());
+		}
 	}
 }
 
@@ -192,18 +248,64 @@ void Player::CheckDeath()
 	}
 }
 
+void Player::UpdateAttackDirection()
+{
+	const Uint8* pKeysState{ SDL_GetKeyboardState(nullptr) };
+	UpdateGeneralAttackDirection(pKeysState);
+	if (m_ActionState == ActionState::jumping)
+		UpdateJumpingAttackDirection(pKeysState);
+	if (m_ActionState == ActionState::crouching || m_ActionState == ActionState::ducking)
+		m_AttackDirection = AttackDirection::right;
+}
+
+void Player::UpdateGeneralAttackDirection(const Uint8* pKeysState)
+{
+	m_AttackDirection = AttackDirection::right;
+	if (pKeysState[SDL_SCANCODE_W])
+		m_AttackDirection = AttackDirection::up;
+	if ((m_AttackDirection == AttackDirection::up
+		&& (pKeysState[SDL_SCANCODE_D] || pKeysState[SDL_SCANCODE_A]))
+		|| (m_AttackDirection == AttackDirection::up && m_ActionState == ActionState::downstairs))
+		m_AttackDirection = AttackDirection::upRight;
+}
+
+void Player::UpdateJumpingAttackDirection(const Uint8* pKeysState)
+{
+	if (pKeysState[SDL_SCANCODE_S])
+		m_AttackDirection = AttackDirection::down;
+	if (m_AttackDirection == AttackDirection::down && (pKeysState[SDL_SCANCODE_D] || pKeysState[SDL_SCANCODE_A]))
+		m_AttackDirection = AttackDirection::downRight;
+}
+
 void Player::UpdateAttack(float elapsedSec)
 {
 	const float bottomOffset{ (m_ActionState == ActionState::crouching || m_ActionState == ActionState::ducking) ? 16.0f : 32.0f };
 	const float maxAttackTime{ 0.5f };
-	m_Weapon.left = m_Transform.positionX + (m_IsFlipped ? (-m_Weapon.width) : m_Width);
-	m_Weapon.bottom = m_Transform.positionY + bottomOffset;
+	m_WeaponBaseShape.left = m_Transform.positionX + (m_IsFlipped ? (-m_WeaponBaseShape.width) : m_Width);
+	m_WeaponBaseShape.bottom = m_Transform.positionY + bottomOffset;
 	if (m_IsAttacking && maxAttackTime < (m_AttackTime += elapsedSec))
 	{
 		m_AttackTime = 0;
 		m_IsAttacking = false;
 		m_pAttackSprite->Reset();
 	}
+}
+
+std::vector<Point2f> Player::RotateWeaponShape(std::vector<Point2f>& weaponShape, float rotationAngle) const
+{
+	Matrix2x3 originMatrix{}, rotationMatrix{}, resetMatrix{};
+	resetMatrix.SetAsTranslate(m_WeaponBaseShape.left, m_WeaponBaseShape.bottom);
+	originMatrix.SetAsTranslate(-m_WeaponBaseShape.left, -m_WeaponBaseShape.bottom);
+	rotationMatrix.SetAsRotate(rotationAngle);
+	Matrix2x3 transformationMatrix{ resetMatrix * rotationMatrix * originMatrix };
+	if (m_IsFlipped)
+	{
+		Matrix2x3 scaleMatrix{};
+		scaleMatrix.SetAsScale(-1, 1);
+		resetMatrix.SetAsTranslate(m_WeaponBaseShape.left + m_Width * 2, m_WeaponBaseShape.bottom);
+		transformationMatrix = resetMatrix * scaleMatrix * rotationMatrix * originMatrix;
+	}
+	return transformationMatrix.Transform(weaponShape);
 }
 
 std::string Player::GetActionStateString() const
@@ -235,7 +337,38 @@ std::string Player::GetActionStateString() const
 	}
 }
 
-Sprite* Player::GetSprite()
+std::string Player::GetAttackDirectionString() const
+{
+	switch (m_AttackDirection)
+	{
+	case Player::AttackDirection::up:
+		return "Up.";
+	case Player::AttackDirection::upRight:
+		return "Up right.";
+	case Player::AttackDirection::right:
+		return "Right.";
+	case Player::AttackDirection::down:
+		return "Down.";
+	case Player::AttackDirection::downRight:
+		return "Down right.";
+	}
+	return "None.";
+}
+
+Sprite* Player::GetAttackSprite() const
+{
+	std::string path{ "Player_Attack.png" };
+	Point2f sourceRectOrigin{ 0, 0 };
+	float sourceWidth{ 140 };
+	float sourceHeight{ 112 };
+	Rectf sourceRect{ sourceRectOrigin, sourceWidth, sourceHeight };
+	int frames{ 3 };
+	int rows{ 1 };
+	int framesPerSecond{ 7 };
+	return new Sprite(path, sourceRect, frames, rows, framesPerSecond);
+}
+
+Sprite* Player::GetSprite() const
 {
 	std::string path{ "Player_Movement.png" };
 	Point2f sourceRectOrigin{ 0, 0 };
@@ -244,13 +377,8 @@ Sprite* Player::GetSprite()
 	Rectf sourceRect{ sourceRectOrigin, sourceWidth, sourceHeight };
 	int frames{ 6 };
 	int rows{ 7 };
-	int framesPerSecond{ 6 };
+	int framesPerSecond{ 8 };
 	return new Sprite(path, sourceRect, frames, rows, framesPerSecond);
-}
-
-void Player::ToggleDrawDebug()
-{
-	m_IsDrawDebug = !m_IsDrawDebug;
 }
 
 void Player::UpdateState(const Uint8* pKeysState)
@@ -266,7 +394,7 @@ void Player::UpdateState(const Uint8* pKeysState)
 	if (isCrouching && !m_IsStill)
 		m_ActionState = ActionState::crouching;
 	if (m_pLevelManager->IsOnStairs())
-		m_ActionState = m_pLevelManager->IsUpstairs(velocity) ? ActionState::upstairs : ActionState::downstairs;
+		m_ActionState = m_pLevelManager->IsMovingUpstairs(m_IsFlipped) ? ActionState::upstairs : ActionState::downstairs;
 	if (!m_IsStill && !m_IsAttacking)
 	{
 		if (velocity.x < -1.0f)
