@@ -12,7 +12,7 @@ public:
 	Stairs(Stairs&& other) = delete;
 	virtual ~Stairs() = default;
 
-	virtual void Draw(int zIndex) const override;
+	virtual void DrawDebug(int zIndex) const override;
 	virtual void Update(float elapsedSec) override;
 	virtual void CheckOverlap(const Rectf& overlappingShape) override;
 
@@ -25,7 +25,7 @@ public:
 	virtual bool IsAutoInteracting() const override;
 	virtual bool TryAutoInteracting(const Rectf& shape, bool& isOnStairs, int& zIndex) const override;
 	virtual bool CheckIfActive(const Point2f& point) const override;
-	virtual bool CheckDirection(const Vector2f& velocity) const override;
+	virtual bool CheckDirection(bool isFlipped) const override;
 
 private:
 	const Point2f& m_LowPoint;

@@ -13,7 +13,7 @@ Stairs::Stairs(const std::vector<Point2f>& vertices, int lowPoint, int highPoint
 {
 }
 
-void Stairs::Draw(int zIndex) const
+void Stairs::DrawDebug(int zIndex) const
 {
 	if (zIndex == m_ZIndex)
 	{
@@ -97,11 +97,12 @@ bool Stairs::CheckIfActive(const Point2f& point) const
 	return utils::IsPointInPolygon(point, m_Vertices);
 }
 
-bool Stairs::CheckDirection(const Vector2f& velocity) const
+bool Stairs::CheckDirection(bool isFlipped) const
 {
-	if (m_LowPoint.x < m_HighPoint.x && 0 < velocity.x)
+
+	if (m_LowPoint.x < m_HighPoint.x && !isFlipped)
 		return true;
-	if (m_HighPoint.x < m_LowPoint.x && velocity.x < 0)
+	if (m_HighPoint.x < m_LowPoint.x && !isFlipped)
 		return true;
 	return false;
 }
