@@ -16,6 +16,7 @@ Game::Game(const Window& window)
 	, m_pCamera{ new Camera(window.width, window.height) }
 	, m_pProjectileManager{ new ProjectileManager() }
 	, m_pEnemyManager{ new EnemyManager() }
+	, m_IsDrawDebugEnabled{ false }
 {
 	Initialize();
 	DisplayInstructions();
@@ -31,6 +32,7 @@ Game::~Game()
 void Game::Initialize()
 {
 	m_pCamera->SetLevelBoundaries(m_pLevelManager->GetBoundaries());
+	m_pProjectileManager->SetBoundaries(Rectf{ 0, 0, m_Window.width / G_SCALEFACTOR, m_Window.height / G_SCALEFACTOR });
 }
 
 void Game::Cleanup()
@@ -52,13 +54,12 @@ void Game::Update(float elapsedSec)
 	const Point2f& cameraBottomLeft{ m_pCamera->Track(m_pPlayer->GetShape()) };
 	m_pPlayer->Update(elapsedSec);
 	m_pLevelManager->Update(elapsedSec, cameraBottomLeft);
-	m_pLevelManager->CheckOverlap(m_pPlayer->GetShape(), m_pPlayer->GetZIndex());
-	m_pProjectileManager->Update(elapsedSec);
 	m_pEnemyManager->Update(elapsedSec, m_pPlayer);
+	m_pProjectileManager->Update(elapsedSec, cameraBottomLeft);
+	m_pLevelManager->CheckOverlap(m_pPlayer->GetShape(), m_pPlayer->GetZIndex());
+	m_pProjectileManager->CheckOverlap(m_pEnemyManager->GetEnemies(), m_pPlayer);
 	if (m_pPlayer->IsAttacking())
-	{
-		m_pEnemyManager->HandleAttack(m_pPlayer->GetWeaponShape(), m_pPlayer->GetWeaponDamage());
-	}
+		m_pEnemyManager->HandleAttack(m_pPlayer->GetWeaponShape(), m_pPlayer->GetWeaponDamage(), m_pPlayer->GetZIndex());
 	if (m_pLevelManager->IsInTransitionArea(m_pPlayer->GetShape()))
 	{
 		m_pLevelManager->NextSegment();
@@ -79,6 +80,13 @@ void Game::Draw() const
 			m_pPlayer->Draw(i);
 			m_pProjectileManager->Draw(i);
 			m_pEnemyManager->Draw(i);
+			if (m_IsDrawDebugEnabled)
+			{
+				m_pLevelManager->DrawDebug(i);
+				m_pPlayer->DrawDebug(i);
+				m_pProjectileManager->DrawDebug(i);
+				m_pEnemyManager->DrawDebug(i);
+			}
 		}
 	}
 	glPopMatrix();
@@ -90,20 +98,18 @@ void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent& e)
 		m_pPlayer->Jump();
 	if ((e.keysym.sym == SDLK_w || e.keysym.sym == SDLK_UP) && e.repeat == 0)
 		m_pPlayer->AttemptInteraction();
-	if ((e.keysym.sym == SDLK_q) && e.repeat == 0)
+	if ((e.keysym.sym == SDLK_j) && e.repeat == 0)
 		m_pPlayer->Attack();
-	if ((e.keysym.sym == SDLK_e) && e.repeat == 0)
-		m_pProjectileManager->AddProjectile(m_pPlayer->Shoot(), m_pPlayer->GetShape().GetCenter(), true, m_pPlayer->IsFlipped());
+	if ((e.keysym.sym == SDLK_k) && e.repeat == 0)
+		m_pProjectileManager->AddProjectile(m_pPlayer->Shoot(), m_pPlayer->GetShape().GetCenter(), true, m_pPlayer->IsFlipped(), m_pPlayer->GetZIndex());
+	if ((e.keysym.sym == SDLK_i) && e.repeat == 0)
+		m_pPlayer->CycleProjectileType();
 }
 
 void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent& e)
 {
 	if (e.keysym.sym == SDLK_o)
-	{
-		m_pLevelManager->ToggleDebugDraw();
-		m_pPlayer->ToggleDrawDebug();
-		m_pProjectileManager->ToggleDrawDebug();
-	}
+		m_IsDrawDebugEnabled = !m_IsDrawDebugEnabled;
 }
 
 void Game::ProcessMouseMotionEvent(const SDL_MouseMotionEvent& e)
@@ -130,8 +136,9 @@ void Game::DisplayInstructions()
 	std::cout << "Arrow down or S key to crouch.\n";
 	std::cout << "Arrow up or W key to interact with stairs or doors.\n";
 	std::cout << "Space bar to jump.\n";
-	std::cout << "Q to whip attack (Sprite not implemented).\n";
-	std::cout << "E to throw an axe.\n";
+	std::cout << "J to whip attack.\n";
+	std::cout << "K to use a thrown weapon.\n";
+	std::cout << "I to cycle thrown weapons.\n";
 	std::cout << "O to enable debug overlay.\n\n";
 	std::cout << "Overlay explanation:\n";
 	std::cout << "\tPlayer:\n";

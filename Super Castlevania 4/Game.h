@@ -37,6 +37,8 @@ private:
 	Player* m_pPlayer;
 	Camera* m_pCamera;
 
+	bool m_IsDrawDebugEnabled;
+
 	// FUNCTIONS
 	void Initialize( );
 	void Cleanup( );
