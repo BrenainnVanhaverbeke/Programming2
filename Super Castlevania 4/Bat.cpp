@@ -6,7 +6,18 @@
 #include <iostream>
 
 Bat::Bat(const Transform& transform, int zIndex, bool isMovingLeft, int id)
-	: Character(transform, GetSprite(), new SinewaveMovement(50, 25.0f, 2, transform.positionY, isMovingLeft), 16.0f, 16.0f, zIndex, 20, id)
+	: Character
+	(
+		transform, 
+		GetSprite(), 
+		new SinewaveMovement(50, 25.0f, 2, transform.positionY, isMovingLeft),
+		CharacterTypes::bat,
+		16.0f, 
+		16.0f, 
+		zIndex, 
+		20, 
+		id
+	)
 {
 }
 
