@@ -46,11 +46,20 @@
     <Filter Include="Game Files\Interfaces">
       <UniqueIdentifier>{0bc7c601-fc0d-4788-b3d6-b1db58c2797c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game Files\Spawner Classes">
+      <UniqueIdentifier>{1ab2e114-38d2-4848-a6f9-549376d18014}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\Experimental Classes">
+      <UniqueIdentifier>{dbfd9c95-76ad-49c1-ab26-12d683b17750}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\Camera Classes">
+      <UniqueIdentifier>{5ffaed8f-0242-46de-a1e7-f39cbeded5d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game Files\Texture Classes">
+      <UniqueIdentifier>{3252a414-1b02-4dee-b6d3-1ef49cec0824}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Game.cpp">
-      <Filter>Game Files</Filter>
-    </ClCompile>
     <ClCompile Include="Core.cpp">
       <Filter>Framework Files</Filter>
     </ClCompile>
@@ -87,9 +96,6 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>Game Files\Abstract Classes</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Game Files</Filter>
-    </ClCompile>
     <ClCompile Include="Character.cpp">
       <Filter>Game Files\Abstract Classes</Filter>
     </ClCompile>
@@ -120,9 +126,6 @@
     <ClCompile Include="Trapdoor.cpp">
       <Filter>Game Files\Terrain Classes</Filter>
     </ClCompile>
-    <ClCompile Include="Sprite.cpp">
-      <Filter>Game Files</Filter>
-    </ClCompile>
     <ClCompile Include="Projectile.cpp">
       <Filter>Game Files\Abstract Classes</Filter>
     </ClCompile>
@@ -140,9 +143,6 @@
     </ClCompile>
     <ClCompile Include="LevelManager.cpp">
       <Filter>Game Files\Manager Classes</Filter>
-    </ClCompile>
-    <ClCompile Include="Pendulum.cpp">
-      <Filter>Game Files</Filter>
     </ClCompile>
     <ClCompile Include="MovementBehaviour.cpp">
       <Filter>Game Files\Abstract Classes</Filter>
@@ -168,11 +168,35 @@
     <ClCompile Include="EnemyManager.cpp">
       <Filter>Game Files\Manager Classes</Filter>
     </ClCompile>
-    <ClCompile Include="EnemySpawner.cpp">
-      <Filter>Game Files</Filter>
-    </ClCompile>
     <ClCompile Include="IOverlappingObject.cpp">
       <Filter>Game Files\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemySpawner.cpp">
+      <Filter>Game Files\Spawner Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Game Files\Manager Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Sprite.cpp">
+      <Filter>Game Files\Texture Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Pendulum.cpp">
+      <Filter>Game Files\Experimental Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Game Files\Camera Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Skeleton.cpp">
+      <Filter>Game Files\Character Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="ParabolicMovement.cpp">
+      <Filter>Game Files\Movement Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="Cross.cpp">
+      <Filter>Game Files\Projectile Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="Dagger.cpp">
+      <Filter>Game Files\Projectile Classes</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -206,14 +230,8 @@
     <ClInclude Include="Vector2f.h">
       <Filter>Framework Files</Filter>
     </ClInclude>
-    <ClInclude Include="Game.h">
-      <Filter>Game Files</Filter>
-    </ClInclude>
     <ClInclude Include="GameObject.h">
       <Filter>Game Files\Abstract Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Game Files</Filter>
     </ClInclude>
     <ClInclude Include="Character.h">
       <Filter>Game Files\Abstract Classes</Filter>
@@ -248,9 +266,6 @@
     <ClInclude Include="Trapdoor.h">
       <Filter>Game Files\Terrain Classes</Filter>
     </ClInclude>
-    <ClInclude Include="Sprite.h">
-      <Filter>Game Files</Filter>
-    </ClInclude>
     <ClInclude Include="Player.h">
       <Filter>Game Files\Character Classes</Filter>
     </ClInclude>
@@ -268,9 +283,6 @@
     </ClInclude>
     <ClInclude Include="LevelManager.h">
       <Filter>Game Files\Manager Classes</Filter>
-    </ClInclude>
-    <ClInclude Include="Pendulum.h">
-      <Filter>Game Files</Filter>
     </ClInclude>
     <ClInclude Include="MovementBehaviour.h">
       <Filter>Game Files\Abstract Classes</Filter>
@@ -300,7 +312,31 @@
       <Filter>Game Files\Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="EnemySpawner.h">
-      <Filter>Game Files</Filter>
+      <Filter>Game Files\Spawner Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Game Files\Manager Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Sprite.h">
+      <Filter>Game Files\Texture Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Pendulum.h">
+      <Filter>Game Files\Experimental Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Game Files\Camera Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Skeleton.h">
+      <Filter>Game Files\Character Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="ParabolicMovement.h">
+      <Filter>Game Files\Movement Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="Cross.h">
+      <Filter>Game Files\Projectile Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="Dagger.h">
+      <Filter>Game Files\Projectile Classes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
