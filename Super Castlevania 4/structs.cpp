@@ -126,11 +126,11 @@ Point2f Rectf::GetCenterLeft(float offsetX, float offsetY) const
 	return point;
 }
 
-Point2f Rectf::GetCenter() const
+Point2f Rectf::GetCenter(float offsetX, float offsetY) const
 {
 	Point2f point{ GetBottomLeft() };
-	point.x += width / 2;
-	point.y += height / 2;
+	point.x += (width / 2) + offsetX;
+	point.y += (height / 2) + offsetY;
 	return point;
 }
 

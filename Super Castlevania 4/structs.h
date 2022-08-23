@@ -46,7 +46,7 @@ struct Rectf
 	Point2f GetTopCenter(float offsetX = 0, float offsetY = 0) const;
 	Point2f GetTopRight(float offsetX = 0, float offsetY = 0) const;
 	Point2f GetCenterLeft(float offsetX = 0, float offsetY = 0) const;
-	Point2f GetCenter() const;
+	Point2f GetCenter(float offsetX = 0, float offsetY = 0) const;
 	Point2f GetCenterRight(float offsetX = 0, float offsetY = 0) const;
 	std::vector<Point2f> ConvertToVector() const;
 };
