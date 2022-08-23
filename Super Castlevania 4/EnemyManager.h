@@ -9,21 +9,22 @@ class EnemyManager final : public GameObject
 {
 public:
 	EnemyManager();
-	~EnemyManager();
+	virtual ~EnemyManager();
 
 	void Update(float elapsedSec, Character* player);
+	void HandleAttack(const std::vector<Point2f>& weaponShape, int weaponDamage, int zIndex);
+	std::vector<Character*>& GetEnemies();
 
 	// Inherited via GameObject
-	virtual void Update(float elapsedSec) override;
 	virtual void Draw(int zIndex) const override;
-
-	void HandleAttack(const Rectf& weaponShape, int weaponDamage);
+	virtual void DrawDebug(int zIndex) const override;
 
 private:
 	const float m_DespawnDistance;
 
 	std::vector<Character*> m_pEnemies;
 	std::vector<EnemySpawner*> m_pSpawners;
+	int m_EnemyCounter;
 
 	void UpdateEnemies(float elapsedSec, Character* player);
 	void UpdateSpawners(float elapsedSec, Character* player);
@@ -32,4 +33,8 @@ private:
 
 	void DeleteEnemies();
 	void DeleteSpawners();
+	
+	// Inherited via GameObject
+	// Unused implementation
+	virtual void Update(float elapsedSec) override;
 };
