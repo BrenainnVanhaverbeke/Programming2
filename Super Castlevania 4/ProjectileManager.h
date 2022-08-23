@@ -20,6 +20,7 @@ public:
 	void SetBoundaries(const Rectf& boundaries);
 
 	void Update(float elapsedSec, const Point2f& cameraBottomLeft);
+	void DestroyAllProjectiles();
 
 	// Inherited via GameObject
 	virtual void Draw(int zIndex) const override;

@@ -17,13 +17,7 @@ ProjectileManager::ProjectileManager()
 
 ProjectileManager::~ProjectileManager()
 {
-	size_t nrOfProjectiles{ m_pProjectiles.size() };
-	for (size_t i{ 0 }; i < nrOfProjectiles; ++i)
-	{
-		delete m_pProjectiles.at(i);
-		m_pProjectiles.at(i) = nullptr;
-	}
-	m_pProjectiles.clear();
+	DestroyAllProjectiles();
 }
 
 void ProjectileManager::Draw(int zIndex) const
@@ -76,8 +70,8 @@ void ProjectileManager::ResolveProjectileHit(Character* character, Projectile* p
 
 void ProjectileManager::AddProjectile(ProjectileTag tag, const Point2f& origin, bool isFriendly, bool isFlipped, int zIndex)
 {
-	Projectile* projectile{ CreateProjectile(tag, origin, isFriendly, isFlipped, zIndex) };
-	m_pProjectiles.push_back(projectile);
+	if (tag != ProjectileTag::none)
+		m_pProjectiles.push_back(CreateProjectile(tag, origin, isFriendly, isFlipped, zIndex));
 }
 
 void ProjectileManager::SetBoundaries(const Rectf& boundaries)
@@ -98,6 +92,17 @@ void ProjectileManager::Update(float elapsedSec, const Point2f& cameraBottomLeft
 		m_pProjectiles.at(i)->SetBoundaries(m_Boundaries);
 	}
 	DeleteProjectiles();
+}
+
+void ProjectileManager::DestroyAllProjectiles()
+{
+	size_t nrOfProjectiles{ m_pProjectiles.size() };
+	for (size_t i{ 0 }; i < nrOfProjectiles; ++i)
+	{
+		delete m_pProjectiles.at(i);
+		m_pProjectiles.at(i) = nullptr;
+	}
+	m_pProjectiles.clear();
 }
 
 void ProjectileManager::DeleteProjectiles()
