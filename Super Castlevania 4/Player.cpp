@@ -12,6 +12,8 @@ Player::Player(LevelManager* pLevelManager)
 	: Character(Transform{}
 		, GetSprite()
 		, new PlayerMovement(Vector2f{ 0, G_GRAVITY })
+		, CharacterTypes::player
+		, ProjectileTag::axe
 		, 28.0f
 		, 46.0f
 		, 0
@@ -25,17 +27,15 @@ Player::Player(LevelManager* pLevelManager)
 	, m_IsDrawDebug{ false }
 	, m_IsStill{ true }
 	, m_IsDucked{ false }
-	, m_IsFlipped{ false }
 	, m_WeaponBaseShape{ 0, 0, 50.0f, 4.0f }
 	, m_IsAttacking{ false }
 	, m_AttackTime{ 0.0f }
-	, m_ProjectileTag{ ProjectileTag::axe }
+	, m_WeaponDamage{ 30 }
 {
 	Point2f spawnPoint{ pLevelManager->GetSpawn() };
 	spawnPoint.x -= m_Width / 2;
 	spawnPoint.y += 1.0f;
 	m_Transform.SetTranslation(spawnPoint);
-
 }
 
 Player::~Player()
@@ -64,16 +64,8 @@ void Player::Update(float elapsedSec)
 	UpdateState(pKeysState);
 	if (m_IsAttacking)
 	{
-		int rowOffset{ ((int)m_ActionState) * 3 + (int)m_AttackDirection };
-		m_pAttackSprite->Update(elapsedSec, rowOffset);
 		UpdateAttack(elapsedSec);
-		// Horrid magic numbers of death. My deepest apologies to whomever has found this.
-		const float xCentering{ 54.0f };
-		const float yCentering{ 30.0f };
-		m_AttackTransform = m_Transform;
-		m_AttackTransform.positionX -= xCentering;
-		if (m_AttackDirection == AttackDirection::down)
-			m_AttackTransform.positionY -= yCentering;
+		UpdateAttackSprite(elapsedSec);
 	}
 	if (!m_IsAttacking || m_IsAttacking && m_pMovementBehaviour->GetVelocity().y != 0)
 		m_pMovementBehaviour->Update(elapsedSec, m_Transform, GetShape(), m_pLevelManager->GetBoundaries());
@@ -141,11 +133,6 @@ int Player::GetWeaponDamage() const
 	return m_WeaponDamage;
 }
 
-ProjectileTag Player::GetActiveProjectile() const
-{
-	return m_ProjectileTag;
-}
-
 void Player::Relocate(Point2f newLocation)
 {
 	newLocation.x -= m_Width / 2;
@@ -185,14 +172,9 @@ ProjectileTag Player::Shoot()
 
 void Player::CycleProjectileType()
 {
-	m_ProjectileTag = ProjectileTag(((int)m_ProjectileTag + 1) % (int)ProjectileTag::END);
+	m_ProjectileTag = ProjectileTag(((int)m_ProjectileTag + 1) % (int)ProjectileTag::PLAYERPROJECTILESEND);
 	if (m_ProjectileTag == ProjectileTag::none)
 		m_ProjectileTag = ProjectileTag::cross;
-}
-
-bool Player::IsFlipped() const
-{
-	return m_IsFlipped;
 }
 
 bool Player::IsAttacking() const
@@ -293,7 +275,21 @@ void Player::UpdateAttack(float elapsedSec)
 		m_AttackTime = 0;
 		m_IsAttacking = false;
 		m_pAttackSprite->Reset();
+		m_ImmunityList.clear();
 	}
+}
+
+void Player::UpdateAttackSprite(float elapsedSec)
+{
+	// Horrid magic numbers of death. My deepest apologies to whomever has found this.
+	const float xCentering{ 54.0f };
+	const float yCentering{ 30.0f };
+	int rowOffset{ ((int)m_ActionState) * 3 + (int)m_AttackDirection };
+	m_pAttackSprite->Update(elapsedSec, rowOffset);
+	m_AttackTransform = m_Transform;
+	m_AttackTransform.positionX -= xCentering;
+	if (m_AttackDirection == AttackDirection::down)
+		m_AttackTransform.positionY -= yCentering;
 }
 
 std::vector<Point2f> Player::RotateWeaponShape(std::vector<Point2f>& weaponShape, float rotationAngle) const

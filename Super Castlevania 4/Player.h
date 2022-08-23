@@ -54,7 +54,6 @@ public:
 	Rectf GetShape() const override;
 	std::vector<Point2f> GetWeaponShape() const;
 	int GetWeaponDamage() const;
-	ProjectileTag GetActiveProjectile() const;
 
 	void Relocate(Point2f newLocation);
 	void AttemptInteraction();
@@ -62,12 +61,10 @@ public:
 	void Attack();
 	ProjectileTag Shoot();
 	void CycleProjectileType();
-	bool IsFlipped() const;
 	bool IsAttacking() const;
 
 private:
 	LevelManager* m_pLevelManager;
-	ProjectileTag m_ProjectileTag;
 	ActionState m_ActionState;
 	AttackDirection m_AttackDirection;
 
@@ -80,7 +77,6 @@ private:
 	bool m_IsDrawDebug;
 	bool m_IsDucked;
 	bool m_IsStill;
-	bool m_IsFlipped;
 	bool m_IsAttacking;
 	bool m_CanThrow;
 	float m_AttackTime;
@@ -88,6 +84,7 @@ private:
 
 	void UpdateState(const Uint8* pKeysState);
 	void UpdateAttack(float elapsedSec);
+	void UpdateAttackSprite(float elapsedSec);
 	void CheckDeath();
 	void UpdateAttackDirection();
 	void UpdateGeneralAttackDirection(const Uint8* pKeysState);
