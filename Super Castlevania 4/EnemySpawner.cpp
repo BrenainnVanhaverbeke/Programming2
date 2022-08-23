@@ -12,7 +12,7 @@ EnemySpawner::EnemySpawner(std::string enemyType, const Point2f& location, int z
 	, m_HasActivated{ false }
 	, m_ShouldSpawn{ false }
 	, m_SpawnRange{ 384.0f }
-	, m_ZIndex{ 1 }
+	, m_ZIndex{ zIndex }
 {
 }
 
@@ -23,13 +23,9 @@ void EnemySpawner::Update(float elapsedSec, Character* player)
 	{
 		m_HasActivated = true;
 		m_ShouldSpawn = true;
-		std::cout << "Spawner should activate.";
 	}
 	if (m_HasActivated && m_SpawnRange < distance)
-	{
 		m_HasActivated = false;
-		std::cout << "Spawner has reset.";
-	}
 }
 
 bool EnemySpawner::ShouldSpawn()
@@ -37,12 +33,12 @@ bool EnemySpawner::ShouldSpawn()
 	return m_ShouldSpawn;
 }
 
-Character* EnemySpawner::Spawn(Character* player)
+Character* EnemySpawner::Spawn(Character* player, int id)
 {
 	m_ShouldSpawn = false;
 	bool isMovingLeft{ 0 < m_Location.x - player->GetTransform().positionX };
 	if (m_EnemyType == "Bat")
-		return new Bat(m_Location, m_ZIndex, isMovingLeft);
+		return new Bat(m_Location, m_ZIndex, isMovingLeft, id);
 	return nullptr;
 }
 
@@ -52,6 +48,11 @@ void EnemySpawner::Update(float elapsedSec)
 
 void EnemySpawner::Draw(int zIndex) const
 {
-	utils::SetColor(Color4f{ 1.0f, 1.0f, 0, 1.0f });
-	utils::DrawRect(m_Location, 10.0f, 10.0f);
+}
+
+void EnemySpawner::DrawDebug(int zIndex) const
+{
+	Color4f spawnColour{ 0, 1.0f, 0, 1.0f };
+	if (m_ZIndex == zIndex)
+		utils::DrawRect(m_Location, 10.0f, 10.0f);
 }
