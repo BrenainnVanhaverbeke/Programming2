@@ -54,9 +54,7 @@ Vector2f& Character::GetVelocity() const
 
 void Character::TakeDamage(int damage)
 {
-	std::cout << "Character taking damage, was " << m_Health;
 	m_Health -= damage;
-	std::cout << " is now " << m_Health << std::endl;
 	if (m_Health <= 0)
 		m_ShouldDie = true;
 }

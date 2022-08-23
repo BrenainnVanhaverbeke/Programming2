@@ -3,7 +3,6 @@
 #include "SinewaveMovement.h"
 #include "Sprite.h"
 #include "utils.h"
-#include <iostream>
 
 Bat::Bat(const Transform& transform, int zIndex, bool isMovingLeft, int id)
 	: Character
