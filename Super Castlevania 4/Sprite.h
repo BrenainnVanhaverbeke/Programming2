@@ -15,7 +15,7 @@ public:
 	void Update(float elapsedSec, int rowOffset = 0, bool freezeFrame = false);
 	void Draw(const Transform& origin, bool isFlipped = false) const;
 	void DrawRotatedCenter(const Transform& origin, float width, float height, bool isFlipped = false);
-	void Reset();
+	void Reset(int rowOffset = 0);
 
 	void SetSourceRect(const Rectf& sourceRect);
 	Rectf GetSourceRect();

@@ -64,10 +64,11 @@ void Sprite::DrawRotatedCenter(const Transform& origin, float width, float heigh
 	glPopMatrix();
 }
 
-void Sprite::Reset()
+void Sprite::Reset(int rowOffset)
 {
 	m_CurrentFrame = 0;
 	m_AccumulatedTime = 0;
+	UpdateSourceRect(rowOffset);
 }
 
 void Sprite::SetSourceRect(const Rectf& sourceRect)
