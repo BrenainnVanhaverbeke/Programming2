@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Sprite.h"
 #include "TextureManager.h"
+#include "utils.h"
 #include <iostream>
 
 Sprite::Sprite(std::string fileName)
