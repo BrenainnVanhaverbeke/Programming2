@@ -6,6 +6,7 @@
 #include "EnemyManager.h"
 #include "Player.h"
 #include "Camera.h"
+#include "UI.h"
 #include "utils.h"
 #include <iostream>
 
@@ -17,6 +18,7 @@ Game::Game(const Window& window)
 	, m_pProjectileManager{ new ProjectileManager() }
 	, m_pEnemyManager{ new EnemyManager() }
 	, m_IsDrawDebugEnabled{ false }
+	, m_pUI{ new UI(m_pPlayer, window) }
 {
 	Initialize();
 	DisplayInstructions();
@@ -42,11 +44,13 @@ void Game::Cleanup()
 	delete m_pLevelManager;
 	delete m_pProjectileManager;
 	delete m_pEnemyManager;
+	delete m_pUI;
 	m_pPlayer = nullptr;
 	m_pCamera = nullptr;
 	m_pLevelManager = nullptr;
 	m_pProjectileManager = nullptr;
 	m_pEnemyManager = nullptr;
+	m_pUI = nullptr;
 }
 
 void Game::Update(float elapsedSec)
@@ -66,6 +70,7 @@ void Game::Update(float elapsedSec)
 		m_pPlayer->Relocate(m_pLevelManager->GetSpawn());
 		m_pCamera->SetLevelBoundaries(m_pLevelManager->GetBoundaries());
 	}
+	m_pUI->Update();
 }
 
 void Game::Draw() const
@@ -90,6 +95,7 @@ void Game::Draw() const
 		}
 	}
 	glPopMatrix();
+	m_pUI->Draw();
 }
 
 void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent& e)

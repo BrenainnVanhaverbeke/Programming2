@@ -6,6 +6,7 @@ class LevelManager;
 class ProjectileManager;
 class EnemyManager;
 class Bat;
+class UI;
 
 class Game final
 {
@@ -36,6 +37,7 @@ private:
 	EnemyManager* m_pEnemyManager;
 	Player* m_pPlayer;
 	Camera* m_pCamera;
+	UI* m_pUI;
 
 	bool m_IsDrawDebugEnabled;
 
