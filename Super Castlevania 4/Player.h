@@ -46,13 +46,15 @@ public:
 	void Draw(int zIndex) const override;
 	void DrawDebug(int zIndex) const override;
 	virtual void Update(float elapsedSec) override;
-	
+	virtual void TakeDamage(int damage) override;
+
 	// Inherited via IOverlappingObject
 	virtual void CheckOverlap(const Rectf& overlappingShape) override;
 
 	Rectf GetShape() const override;
 	std::vector<Point2f> GetWeaponShape() const;
 	int GetWeaponDamage() const;
+	bool IsAttacking() const;
 
 	void Relocate(Point2f newLocation);
 	void AttemptInteraction();
@@ -60,7 +62,6 @@ public:
 	void Attack();
 	ProjectileTag Shoot();
 	void CycleProjectileType();
-	bool IsAttacking() const;
 
 private:
 	ActionState m_ActionState;
@@ -79,11 +80,13 @@ private:
 	bool m_CanThrow;
 	float m_AttackTime;
 	float m_AccumulatedTime;
+	float m_HurtTime;
 
 	void UpdateState(const Uint8* pKeysState);
 	void UpdateAttack(float elapsedSec);
 	void UpdateAttackSprite(float elapsedSec);
 	void CheckDeath();
+	void HandleHurting(float elapsedSec);
 	void UpdateAttackDirection();
 	void UpdateGeneralAttackDirection(const Uint8* pKeysState);
 	void UpdateJumpingAttackDirection(const Uint8* pKeysState);

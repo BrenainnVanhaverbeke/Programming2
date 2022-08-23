@@ -9,7 +9,9 @@
 #include <iostream>
 
 Player::Player(LevelManager* pLevelManager)
-	: Character(Transform{}
+	: Character
+	(
+		Transform{}
 		, GetSprite()
 		, new PlayerMovement(Vector2f{ 0, G_GRAVITY })
 		, CharacterTypes::player
@@ -31,6 +33,8 @@ Player::Player(LevelManager* pLevelManager)
 	, m_IsAttacking{ false }
 	, m_AttackTime{ 0.0f }
 	, m_WeaponDamage{ 30 }
+	, m_HurtTime{ 0 }
+	, m_AccumulatedTime{ 0 }
 {
 	Point2f spawnPoint{ pLevelManager->GetSpawn() };
 	spawnPoint.x -= m_Width / 2;
@@ -60,28 +64,44 @@ void Player::Draw(int zIndex) const
 void Player::Update(float elapsedSec)
 {
 	const Uint8* pKeysState{ SDL_GetKeyboardState(nullptr) };
-	const float thrownWeaponCooldown{ 3.0f };
-	UpdateState(pKeysState);
-	if (m_IsAttacking)
+	const float thrownWeaponCooldown{ 1.0f };
+	if (m_ActionState == ActionState::hurt)
+		HandleHurting(elapsedSec);
+	else
 	{
-		UpdateAttack(elapsedSec);
-		UpdateAttackSprite(elapsedSec);
-	}
-	if (!m_IsAttacking || m_IsAttacking && m_pMovementBehaviour->GetVelocity().y != 0)
-		m_pMovementBehaviour->Update(elapsedSec, m_Transform, GetShape(), m_pLevelManager->GetBoundaries());
-	if (!m_CanThrow)
-	{
-		m_AccumulatedTime += elapsedSec;
-		if (thrownWeaponCooldown < m_AccumulatedTime)
+		UpdateState(pKeysState);
+		if (m_IsAttacking)
 		{
-			m_AccumulatedTime = 0;
-			m_CanThrow = true;
+			UpdateAttack(elapsedSec);
+			UpdateAttackSprite(elapsedSec);
 		}
+		if (!m_IsAttacking || m_IsAttacking && m_pMovementBehaviour->GetVelocity().y != 0)
+			m_pMovementBehaviour->Update(elapsedSec, m_Transform, GetShape(), m_pLevelManager->GetBoundaries());
+		if (!m_CanThrow)
+		{
+			m_AccumulatedTime += elapsedSec;
+			if (thrownWeaponCooldown < m_AccumulatedTime)
+			{
+				m_AccumulatedTime = 0;
+				m_CanThrow = true;
+			}
+		}
+		m_pSprite->Update(elapsedSec, (int)m_ActionState, m_IsStill);
 	}
 	CheckDeath();
-	m_pSprite->Update(elapsedSec, (int)m_ActionState, m_IsStill);
 	m_pLevelManager->HandleCollisions(*this);
 	m_pLevelManager->CheckOverlap(GetShape(), m_ZIndex);
+}
+
+void Player::TakeDamage(int damage)
+{
+	if (m_ActionState != ActionState::hurt)
+	{
+		Character::TakeDamage(damage);
+		m_IsAttacking = false;
+		m_pMovementBehaviour->Knockback(200.0f);
+		m_ActionState = ActionState::hurt;
+	}
 }
 
 void Player::CheckOverlap(const Rectf& overlappingShape)
@@ -164,6 +184,7 @@ ProjectileTag Player::Shoot()
 {
 	if (m_CanThrow)
 	{
+		m_CanThrow = false;
 		m_ActionState = ActionState::subweapon;
 		return m_ProjectileTag;
 	}
@@ -232,6 +253,20 @@ void Player::CheckDeath()
 	{
 		m_pLevelManager->ReloadCheckpoint();
 		Relocate(m_pLevelManager->GetSpawn());
+	}
+}
+
+void Player::HandleHurting(float elapsedSec)
+{
+	const float maxHurtTime{ 0.65f };
+	const float forcedXVelocity{ 100.0f };
+	m_HurtTime += elapsedSec;
+	m_pMovementBehaviour->Update(elapsedSec, m_Transform, GetShape(), m_pLevelManager->GetBoundaries(), Vector2f{(m_IsFlipped ? forcedXVelocity : -forcedXVelocity), 0});
+	m_pSprite->Update(elapsedSec, (int)m_ActionState);
+	if (maxHurtTime < m_HurtTime)
+	{
+		m_HurtTime = 0;
+		m_ActionState = ActionState::idle;
 	}
 }
 
