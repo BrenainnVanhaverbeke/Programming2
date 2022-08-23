@@ -11,7 +11,7 @@ class Sprite;
 class Background;
 class ParallaxLayer;
 
-class LevelLoader
+class LevelLoader final
 {
 public:
 	LevelLoader();
