@@ -9,6 +9,7 @@ class InteractableObject;
 class Sprite;
 class Character;
 class Background;
+class EnemySpawner;
 
 class LevelManager final : public GameObject
 {
@@ -26,6 +27,7 @@ public:
 	Rectf GetBoundaries() const;
 	Point2f GetSpawn() const;
 	Background* GetBackground() const;
+	std::vector<EnemySpawner*> GetEnemySpawners() const;
 
 	void Update(float elapsedSec, const Point2f& cameraBottomLeft) const;
 

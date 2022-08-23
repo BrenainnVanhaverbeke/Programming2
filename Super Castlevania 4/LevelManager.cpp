@@ -45,6 +45,11 @@ Background* LevelManager::GetBackground() const
 	return nullptr;
 }
 
+std::vector<EnemySpawner*> LevelManager::GetEnemySpawners() const
+{
+	return m_pLevelLoader->GetEnemySpawners(m_StageCounter, m_SegmentCounter);
+}
+
 void LevelManager::Update(float elapsedSec, const Point2f& cameraBottomLeft) const
 {
 	m_pBackground->Update(elapsedSec, cameraBottomLeft);
