@@ -4,7 +4,7 @@
 class MovementBehaviour
 {
 public:
-	MovementBehaviour(const Vector2f acceleration);
+	MovementBehaviour(const Vector2f& acceleration);
 	virtual ~MovementBehaviour() = default;
 
 	virtual void Update(float elapsedSec, Transform& transform, const Rectf& shape, const Rectf& boundaries) = 0;
