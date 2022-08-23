@@ -16,7 +16,7 @@ Game::Game(const Window& window)
 	, m_pPlayer{ new Player(m_pLevelManager) }
 	, m_pCamera{ new Camera(window.width, window.height) }
 	, m_pProjectileManager{ new ProjectileManager() }
-	, m_pEnemyManager{ new EnemyManager() }
+	, m_pEnemyManager{ new EnemyManager(m_pProjectileManager) }
 	, m_IsDrawDebugEnabled{ false }
 	, m_pUI{ new UI(m_pPlayer, window) }
 {
@@ -63,7 +63,7 @@ void Game::Update(float elapsedSec)
 	m_pLevelManager->CheckOverlap(m_pPlayer->GetShape(), m_pPlayer->GetZIndex());
 	m_pProjectileManager->CheckOverlap(m_pEnemyManager->GetEnemies(), m_pPlayer);
 	if (m_pPlayer->IsAttacking())
-		m_pEnemyManager->HandleAttack(m_pPlayer->GetWeaponShape(), m_pPlayer->GetWeaponDamage(), m_pPlayer->GetZIndex());
+		m_pEnemyManager->HandleAttack(m_pPlayer);
 	if (m_pLevelManager->IsInTransitionArea(m_pPlayer->GetShape()))
 	{
 		m_pLevelManager->NextSegment();
