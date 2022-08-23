@@ -53,6 +53,7 @@ void EnemySpawner::Draw(int zIndex) const
 void EnemySpawner::DrawDebug(int zIndex) const
 {
 	Color4f spawnColour{ 0, 1.0f, 0, 1.0f };
+	utils::SetColor(spawnColour);
 	if (m_ZIndex == zIndex)
 		utils::DrawRect(m_Location, 10.0f, 10.0f);
 }
