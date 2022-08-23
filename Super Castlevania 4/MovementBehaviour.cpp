@@ -15,3 +15,7 @@ Vector2f& MovementBehaviour::GetVelocity()
 {
 	return m_Velocity;
 }
+
+void MovementBehaviour::Knockback(float force)
+{
+}
