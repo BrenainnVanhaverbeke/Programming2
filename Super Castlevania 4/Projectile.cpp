@@ -3,9 +3,11 @@
 #include "Sprite.h"
 #include "utils.h"
 #include "ProjectileTag.h"
+#include <iostream>
 
-Projectile::Projectile(const Transform& transform, const Vector2f& initialVelocity, const Vector2f& acceleration, Sprite* sprite, ProjectileTag tag, float width, float height, bool isFriendly, bool isFlipped)
-	: GameObject(transform)
+Projectile::Projectile(const Transform& transform, const Vector2f& initialVelocity, const Vector2f& acceleration, Sprite* sprite, ProjectileTag tag, const Rectf& boundaries, float width, float height, bool isFriendly, bool isFlipped, int damage, int zIndex)
+	: GameObject(transform, zIndex)
+	, m_Boundaries{ boundaries }
 	, m_Acceleration{ acceleration }
 	, m_Velocity{ initialVelocity }
 	, m_pSprite{ sprite }
@@ -14,6 +16,9 @@ Projectile::Projectile(const Transform& transform, const Vector2f& initialVeloci
 	, m_Height{ height }
 	, m_ProjectileTag{ tag }
 	, m_IsFriendly{ isFriendly }
+	, m_Damage{ damage }
+	, m_ImmuneList{}
+	, m_IsFlipped{ isFlipped }
 {
 	if (isFlipped)
 	{
@@ -22,8 +27,8 @@ Projectile::Projectile(const Transform& transform, const Vector2f& initialVeloci
 	}
 }
 
-Projectile::Projectile(const Point2f& origin, const Vector2f& initialVelocity, const Vector2f& acceleration, Sprite* sprite, ProjectileTag tag, float width, float height, bool isFriendly, bool isFlipped)
-	: Projectile(Transform{ origin, 0, 1.0f }, initialVelocity, acceleration, sprite, tag, width, height, isFriendly, isFlipped)
+Projectile::Projectile(const Point2f& origin, const Vector2f& initialVelocity, const Vector2f& acceleration, Sprite* sprite, ProjectileTag tag, const Rectf& boundaries, float width, float height, bool isFriendly, bool isFlipped, int damage, int zIndex)
+	: Projectile(Transform{ origin, 0, 1.0f }, initialVelocity, acceleration, sprite, tag, boundaries, width, height, isFriendly, isFlipped, damage, zIndex)
 {
 }
 
@@ -42,13 +47,16 @@ void Projectile::Update(float elapsedSec)
 void Projectile::Draw(int zIndex) const
 {
 	if (m_ZIndex == zIndex)
-		m_pSprite->Draw(m_Transform);
+		m_pSprite->Draw(m_Transform, m_IsFlipped);
 }
 
-void Projectile::DrawDebug() const
+void Projectile::DrawDebug(int zIndex) const
 {
-	utils::DrawRect(GetShape());
-	utils::DrawPoint(m_Transform.GetTranslation());
+	if (m_ZIndex == zIndex)
+	{
+		utils::DrawRect(GetShape());
+		utils::DrawPoint(m_Transform.GetTranslation());
+	}
 }
 
 void Projectile::CheckOverlap(const Rectf& overlappingShape)
@@ -57,12 +65,22 @@ void Projectile::CheckOverlap(const Rectf& overlappingShape)
 
 bool Projectile::IsOverlapping(const Rectf& overlappingShape)
 {
-	return false;
+	return utils::IsOverlapping(overlappingShape, GetShape());
+}
+
+bool Projectile::IsOverlapping(const std::vector<Point2f>& overlappingShape)
+{
+	return utils::IsPointInPolygon(GetShape().GetCenter(), overlappingShape);
 }
 
 void Projectile::SetBoundaries(const Rectf& boundaries)
 {
 	m_Boundaries = boundaries;
+}
+
+bool Projectile::IsFriendly()
+{
+	return m_IsFriendly;
 }
 
 bool Projectile::IsFlaggedForDeletion() const
@@ -73,4 +91,19 @@ bool Projectile::IsFlaggedForDeletion() const
 Rectf Projectile::GetShape() const
 {
 	return Rectf{ m_Transform.positionX, m_Transform.positionY, m_Width, m_Height };
+}
+
+int Projectile::GetDamage()
+{
+	return m_Damage;
+}
+
+void Projectile::AddToImmuneList(int id)
+{
+	m_ImmuneList.push_back(id);
+}
+
+std::vector<int> Projectile::GetImmuneList() const
+{
+	return m_ImmuneList;
 }
