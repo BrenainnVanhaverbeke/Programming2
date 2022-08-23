@@ -14,7 +14,7 @@ class LevelManager final : public GameObject
 {
 public:
 	LevelManager(float screenWidth, float screenHeight);
-	~LevelManager();
+	virtual ~LevelManager();
 
 	void NextStage();
 	void NextSegment();
@@ -28,15 +28,15 @@ public:
 	void HandleCollisions(Character& character);
 	bool IsOnGround(const Character& character) const;
 	bool IsOnStairs() const;
-	bool IsUpstairs(const Vector2f& actorVelocity) const;
+	bool IsMovingUpstairs(bool isFlipped) const;
 	bool IsInTransitionArea(const Rectf& actorShape) const;
 	void ReloadCheckpoint();
 
-	void ToggleDebugDraw();
 	void AttemptInteraction(const Rectf& player, int& zIndex);
 	void CheckOverlap(const Rectf& shape, int zIndex);
 	
 	virtual void Draw(int zIndex) const override;
+	virtual void DrawDebug(int zIndex) const override;
 
 private:
 
@@ -55,16 +55,13 @@ private:
 	int m_SegmentCounter;
 	int m_CheckpointCounter;
 	bool m_IsOnStairs;
-	bool m_DrawDebug;
-
+	
 	void LoadSegment();
 	void UnloadSegment();
 	void AttemptResetActiveInteractable(const Point2f& spawnPoint);
 
 	void DeleteTerrain();
 	void DeleteInteractables();
-
-	void DrawDebug(int zIndex) const;
 
 	// Inherited via GameObject
 	virtual void Update(float elapsedSec) override;

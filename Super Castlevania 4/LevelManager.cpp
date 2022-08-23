@@ -11,14 +11,13 @@
 
 LevelManager::LevelManager(float screenWidth, float screenHeight)
 	: m_StageCounter{ 0 }
-	, m_SegmentCounter{ 0 }
+	, m_SegmentCounter{ 7 }
 	, m_CheckpointCounter{ 0 }
 	, m_pLevelLoader{ new LevelLoader() }
 	, m_pActiveInteractable{ nullptr }
 	, m_pBackground{ nullptr }
 	, m_IsOnStairs{ true }
 	, m_BackgroundSpriteId{}
-	, m_DrawDebug{ false }
 	, m_WindowSize{ 0, 0, screenWidth, screenHeight }
 {
 	LoadSegment();
@@ -60,18 +59,16 @@ void LevelManager::Draw(int zIndex) const
 	size_t nrOfTerrainObjects{ m_pTerrain.size() };
 	for (size_t i{ 0 }; i < nrOfTerrainObjects; ++i)
 		m_pTerrain.at(i)->Draw(zIndex);
-	if (m_DrawDebug)
-		DrawDebug(zIndex);
 }
 
 void LevelManager::DrawDebug(int zIndex) const
 {
 	size_t nrOfInteractableObjects{ m_pInteractableObjects.size() };
 	for (size_t i{ 0 }; i < nrOfInteractableObjects; i++)
-		m_pInteractableObjects.at(i)->Draw(zIndex);
+		m_pInteractableObjects.at(i)->DrawDebug(zIndex);
 	size_t nrOfTerrainObjects{ m_pTerrain.size() };
 	for (size_t i{ 0 }; i < nrOfTerrainObjects; ++i)
-		m_pTerrain.at(i)->DrawDebug();
+		m_pTerrain.at(i)->DrawDebug(zIndex);
 	utils::SetColor(Color4f{ 1.0f, 1.0f, 0, 1.0f });
 	utils::DrawRect(m_TransitionArea);
 	utils::SetColor(Color4f{ 0, 1.0f, 1.0f, 1.0f });
@@ -121,19 +118,14 @@ bool LevelManager::IsOnStairs() const
 	return m_IsOnStairs;
 }
 
-bool LevelManager::IsUpstairs(const Vector2f& actorVelocity) const
+bool LevelManager::IsMovingUpstairs(bool isFlipped) const
 {
-	return m_pActiveInteractable->CheckDirection(actorVelocity);
+	return m_pActiveInteractable->CheckDirection(isFlipped);
 }
 
 bool LevelManager::IsInTransitionArea(const Rectf& actorShape) const
 {
 	return utils::IsOverlapping(actorShape, m_TransitionArea);
-}
-
-void LevelManager::ToggleDebugDraw()
-{
-	m_DrawDebug = !m_DrawDebug;
 }
 
 void LevelManager::AttemptInteraction(const Rectf& shape, int& zIndex)
