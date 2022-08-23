@@ -6,5 +6,7 @@ enum class ProjectileTag
 	cross,
 	dagger,
 	axe,
+	PLAYERPROJECTILESEND,
+	fireball,
 	END
 };
