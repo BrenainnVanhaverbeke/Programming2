@@ -27,6 +27,10 @@ void ParallaxLayer::Draw(int zIndex) const
 		m_pSprite->Draw(Transform{ m_OffsetX, m_OffsetY });
 }
 
+void ParallaxLayer::DrawDebug(int zIndex) const
+{
+}
+
 void ParallaxLayer::Update(float elapsedSec, const Point2f& cameraBottomLeft)
 {
 	float distance{ cameraBottomLeft.x * parallaxFactor };

@@ -7,12 +7,13 @@ class ParallaxLayer final : public GameObject
 {
 public:
 	explicit ParallaxLayer(Sprite* sprite, float staticBackgroundWidth, float offsetY, int zIndex);
-	~ParallaxLayer();
+	virtual ~ParallaxLayer();
 
 	void Update(float elapsedSec, const Point2f& cameraBottomLeft);
 	void SetWindowSize(Rectf& windowSize);
 
 	virtual void Draw(int zIndex) const override;
+	virtual void DrawDebug(int zIndex) const override;
 
 private:
 	const float m_StaticWidth;
