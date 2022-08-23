@@ -10,10 +10,10 @@ class ProjectileManager final : public GameObject
 {
 public:
 	ProjectileManager();
-	ProjectileManager& operator=(const ProjectileManager& rhs) = delete;
-	ProjectileManager& operator=(ProjectileManager&& rhs) = delete;
 	ProjectileManager(const ProjectileManager& other) = delete;
 	ProjectileManager(ProjectileManager&& other) = delete;
+	ProjectileManager& operator=(const ProjectileManager& rhs) = delete;
+	ProjectileManager& operator=(ProjectileManager&& rhs) = delete;
 	virtual ~ProjectileManager();
 
 	void AddProjectile(ProjectileTag tag, const Point2f& origin, bool isFriendly, bool isFlipped, int zIndex);

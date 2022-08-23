@@ -3,7 +3,12 @@
 class Fireball : public Projectile
 {
 public: 	
-	Fireball(const Point2f& origin, const Rectf& boundaries, bool isFlipped, int zIndex);
+	explicit Fireball(const Point2f& origin, const Rectf& boundaries, bool isFlipped, int zIndex);
+	Fireball(const Fireball& other) = delete;
+	Fireball(Fireball&& other) = delete;
+	Fireball& operator=(const Fireball& other) = delete;
+	Fireball& operator=(Fireball&& other) = delete;
+	virtual ~Fireball() = default;
 
 	// Inherited via GameObject
 	virtual void Update(float elapsedSec) override;

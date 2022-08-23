@@ -4,13 +4,14 @@
 #include "MovementBehaviour.h"
 #include "utils.h"
 #include <iostream>
+#include "LevelManager.h"
 
-Character::Character(Transform transform, Sprite* sprite, MovementBehaviour* movement, CharacterTypes type, float width, float height, int zIndex, int health, int id)
-	: Character(transform, sprite, movement, type, ProjectileTag::none, width, height, zIndex, health, id)
+Character::Character(Transform transform, Sprite* sprite, MovementBehaviour* movement, CharacterTypes type, LevelManager* pLevelManager, float width, float height, int zIndex, int health, int id)
+	: Character(transform, sprite, movement, type, ProjectileTag::none, pLevelManager, width, height, zIndex, health, id)
 {
 }
 
-Character::Character(Transform transform, Sprite* sprite, MovementBehaviour* movement, CharacterTypes type, ProjectileTag projectileTag, float width, float height, int zIndex, int health, int id)
+Character::Character(Transform transform, Sprite* sprite, MovementBehaviour* movement, CharacterTypes type, ProjectileTag projectileTag, LevelManager* pLevelManager, float width, float height, int zIndex, int health, int id)
 	: GameObject(transform, zIndex)
 	, m_pSprite{ sprite }
 	, m_Width{ width }
@@ -24,6 +25,7 @@ Character::Character(Transform transform, Sprite* sprite, MovementBehaviour* mov
 	, m_ShouldFire{ false }
 	, m_ImmunityList{}
 	, m_IsFlipped{ false }
+	, m_pLevelManager{ pLevelManager }
 {
 }
 

@@ -216,6 +216,9 @@
     <ClCompile Include="Fireball.cpp">
       <Filter>Game Files\Projectile Classes</Filter>
     </ClCompile>
+    <ClCompile Include="ClackityBoneManMovement.cpp">
+      <Filter>Game Files\Movement Behaviours</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -370,6 +373,9 @@
     </ClInclude>
     <ClInclude Include="Fireball.h">
       <Filter>Game Files\Projectile Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="ClackityBoneManMovement.h">
+      <Filter>Game Files\Movement Behaviours</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

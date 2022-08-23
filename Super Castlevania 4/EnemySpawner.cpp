@@ -3,8 +3,10 @@
 #include "utils.h"
 #include "Character.h"
 #include "CharacterTypes.h"
+#include "LevelManager.h"
 #include "Bat.h"
 #include "BonePillar.h"
+#include "Skeleton.h"
 #include "Sprite.h"
 #include <iostream>
 
@@ -35,16 +37,18 @@ bool EnemySpawner::ShouldSpawn()
 	return m_ShouldSpawn;
 }
 
-Character* EnemySpawner::Spawn(Character* player, int id)
+Character* EnemySpawner::Spawn(Character* pPlayer, LevelManager* pLevelManager, int id)
 {
 	m_ShouldSpawn = false;
-	bool isMovingLeft{ 0 < m_Location.x - player->GetTransform().positionX };
+	bool isMovingLeft{ 0 < m_Location.x - pPlayer->GetTransform().positionX };
 	switch (m_EnemyType)
 	{
 	case CharacterTypes::bat:
 		return new Bat(m_Location, m_ZIndex, isMovingLeft, id);
 	case CharacterTypes::bonePillar:
 		return new BonePillar(m_Location, m_ZIndex, id);
+	case CharacterTypes::skeleton:
+		return new Skeleton(m_Location, pLevelManager, m_ZIndex, id);
 	}
 	return nullptr;
 }

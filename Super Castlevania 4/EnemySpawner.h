@@ -2,6 +2,7 @@
 #include "GameObject.h"
 
 class Character;
+class LevelManager;
 enum class CharacterTypes;
 
 class EnemySpawner final : public GameObject
@@ -10,9 +11,9 @@ public:
 	EnemySpawner(CharacterTypes enemyType, const Point2f& location, int zIndex);
 	virtual ~EnemySpawner() = default;
 
-	void Update(float elapsedSec, Character* player);
+	void Update(float elapsedSec, Character* pPlayer);
 	bool ShouldSpawn();
-	Character* Spawn(Character* player, int id);
+	Character* Spawn(Character* pPlayer, LevelManager* pLevelManager, int id);
 	virtual void Draw(int zIndex) const override;
 	virtual void DrawDebug(int zIndex) const override;
 

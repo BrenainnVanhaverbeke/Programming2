@@ -10,6 +10,10 @@ class Background final : GameObject {
 
 public:
 	explicit Background(Sprite* staticBackground, std::vector<ParallaxLayer*> parallaxLayers, int zIndex);
+	Background(const Background& other) = delete;
+	Background(Background&& other) = delete;
+	Background& operator=(const Background& rhs) = delete;
+	Background& operator=(Background&& rhs) = delete;
 	virtual ~Background();
 
 	void SetParallaxLayers(std::vector<ParallaxLayer*>& parallaxLayers);

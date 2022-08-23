@@ -4,7 +4,6 @@
 #include "IOverlappingObject.h"
 
 class Texture;
-class LevelManager;
 class Sprite;
 class MovementBehaviour;
 enum class ProjectileTag;
@@ -20,8 +19,8 @@ class Player final : public Character
 		upstairs,
 		downstairs,
 		jumping,
-		subweapon,
 		hurt,
+		subweapon,
 		death,
 		attacking
 	};
@@ -64,7 +63,6 @@ public:
 	bool IsAttacking() const;
 
 private:
-	LevelManager* m_pLevelManager;
 	ActionState m_ActionState;
 	AttackDirection m_AttackDirection;
 

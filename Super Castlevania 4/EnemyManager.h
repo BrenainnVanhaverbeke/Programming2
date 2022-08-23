@@ -6,11 +6,16 @@ class Character;
 class Player;
 class EnemySpawner;
 class ProjectileManager;
+class LevelManager;
 
 class EnemyManager final : public GameObject
 {
 public:
-	explicit EnemyManager(ProjectileManager* projectileManager);
+	explicit EnemyManager(ProjectileManager* pProjectileManager, LevelManager* pLevelManager);
+	EnemyManager(const EnemyManager& other) = delete;
+	EnemyManager(EnemyManager&& other) = delete;
+	EnemyManager& operator=(const EnemyManager& rhs) = delete;
+	EnemyManager& operator=(EnemyManager&& rhs) = delete;
 	virtual ~EnemyManager();
 
 	void Update(float elapsedSec, Character* player);
@@ -23,6 +28,7 @@ public:
 
 private:
 	ProjectileManager* m_pProjectileManager;
+	LevelManager* m_pLevelManager;
 
 	std::vector<Character*> m_pEnemies;
 	std::vector<EnemySpawner*> m_pSpawners;

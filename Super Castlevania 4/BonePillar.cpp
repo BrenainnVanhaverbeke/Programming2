@@ -12,6 +12,7 @@ BonePillar::BonePillar(const Transform& transform, int zIndex, int id)
 		new NoMovement(),
 		CharacterTypes::bonePillar,
 		ProjectileTag::fireball,
+		nullptr,
 		28.0f,
 		45.0f,
 		zIndex,

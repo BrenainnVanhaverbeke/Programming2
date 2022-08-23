@@ -3,5 +3,6 @@ enum class CharacterTypes
 {
 	player,
 	bat,
-	bonePillar
+	bonePillar,
+	skeleton
 };

@@ -5,9 +5,13 @@
 class Bat final : public Character
 {
 public:
-	Bat(const Transform& transform, int zIndex, bool isMovingLeft, int id);
-	Bat(const Point2f location, int zIndex, bool isMovingLeft, int id);
-	~Bat() = default;
+	explicit Bat(const Transform& transform, int zIndex, bool isMovingLeft, int id);
+	explicit Bat(const Point2f location, int zIndex, bool isMovingLeft, int id);
+	Bat(const Bat& other) = delete;
+	Bat(Bat&& other) = delete;
+	Bat& operator=(const Bat& rhs) = delete;
+	Bat& operator=(Bat&& rhs) = delete;
+	virtual ~Bat() = default;
 
 	// Inherited via Character
 	virtual void Update(float elapsedSec) override;

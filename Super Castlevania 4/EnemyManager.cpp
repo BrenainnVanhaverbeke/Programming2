@@ -4,16 +4,18 @@
 #include "CharacterTypes.h"
 #include "ProjectileTag.h"
 #include "ProjectileManager.h"
+#include "LevelManager.h"
 #include "Player.h"
 #include "EnemySpawner.h"
 #include "utils.h"
 #include <iostream>
 
-EnemyManager::EnemyManager(ProjectileManager* projectileManager)
+EnemyManager::EnemyManager(ProjectileManager* pProjectileManager, LevelManager* pLevelManager)
 	: m_pEnemies{}
 	, m_pSpawners{}
 	, m_EnemyCounter{ 0 }
-	, m_pProjectileManager{ projectileManager }
+	, m_pProjectileManager{ pProjectileManager }
+	, m_pLevelManager{ pLevelManager }
 {
 	m_pSpawners.push_back(new EnemySpawner(CharacterTypes::bat, Point2f{ 200, 100 }, 0));
 	m_pSpawners.push_back(new EnemySpawner(CharacterTypes::bat, Point2f{ 250, 100 }, 0));
@@ -27,11 +29,11 @@ EnemyManager::~EnemyManager()
 	DeleteSpawners();
 }
 
-void EnemyManager::Update(float elapsedSec, Character* player)
+void EnemyManager::Update(float elapsedSec, Character* pPlayer)
 {
-	UpdateEnemies(elapsedSec, player);
-	UpdateSpawners(elapsedSec, player);
-	CheckDeletion(player);
+	UpdateEnemies(elapsedSec, pPlayer);
+	UpdateSpawners(elapsedSec, pPlayer);
+	CheckDeletion(pPlayer);
 }
 
 void EnemyManager::Draw(int zIndex) const
@@ -54,19 +56,19 @@ void EnemyManager::DrawDebug(int zIndex) const
 		m_pSpawners.at(i)->DrawDebug(zIndex);
 }
 
-void EnemyManager::HandleAttack(Player* player)
+void EnemyManager::HandleAttack(Player* pPlayer)
 {
-	const std::vector<Point2f>& weaponShape{ player->GetWeaponShape() };
-	const std::vector<int>& immuneList{ player->GetImmunityList() };
+	const std::vector<Point2f>& weaponShape{ pPlayer->GetWeaponShape() };
+	const std::vector<int>& immuneList{ pPlayer->GetImmunityList() };
 	size_t nrOfEnemies{ m_pEnemies.size() };
 	for (size_t i{ 0 }; i < nrOfEnemies; ++i)
 	{
 		Character*& enemy{ m_pEnemies.at(i) };
-		if (enemy->GetZIndex() == player->GetZIndex() && enemy->IsOverlapping(weaponShape)
+		if (enemy->GetZIndex() == pPlayer->GetZIndex() && enemy->IsOverlapping(weaponShape)
 			&& std::find(immuneList.begin(), immuneList.end(), enemy->GetId()) == immuneList.end())
 		{
-			player->AddImmuneId(enemy->GetId());
-			enemy->TakeDamage(player->GetWeaponDamage());
+			pPlayer->AddImmuneId(enemy->GetId());
+			enemy->TakeDamage(pPlayer->GetWeaponDamage());
 		}
 	}
 }
@@ -76,7 +78,7 @@ std::vector<Character*>& EnemyManager::GetEnemies()
 	return m_pEnemies;
 }
 
-void EnemyManager::UpdateEnemies(float elapsedSec, Character* player)
+void EnemyManager::UpdateEnemies(float elapsedSec, Character* pPlayer)
 {
 	size_t nrOfEnemies{ m_pEnemies.size() };
 	for (size_t i{ 0 }; i < nrOfEnemies; ++i)
@@ -87,30 +89,30 @@ void EnemyManager::UpdateEnemies(float elapsedSec, Character* player)
 		{
 			m_pProjectileManager->AddProjectile(enemy->GetProjectileTag(), enemy->GetProjectileSpawn(), false, enemy->IsFlipped(), enemy->GetZIndex());
 		}
-		enemy->SetIsFlipped(player->GetTransform().positionX - enemy->GetTransform().positionX < 0);
+		enemy->SetIsFlipped(pPlayer->GetTransform().positionX - enemy->GetTransform().positionX < 0);
 	}
 }
 
-void EnemyManager::UpdateSpawners(float elapsedSec, Character* player)
+void EnemyManager::UpdateSpawners(float elapsedSec, Character* pPlayer)
 {
 	size_t nrOfSpawners{ m_pSpawners.size() };
 	for (size_t i{ 0 }; i < nrOfSpawners; ++i)
 	{
 		EnemySpawner*& spawner{ m_pSpawners.at(i) };
-		spawner->Update(elapsedSec, player);
+		spawner->Update(elapsedSec, pPlayer);
 		if (spawner->ShouldSpawn())
 		{
 			++m_EnemyCounter;
-			m_pEnemies.push_back(spawner->Spawn(player, m_EnemyCounter));
+			m_pEnemies.push_back(spawner->Spawn(pPlayer, m_pLevelManager, m_EnemyCounter));
 		}
 	}
 }
 
-bool EnemyManager::ShouldEnemyDespawn(Character* enemy, Character* player)
+bool EnemyManager::ShouldEnemyDespawn(Character* pEnemy, Character* pPlayer)
 {
 	const float despawnDistance{ 300.0f };
-	float distance{ utils::GetDistance(enemy->GetShape().GetCenter(), player->GetShape().GetCenter()) };
-	return enemy->ShouldDie() || despawnDistance < distance;
+	float distance{ utils::GetDistance(pEnemy->GetShape().GetCenter(), pPlayer->GetShape().GetCenter()) };
+	return pEnemy->ShouldDie() || despawnDistance < distance;
 }
 
 void EnemyManager::DeleteEnemies()
@@ -135,13 +137,13 @@ void EnemyManager::DeleteSpawners()
 	m_pSpawners.clear();
 }
 
-void EnemyManager::CheckDeletion(Character* player)
+void EnemyManager::CheckDeletion(Character* pPlayer)
 {
 	size_t nrOfEnemies{ m_pEnemies.size() };
 	for (size_t i{ 0 }; i < nrOfEnemies; ++i)
 	{
 		Character* enemy{ m_pEnemies.at(i) };
-		if (ShouldEnemyDespawn(enemy, player))
+		if (ShouldEnemyDespawn(enemy, pPlayer))
 		{
 			nrOfEnemies--;
 			std::swap(enemy, m_pEnemies.back());

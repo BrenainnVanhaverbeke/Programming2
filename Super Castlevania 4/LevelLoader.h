@@ -17,7 +17,9 @@ public:
 	LevelLoader();
 	~LevelLoader() = default;
 	LevelLoader(const LevelLoader& levelLoader) = delete;
-	void operator = (const LevelLoader& levelLoader) = delete;
+	LevelLoader(LevelLoader&& levelLoader) = delete;
+	LevelLoader& operator =(const LevelLoader& rhs) = delete;
+	LevelLoader& operator =(LevelLoader&& rhs) = delete;
 
 	void LogJson() const;
 	Rectf LoadBoundaries(int stage, int segment) const;

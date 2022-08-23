@@ -16,7 +16,7 @@ Game::Game(const Window& window)
 	, m_pPlayer{ new Player(m_pLevelManager) }
 	, m_pCamera{ new Camera(window.width, window.height) }
 	, m_pProjectileManager{ new ProjectileManager() }
-	, m_pEnemyManager{ new EnemyManager(m_pProjectileManager) }
+	, m_pEnemyManager{ new EnemyManager(m_pProjectileManager, m_pLevelManager) }
 	, m_IsDrawDebugEnabled{ false }
 	, m_pUI{ new UI(m_pPlayer, window) }
 {

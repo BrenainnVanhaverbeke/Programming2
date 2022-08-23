@@ -17,6 +17,10 @@ class UI final
 {
 public:
 	explicit UI(const Player* player, const Window& window);
+	UI(const UI& other) = delete;
+	UI(UI&& other) = delete;
+	UI& operator=(const UI& rhs) = delete;
+	UI& operator=(UI&& rhs) = delete;
 	~UI();
 	
 	void Update();

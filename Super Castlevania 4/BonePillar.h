@@ -13,6 +13,11 @@ class BonePillar : public Character
 public:
 	explicit BonePillar(const Transform& transform, int zIndex, int id);
 	explicit BonePillar(const Point2f& origin, int zIndex, int id);
+	BonePillar(const BonePillar& other) = delete;
+	BonePillar(BonePillar&& other) = delete;
+	BonePillar& operator=(const BonePillar& rhs) = delete;
+	BonePillar& operator=(BonePillar&& rhs) = delete;
+	virtual ~BonePillar() = default;
 
 	// Inherited via Character
 	virtual void Update(float elapsedSec) override;

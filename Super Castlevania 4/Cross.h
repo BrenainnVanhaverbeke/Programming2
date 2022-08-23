@@ -3,7 +3,12 @@
 class Cross final : public Projectile
 {
 public:
-	Cross(const Point2f& origin, const Rectf& boundaries, bool isFlipped, int zIndex);
+	explicit Cross(const Point2f& origin, const Rectf& boundaries, bool isFlipped, int zIndex);
+	Cross(const Cross& other) = delete;
+	Cross(Cross&& other) = delete;
+	Cross& operator=(const Cross& rhs) = delete;
+	Cross& operator=(Cross&& rhs) = delete;
+	~Cross() = default;
 
 	// Inherited via Projectile
 	virtual bool IsFlaggedForDeletion() const override;

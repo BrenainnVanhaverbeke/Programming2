@@ -14,6 +14,10 @@ class LevelManager final : public GameObject
 {
 public:
 	LevelManager(float screenWidth, float screenHeight);
+	LevelManager(const LevelManager& other) = delete;
+	LevelManager(LevelManager&& other) = delete;
+	LevelManager& operator=(const LevelManager& rhs) = delete;
+	LevelManager& operator=(LevelManager&& rhs) = delete;
 	virtual ~LevelManager();
 
 	void NextStage();

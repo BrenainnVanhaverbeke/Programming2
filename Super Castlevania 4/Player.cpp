@@ -14,6 +14,7 @@ Player::Player(LevelManager* pLevelManager)
 		, new PlayerMovement(Vector2f{ 0, G_GRAVITY })
 		, CharacterTypes::player
 		, ProjectileTag::axe
+		, pLevelManager
 		, 28.0f
 		, 46.0f
 		, 0
@@ -23,7 +24,6 @@ Player::Player(LevelManager* pLevelManager)
 	, m_pAttackSprite{ GetAttackSprite() }
 	, m_ActionState{ ActionState::idle }
 	, m_AttackDirection{ AttackDirection::right }
-	, m_pLevelManager{ pLevelManager }
 	, m_IsDrawDebug{ false }
 	, m_IsStill{ true }
 	, m_IsDucked{ false }

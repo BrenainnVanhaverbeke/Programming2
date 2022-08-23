@@ -12,6 +12,7 @@ Bat::Bat(const Transform& transform, int zIndex, bool isMovingLeft, int id)
 		GetSprite(), 
 		new SinewaveMovement(50, 25.0f, 2, transform.positionY, isMovingLeft),
 		CharacterTypes::bat,
+		nullptr,
 		16.0f, 
 		16.0f, 
 		zIndex, 

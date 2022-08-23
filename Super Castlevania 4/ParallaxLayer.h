@@ -7,6 +7,10 @@ class ParallaxLayer final : public GameObject
 {
 public:
 	explicit ParallaxLayer(Sprite* sprite, float staticBackgroundWidth, float offsetY, int zIndex);
+	ParallaxLayer(const ParallaxLayer& other) = delete;
+	ParallaxLayer(ParallaxLayer&& other) = delete;
+	ParallaxLayer& operator=(const ParallaxLayer& rhs) = delete;
+	ParallaxLayer& operator=(ParallaxLayer&& rhs) = delete;
 	virtual ~ParallaxLayer();
 
 	void Update(float elapsedSec, const Point2f& cameraBottomLeft);

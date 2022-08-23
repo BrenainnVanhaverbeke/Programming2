@@ -9,6 +9,7 @@ public:
 	Axe& operator=(Axe&& rhs) = delete;
 	Axe(const Axe& other) = delete;
 	Axe(Axe&& other) = delete;
+	virtual ~Axe() = default;
 
 	virtual bool IsFlaggedForDeletion() const override;
 	virtual void Update(float elapsedSec) override;

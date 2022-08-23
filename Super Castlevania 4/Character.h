@@ -6,13 +6,14 @@
 #include "ProjectileTag.h"
 
 class Sprite;
+class LevelManager;
 class MovementBehaviour;
 
 class Character : public GameObject, public IOverlappingObject
 {
 public:
-	explicit Character(Transform transform, Sprite* sprite, MovementBehaviour* movement, CharacterTypes type, float width, float height, int zIndex, int health, int id);
-	explicit Character(Transform transform, Sprite* sprite, MovementBehaviour* movement, CharacterTypes type, ProjectileTag projectileTag, float width, float height, int zIndex, int health, int id);
+	explicit Character(Transform transform, Sprite* sprite, MovementBehaviour* movement, CharacterTypes type, LevelManager* pLevelManager, float width, float height, int zIndex, int health, int id);
+	explicit Character(Transform transform, Sprite* sprite, MovementBehaviour* movement, CharacterTypes type, ProjectileTag projectileTag, LevelManager* pLevelManager, float width, float height, int zIndex, int health, int id);
 	Character& operator=(const Character& rhs) = delete;
 	Character& operator=(Character&& rhs) = delete;
 	Character(const Character& other) = delete;
@@ -48,6 +49,7 @@ protected:
 
 	Sprite* m_pSprite;
 	MovementBehaviour* m_pMovementBehaviour;
+	LevelManager* m_pLevelManager;
 
 	ProjectileTag m_ProjectileTag;
 	Point2f m_ProjectileSpawn;

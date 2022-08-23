@@ -3,7 +3,12 @@
 class Dagger : public Projectile
 {
 public:
-	Dagger(const Point2f& origin, const Rectf& boundaries, bool isFlipped, int zIndex);
+	explicit Dagger(const Point2f& origin, const Rectf& boundaries, bool isFlipped, int zIndex);
+	Dagger(const Dagger& other) = delete;
+	Dagger(Dagger&& other) = delete;
+	Dagger& operator=(const Dagger& rhs) = delete;
+	Dagger& operator=(Dagger&& rhs) = delete;
+	virtual ~Dagger();
 
 	// Inherited via Projectile
 	virtual bool IsFlaggedForDeletion() const override;
