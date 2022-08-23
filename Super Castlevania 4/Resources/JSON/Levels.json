@@ -134,7 +134,19 @@
                         "origin": [ 984, 47 ],
                         "width": 10,
                         "height": 145
-                    }
+                    },
+                    "enemySpawners": [
+                        {
+                            "type": "bonePillar",
+                            "origin": [256, 32],
+                            "zIndex": 0
+                        },
+                        {
+                            "type": "bat",
+                            "origin": [512, 64],
+                            "zIndex": 0
+                        }
+                    ]
                 },
                 {
                     "isCheckPoint": true,
@@ -333,7 +345,44 @@
                         "origin": [ 2000, 24 ],
                         "width": 10,
                         "height": 145
-                    }
+                    },
+                    "enemySpawners": [
+                        {
+                            "type": "bonePillar",
+                            "origin": [320, 96],
+                            "zIndex": 0
+                        },
+                        {
+                            "type": "bat",
+                            "origin": [512, 64],
+                            "zIndex": 0
+                        },
+                        {
+                            "type": "bonePillar",
+                            "origin": [740, 24],
+                            "zIndex": -1
+                        },
+                        {
+                            "type": "bat",
+                            "origin": [780, 80],
+                            "zIndex": -1
+                        },
+                        {
+                            "type": "bonePillar",
+                            "origin": [1400, 128],
+                            "zIndex": -1
+                        },
+                        {
+                            "type": "bat",
+                            "origin": [1600, 80],
+                            "zIndex": -1
+                        },
+                        {
+                            "type": "bonePillar",
+                            "origin": [1700, 48],
+                            "zIndex": -1
+                        }
+                    ]
                 },
                 {
                     "isCheckPoint": true,
