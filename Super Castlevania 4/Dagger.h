@@ -8,7 +8,7 @@ public:
 	Dagger(Dagger&& other) = delete;
 	Dagger& operator=(const Dagger& rhs) = delete;
 	Dagger& operator=(Dagger&& rhs) = delete;
-	virtual ~Dagger();
+	virtual ~Dagger() = default;
 
 	// Inherited via Projectile
 	virtual bool IsFlaggedForDeletion() const override;
