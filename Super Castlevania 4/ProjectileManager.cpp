@@ -3,6 +3,10 @@
 #include "Projectile.h"
 #include "ProjectileTag.h"
 #include "Axe.h"
+#include "Cross.h"
+#include "Dagger.h"
+#include "Character.h"
+#include "utils.h"
 
 ProjectileManager::ProjectileManager()
 	: m_IsDrawDebug{ false }
@@ -14,44 +18,85 @@ ProjectileManager::~ProjectileManager()
 {
 	size_t nrOfProjectiles{ m_pProjectiles.size() };
 	for (size_t i{ 0 }; i < nrOfProjectiles; ++i)
+	{
 		delete m_pProjectiles.at(i);
+		m_pProjectiles.at(i) = nullptr;
+	}
 	m_pProjectiles.clear();
-}
-
-void ProjectileManager::Update(float elapsedSec)
-{
-	DeleteProjectiles();
-	size_t nrOfProjectiles{ m_pProjectiles.size() };
-	for (size_t i{ 0 }; i < nrOfProjectiles; ++i)
-		m_pProjectiles.at(i)->Update(elapsedSec);
 }
 
 void ProjectileManager::Draw(int zIndex) const
 {
 	size_t nrOfProjectiles{ m_pProjectiles.size() };
 	for (size_t i{ 0 }; i < nrOfProjectiles; ++i)
-	{
 		m_pProjectiles.at(i)->Draw(zIndex);
-		if (m_IsDrawDebug)
-			m_pProjectiles.at(i)->DrawDebug();
+}
+
+void ProjectileManager::DrawDebug(int zIndex) const
+{
+	size_t nrOfProjectiles{ m_pProjectiles.size() };
+	for (size_t i{ 0 }; i < nrOfProjectiles; ++i)
+		m_pProjectiles.at(i)->DrawDebug(zIndex);
+}
+
+void ProjectileManager::CheckOverlap(std::vector<Character*>& enemies, Character* player)
+{
+	size_t nrOfProjectiles{ m_pProjectiles.size() };
+	size_t nrOfEnemies{ enemies.size() };
+	for (size_t i{ 0 }; i < nrOfProjectiles; ++i)
+	{
+		Projectile* projectile{ m_pProjectiles.at(i) };
+		if (projectile->IsFriendly())
+		{
+			for (size_t j{ 0 }; j < nrOfEnemies; ++j)
+			{
+				Character* enemy{ enemies.at(j) };
+				if (projectile->IsOverlapping(enemy->GetShape()))
+					ResolveProjectileHit(enemy, projectile);
+			}
+		}
+		else
+		{
+			if (player->IsOverlapping(projectile->GetShape()))
+				ResolveProjectileHit(player, projectile);
+		}
 	}
 }
 
-void ProjectileManager::AddProjectile(ProjectileTag tag, const Point2f& origin, bool isFriendly, bool isFlipped)
+void ProjectileManager::ResolveProjectileHit(Character* character, Projectile* projectile)
 {
-	m_pProjectiles.push_back(CreateProjectile(tag, origin, isFriendly, isFlipped));
+	const std::vector<int>& immuneList{ projectile->GetImmuneList() };
+	if (std::find(immuneList.begin(), immuneList.end(), character->GetId()) == immuneList.end())
+	{
+		projectile->AddToImmuneList(character->GetId());
+		character->TakeDamage(projectile->GetDamage());
+	}
+}
+
+void ProjectileManager::AddProjectile(ProjectileTag tag, const Point2f& origin, bool isFriendly, bool isFlipped, int zIndex)
+{
+	Projectile* projectile{ CreateProjectile(tag, origin, isFriendly, isFlipped, zIndex) };
+	m_pProjectiles.push_back(projectile);
 }
 
 void ProjectileManager::SetBoundaries(const Rectf& boundaries)
 {
+	m_Boundaries = boundaries;
 	size_t nrOfProjectiles{ m_pProjectiles.size() };
 	for (size_t i{ 0 }; i < nrOfProjectiles; ++i)
 		m_pProjectiles.at(i)->SetBoundaries(boundaries);
 }
 
-void ProjectileManager::ToggleDrawDebug()
+void ProjectileManager::Update(float elapsedSec, const Point2f& cameraBottomLeft)
 {
-	m_IsDrawDebug = !m_IsDrawDebug;
+	m_Boundaries.SetBottomLeft(cameraBottomLeft);
+	size_t nrOfProjectiles{ m_pProjectiles.size() };
+	for (size_t i{ 0 }; i < nrOfProjectiles; ++i)
+	{
+		m_pProjectiles.at(i)->Update(elapsedSec);
+		m_pProjectiles.at(i)->SetBoundaries(m_Boundaries);
+	}
+	//DeleteProjectiles();
 }
 
 void ProjectileManager::DeleteProjectiles()
@@ -70,20 +115,24 @@ void ProjectileManager::DeleteProjectiles()
 	}
 }
 
-Projectile* ProjectileManager::CreateProjectile(ProjectileTag tag, const Point2f& origin, bool isFriendly, bool isFlipped) const
+void ProjectileManager::DeleteProjectile(Projectile* projectile)
+{
+}
+
+Projectile* ProjectileManager::CreateProjectile(ProjectileTag tag, const Point2f& origin, bool isFriendly, bool isFlipped, int zIndex) const
 {
 	switch (tag)
 	{
-	case ProjectileTag::none:
-		return nullptr;
 	case ProjectileTag::cross:
-		return nullptr;
+		return new Cross(origin, m_Boundaries, isFlipped, zIndex);
 	case ProjectileTag::dagger:
-		return nullptr;
+		return new Dagger(origin, m_Boundaries, isFlipped, zIndex);
 	case ProjectileTag::axe:
-		return new Axe(origin, isFlipped);
-	case ProjectileTag::holyWater:
-		return nullptr;
+		return new Axe(origin, m_Boundaries, isFlipped, zIndex);
 	}
 	return nullptr;
+}
+
+void ProjectileManager::Update(float elapsedSec)
+{
 }
