@@ -17,7 +17,7 @@
                                 "origin": [ 10, 277 ],
                                 "width": 498,
                                 "height": 192,
-                                "yOffset": 0,
+                                "yOffset": 35,
                                 "zIndex": -1
                             }
                         ]
@@ -841,15 +841,15 @@
                                 "origin": [ 5681, 568 ],
                                 "width": 256,
                                 "height": 80,
-                                "yOffset": 128,
-                                "zIndex": -1
+                                "yOffset": 142,
+                                "zIndex": -2
                             },
                             {
                                 "origin": [ 5681, 681 ],
                                 "width": 665,
                                 "height": 112,
-                                "yOffset": 16,
-                                "zIndex": -2
+                                "yOffset": 30,
+                                "zIndex": -1
                             }
                         ]
                     },
