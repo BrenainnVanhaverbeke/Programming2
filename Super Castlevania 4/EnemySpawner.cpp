@@ -2,29 +2,31 @@
 #include "EnemySpawner.h"
 #include "utils.h"
 #include "Character.h"
+#include "CharacterTypes.h"
 #include "Bat.h"
+#include "BonePillar.h"
 #include "Sprite.h"
 #include <iostream>
 
-EnemySpawner::EnemySpawner(std::string enemyType, const Point2f& location, int zIndex)
+EnemySpawner::EnemySpawner(CharacterTypes enemyType, const Point2f& location, int zIndex)
 	: m_EnemyType{ enemyType }
 	, m_Location{ location }
 	, m_HasActivated{ false }
 	, m_ShouldSpawn{ false }
-	, m_SpawnRange{ 384.0f }
 	, m_ZIndex{ zIndex }
 {
 }
 
 void EnemySpawner::Update(float elapsedSec, Character* player)
 {
+	const float spawnRange{ 384.0f };
 	float distance{ utils::GetDistance(player->GetTransform().GetTranslation(), m_Location) };
-	if (!m_HasActivated && distance < m_SpawnRange)
+	if (!m_HasActivated && distance < spawnRange)
 	{
 		m_HasActivated = true;
 		m_ShouldSpawn = true;
 	}
-	if (m_HasActivated && m_SpawnRange < distance)
+	if (m_HasActivated && spawnRange < distance)
 		m_HasActivated = false;
 }
 
@@ -37,8 +39,13 @@ Character* EnemySpawner::Spawn(Character* player, int id)
 {
 	m_ShouldSpawn = false;
 	bool isMovingLeft{ 0 < m_Location.x - player->GetTransform().positionX };
-	if (m_EnemyType == "Bat")
+	switch (m_EnemyType)
+	{
+	case CharacterTypes::bat:
 		return new Bat(m_Location, m_ZIndex, isMovingLeft, id);
+	case CharacterTypes::bonePillar:
+		return new BonePillar(m_Location, m_ZIndex, id);
+	}
 	return nullptr;
 }
 

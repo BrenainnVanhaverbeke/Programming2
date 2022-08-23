@@ -2,11 +2,12 @@
 #include "GameObject.h"
 
 class Character;
+enum class CharacterTypes;
 
 class EnemySpawner final : public GameObject
 {
 public:
-	EnemySpawner(std::string enemyType, const Point2f& location, int zIndex);
+	EnemySpawner(CharacterTypes enemyType, const Point2f& location, int zIndex);
 	virtual ~EnemySpawner() = default;
 
 	void Update(float elapsedSec, Character* player);
@@ -16,9 +17,8 @@ public:
 	virtual void DrawDebug(int zIndex) const override;
 
 private:
-	const std::string m_EnemyType;
+	const CharacterTypes m_EnemyType;
 	const Point2f m_Location;
-	const float m_SpawnRange;
 	const int m_ZIndex;
 
 	bool m_HasActivated;
