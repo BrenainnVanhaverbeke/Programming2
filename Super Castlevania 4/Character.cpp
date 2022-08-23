@@ -3,15 +3,27 @@
 #include "Sprite.h"
 #include "MovementBehaviour.h"
 #include "utils.h"
+#include <iostream>
 
-Character::Character(Transform transform, Sprite* sprite, MovementBehaviour* movement, float width, float height, int zIndex, int health, int id)
+Character::Character(Transform transform, Sprite* sprite, MovementBehaviour* movement, CharacterTypes type, float width, float height, int zIndex, int health, int id)
+	: Character(transform, sprite, movement, type, ProjectileTag::none, width, height, zIndex, health, id)
+{
+}
+
+Character::Character(Transform transform, Sprite* sprite, MovementBehaviour* movement, CharacterTypes type, ProjectileTag projectileTag, float width, float height, int zIndex, int health, int id)
 	: GameObject(transform, zIndex)
 	, m_pSprite{ sprite }
 	, m_Width{ width }
+	, m_CharacterType{ type }
+	, m_ProjectileTag{ projectileTag }
 	, m_Height{ height }
 	, m_pMovementBehaviour{ movement }
 	, m_Health{ health }
 	, m_Id{ id }
+	, m_ShouldDie{ false }
+	, m_ShouldFire{ false }
+	, m_ImmunityList{}
+	, m_IsFlipped{ false }
 {
 }
 
@@ -40,7 +52,11 @@ Vector2f& Character::GetVelocity() const
 
 void Character::TakeDamage(int damage)
 {
+	std::cout << "Character taking damage, was " << m_Health;
 	m_Health -= damage;
+	std::cout << " is now " << m_Health << std::endl;
+	if (m_Health <= 0)
+		m_ShouldDie = true;
 }
 
 int Character::GetHealth() const
@@ -53,6 +69,51 @@ int Character::GetId() const
 	return m_Id;
 }
 
+bool Character::ShouldDie() const
+{
+	return m_ShouldDie;
+}
+
+bool Character::IsFlipped() const
+{
+	return m_IsFlipped;
+}
+
+bool Character::ShouldFire()
+{
+	return m_ShouldFire;
+}
+
+Point2f Character::GetProjectileSpawn() const
+{
+	return m_ProjectileSpawn;
+}
+
+void Character::SetIsFlipped(bool isFlipped)
+{
+	m_IsFlipped = isFlipped;
+}
+
+void Character::AddImmuneId(int id)
+{
+	m_ImmunityList.push_back(id);
+}
+
+CharacterTypes Character::GetCharacterType() const
+{
+	return m_CharacterType;
+}
+
+ProjectileTag Character::GetProjectileTag() const
+{
+	return m_ProjectileTag;
+}
+
+std::vector<int> Character::GetImmunityList() const
+{
+	return m_ImmunityList;
+}
+
 bool Character::IsOverlapping(const Rectf& overlappingShape)
 {
 	return utils::IsOverlapping(GetShape(), overlappingShape);
@@ -60,8 +121,7 @@ bool Character::IsOverlapping(const Rectf& overlappingShape)
 
 bool Character::IsOverlapping(const std::vector<Point2f>& overlappingShape)
 {
-	Rectf shape{ GetShape() };
-	return utils::IsOverlapping(overlappingShape, shape.ConvertToVector());
+	return utils::IsOverlapping(overlappingShape, GetShape().ConvertToVector());
 }
 
 void Character::DrawDebug(int zIndex) const
