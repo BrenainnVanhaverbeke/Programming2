@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "TerrainObject.h"
 #include "CrumblingBlock.h"
-#include "utils.h"
 #include <iostream>
 
 CrumblingBlock::CrumblingBlock(const std::vector<Point2f>& vertices, int zIndex)
@@ -9,7 +8,7 @@ CrumblingBlock::CrumblingBlock(const std::vector<Point2f>& vertices, int zIndex)
 	, m_StepOnTime{ 0 }
 	, m_MaxStepOnTime{ 1.5f }
 	, m_IsFalling{ false }
-	, m_Acceleration{ utils::g_Gravity }
+	, m_Acceleration{ G_GRAVITY }
 	, m_Velocity{ 0 }
 {
 }
