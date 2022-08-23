@@ -31,7 +31,7 @@ void EnemyManager::Update(float elapsedSec, Character* player)
 {
 	UpdateEnemies(elapsedSec, player);
 	UpdateSpawners(elapsedSec, player);
-	CheckDeletion();
+	CheckDeletion(player);
 }
 
 void EnemyManager::Draw(int zIndex) const
@@ -88,14 +88,6 @@ void EnemyManager::UpdateEnemies(float elapsedSec, Character* player)
 			m_pProjectileManager->AddProjectile(enemy->GetProjectileTag(), enemy->GetProjectileSpawn(), false, enemy->IsFlipped(), enemy->GetZIndex());
 		}
 		enemy->SetIsFlipped(player->GetTransform().positionX - enemy->GetTransform().positionX < 0);
-		if (ShouldEnemyDespawn(enemy, player))
-		{
-			nrOfEnemies--;
-			std::swap(enemy, m_pEnemies.back());
-			delete m_pEnemies.back();
-			m_pEnemies.back() = nullptr;
-			m_pEnemies.pop_back();
-		}
 	}
 }
 
@@ -143,8 +135,21 @@ void EnemyManager::DeleteSpawners()
 	m_pSpawners.clear();
 }
 
-void EnemyManager::CheckDeletion()
+void EnemyManager::CheckDeletion(Character* player)
 {
+	size_t nrOfEnemies{ m_pEnemies.size() };
+	for (size_t i{ 0 }; i < nrOfEnemies; ++i)
+	{
+		Character* enemy{ m_pEnemies.at(i) };
+		if (ShouldEnemyDespawn(enemy, player))
+		{
+			nrOfEnemies--;
+			std::swap(enemy, m_pEnemies.back());
+			delete m_pEnemies.back();
+			m_pEnemies.back() = nullptr;
+			m_pEnemies.pop_back();
+		}
+	}
 }
 
 void EnemyManager::Update(float elapsedSec)

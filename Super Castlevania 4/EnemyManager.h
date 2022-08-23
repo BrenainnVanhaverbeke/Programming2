@@ -35,7 +35,7 @@ private:
 
 	void DeleteEnemies();
 	void DeleteSpawners();
-	void CheckDeletion();
+	void CheckDeletion(Character* player);
 	
 	// Inherited via GameObject
 	// Unused implementation
