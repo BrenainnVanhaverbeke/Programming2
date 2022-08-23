@@ -13,6 +13,7 @@ public:
 
 	virtual void Update(float elapsedSec) = 0;
 	virtual void Draw(int zIndex) const = 0;
+	virtual void DrawDebug(int zIndex) const = 0;
 	virtual int GetZIndex() const;
 
 	Transform& GetTransform();
