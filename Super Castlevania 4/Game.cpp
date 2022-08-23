@@ -35,6 +35,7 @@ void Game::Initialize()
 {
 	m_pCamera->SetLevelBoundaries(m_pLevelManager->GetBoundaries());
 	m_pProjectileManager->SetBoundaries(Rectf{ 0, 0, m_Window.width / G_SCALEFACTOR, m_Window.height / G_SCALEFACTOR });
+	m_pEnemyManager->LoadSegment();
 }
 
 void Game::Cleanup()
@@ -62,11 +63,14 @@ void Game::Update(float elapsedSec)
 	m_pProjectileManager->Update(elapsedSec, cameraBottomLeft);
 	m_pLevelManager->CheckOverlap(m_pPlayer->GetShape(), m_pPlayer->GetZIndex());
 	m_pProjectileManager->CheckOverlap(m_pEnemyManager->GetEnemies(), m_pPlayer);
+	m_pEnemyManager->CheckOverlap(m_pPlayer);
 	if (m_pPlayer->IsAttacking())
 		m_pEnemyManager->HandleAttack(m_pPlayer);
 	if (m_pLevelManager->IsInTransitionArea(m_pPlayer->GetShape()))
 	{
 		m_pLevelManager->NextSegment();
+		m_pProjectileManager->DestroyAllProjectiles();
+		m_pEnemyManager->LoadSegment();
 		m_pPlayer->Relocate(m_pLevelManager->GetSpawn());
 		m_pCamera->SetLevelBoundaries(m_pLevelManager->GetBoundaries());
 	}
@@ -108,8 +112,10 @@ void Game::ProcessKeyDownEvent(const SDL_KeyboardEvent& e)
 		m_pPlayer->Attack();
 	if ((e.keysym.sym == SDLK_k) && e.repeat == 0)
 		m_pProjectileManager->AddProjectile(m_pPlayer->Shoot(), m_pPlayer->GetShape().GetCenter(), true, m_pPlayer->IsFlipped(), m_pPlayer->GetZIndex());
-	if ((e.keysym.sym == SDLK_i) && e.repeat == 0)
+	if ((e.keysym.sym == SDLK_m) && e.repeat == 0)
 		m_pPlayer->CycleProjectileType();
+	if ((e.keysym.sym == SDLK_i) && e.repeat == 0)
+		DisplayInstructions();
 }
 
 void Game::ProcessKeyUpEvent(const SDL_KeyboardEvent& e)
@@ -144,15 +150,18 @@ void Game::DisplayInstructions()
 	std::cout << "Space bar to jump.\n";
 	std::cout << "J to whip attack.\n";
 	std::cout << "K to use a thrown weapon.\n";
-	std::cout << "I to cycle thrown weapons.\n";
+	std::cout << "M to cycle thrown weapons.\n";
 	std::cout << "O to enable debug overlay.\n\n";
+	std::cout << "I to display these instructions again.\n\n";
+
 	std::cout << "Overlay explanation:\n";
 	std::cout << "\tPlayer:\n";
 	std::cout << "\t\tMagenta rectangle: hitbox\n";
 	std::cout << "\t\tRed dots: Horizontal collision anchors.\n";
 	std::cout << "\t\tGreen dots and central red dot: Vertical collision anchors.\n";
 	std::cout << "\t\tYellow dot: Stair climb anchor.\n";
-	std::cout << "\t\tWhite dot: Translation anchor.\n";
+	std::cout << "\t\tWhite dot: Translation anchor.\n\n";
+
 	std::cout << "\tTerrain:\n";
 	std::cout << "\t\tWhite lines: Terrain object outline.\n";
 	std::cout << "\t\tRed dot: Translation anchor.\n";
