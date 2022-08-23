@@ -8,7 +8,7 @@ InteractableObject::InteractableObject(const std::vector<Point2f>& vertices, int
 {
 }
 
-bool InteractableObject::CheckDirection(const Vector2f& actorVelocity) const
+bool InteractableObject::CheckDirection(bool isFlipped) const
 {
     return false;
 }
