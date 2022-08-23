@@ -9,7 +9,7 @@ public:
 	DrawBridge& operator=(DrawBridge&& rhs) = delete;
 	DrawBridge(const DrawBridge& other) = delete;
 	DrawBridge(DrawBridge&& other) = delete;
-	~DrawBridge() = default;
+	virtual ~DrawBridge() = default;
 
 	virtual void Update(float elapsedSec) override;
 	virtual bool HandleCollisions(Character& character) override;
