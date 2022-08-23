@@ -51,13 +51,13 @@ void ProjectileManager::CheckOverlap(std::vector<Character*>& enemies, Character
 			for (size_t j{ 0 }; j < nrOfEnemies; ++j)
 			{
 				Character* enemy{ enemies.at(j) };
-				if (projectile->IsOverlapping(enemy->GetShape()))
+				if (enemy->GetZIndex() == projectile->GetZIndex() && projectile->IsOverlapping(enemy->GetShape()))
 					ResolveProjectileHit(enemy, projectile);
 			}
 		}
 		else
 		{
-			if (player->IsOverlapping(projectile->GetShape()))
+			if (player->GetZIndex() == projectile->GetZIndex() && player->IsOverlapping(projectile->GetShape()))
 				ResolveProjectileHit(player, projectile);
 		}
 	}

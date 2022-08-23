@@ -19,7 +19,6 @@ public:
 	void AddProjectile(ProjectileTag tag, const Point2f& origin, bool isFriendly, bool isFlipped, int zIndex);
 	void SetBoundaries(const Rectf& boundaries);
 
-	void ToggleDrawDebug();
 	void Update(float elapsedSec, const Point2f& cameraBottomLeft);
 
 	// Inherited via GameObject
