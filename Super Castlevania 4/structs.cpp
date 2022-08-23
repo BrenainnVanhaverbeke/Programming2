@@ -142,6 +142,16 @@ Point2f Rectf::GetCenterRight(float offsetX, float offsetY) const
 	return point;
 }
 
+std::vector<Point2f> Rectf::ConvertToVector() const
+{
+	std::vector<Point2f> vertices{};
+	vertices.push_back(GetBottomLeft());
+	vertices.push_back(GetBottomRight());
+	vertices.push_back(GetTopRight());
+	vertices.push_back(GetTopLeft());
+	return vertices;
+}
+
 //-----------------------------------------------------------------
 // Color4f Constructors
 //-----------------------------------------------------------------
