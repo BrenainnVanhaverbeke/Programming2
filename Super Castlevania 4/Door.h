@@ -11,7 +11,7 @@ public:
 	virtual ~Door() = default;
 
 	virtual void Update(float elapsedSec) override;
-	virtual void Draw(int zIndex) const override;
+	virtual void DrawDebug(int zIndex) const override;
 	virtual bool HandleCollisions(const Rectf& actorShape, Transform& actorTransform, Vector2f& actorVelocity);
 	virtual bool IsOnGround(const Rectf& actorShape, const Vector2f& actorVelocity) const;
 

@@ -13,7 +13,7 @@ void Door::Update(float elapsedSec)
 {
 }
 
-void Door::Draw(int zIndex) const
+void Door::DrawDebug(int zIndex) const
 {
 	utils::SetColor(Color4f{ 0, 1.0f, 0, 1.0f });
 	if (zIndex == m_ZIndex)
