@@ -79,7 +79,7 @@ void Pendulum::UpdateSwing(float elapsedSec)
 
 void Pendulum::UpdateRelease(float elapsedSec)
 {
-	const Vector2f accelerationVector{ 0, utils::g_Gravity };
+	const Vector2f accelerationVector{ 0, G_GRAVITY };
 	m_ReleaseVector += accelerationVector * elapsedSec;
 	m_Position.x += m_ReleaseVector.x * elapsedSec;
 	m_Position.y += m_ReleaseVector.y * elapsedSec;
