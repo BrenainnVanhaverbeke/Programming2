@@ -141,6 +141,11 @@ int Player::GetWeaponDamage() const
 	return m_WeaponDamage;
 }
 
+ProjectileTag Player::GetActiveProjectile() const
+{
+	return m_ProjectileTag;
+}
+
 void Player::Relocate(Point2f newLocation)
 {
 	newLocation.x -= m_Width / 2;

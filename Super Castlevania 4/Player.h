@@ -54,6 +54,7 @@ public:
 	Rectf GetShape() const override;
 	std::vector<Point2f> GetWeaponShape() const;
 	int GetWeaponDamage() const;
+	ProjectileTag GetActiveProjectile() const;
 
 	void Relocate(Point2f newLocation);
 	void AttemptInteraction();
@@ -63,7 +64,6 @@ public:
 	void CycleProjectileType();
 	bool IsFlipped() const;
 	bool IsAttacking() const;
-
 
 private:
 	LevelManager* m_pLevelManager;
