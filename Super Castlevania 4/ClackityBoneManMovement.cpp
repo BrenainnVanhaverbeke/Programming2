@@ -9,7 +9,7 @@ ClackityBoneManMovement::ClackityBoneManMovement(const Vector2f& acceleration)
 
 }
 
-void ClackityBoneManMovement::Update(float elapsedSec, Transform& transform, const Rectf& shape, const Rectf& boundaries)
+void ClackityBoneManMovement::Update(float elapsedSec, Transform& transform, const Rectf& shape, const Rectf& boundaries, const Vector2f& forcedMovement)
 {
 }
 
