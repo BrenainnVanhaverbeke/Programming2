@@ -37,6 +37,10 @@ void Background::Draw(int zIndex) const
 		m_pStaticBackground->Draw(Transform{});
 }
 
+void Background::DrawDebug(int zIndex) const
+{
+}
+
 void Background::Update(float elapsedSec, const Point2f& cameraBottomLeft)
 {
 	size_t parallaxLayers{ m_pParallaxLayers.size() };

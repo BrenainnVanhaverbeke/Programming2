@@ -19,6 +19,7 @@ public:
 	
 	// Inherited via GameObject
 	virtual void Draw(int zIndex) const override;
+	virtual void DrawDebug(int zIndex) const override;
 
 private:
 	Sprite* m_pStaticBackground;
