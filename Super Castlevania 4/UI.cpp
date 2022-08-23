@@ -53,7 +53,7 @@ void UI::DrawActiveProjectile() const
 {
 	m_pUISprite->SetSourceRect(GetUISourceRect(UIElements::projectileBackground));
 	m_pUISprite->Draw(Transform{ GetLocation(UIElements::projectileBackground) });
-	m_pProjectileSprite->SetSourceRect(GetProjectileSourceRect(m_pPlayer->GetActiveProjectile()));
+	m_pProjectileSprite->SetSourceRect(GetProjectileSourceRect(m_pPlayer->GetProjectileTag()));
 	m_pProjectileSprite->Draw(Transform{ GetLocation(UIElements::activeProjectile) });
 }
 
