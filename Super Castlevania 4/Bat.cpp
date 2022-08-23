@@ -5,20 +5,20 @@
 #include "utils.h"
 #include <iostream>
 
-Bat::Bat(const Transform& transform, int zIndex, bool isMovingLeft)
-	: Character(transform, GetSprite(), new SinewaveMovement(50, 25.0f, 2, transform.positionY, isMovingLeft), 16.0f, 16.0f, zIndex, 20)
+Bat::Bat(const Transform& transform, int zIndex, bool isMovingLeft, int id)
+	: Character(transform, GetSprite(), new SinewaveMovement(50, 25.0f, 2, transform.positionY, isMovingLeft), 16.0f, 16.0f, zIndex, 20, id)
 {
 }
 
-Bat::Bat(const Point2f location, int zIndex, bool isMovingLeft)
-	: Bat(Transform{ location }, zIndex, isMovingLeft)
+Bat::Bat(const Point2f location, int zIndex, bool isMovingLeft, int id)
+	: Bat(Transform{ location }, zIndex, isMovingLeft, id)
 {
 }
 
 void Bat::Update(float elapsedSec)
 {
 	Rectf boundaries{ 0, 0, 1000, 1000 };
-	m_pMovementBehaviour->Update(elapsedSec, m_Transform, GetShape(), boundaries);
+	//m_pMovementBehaviour->Update(elapsedSec, m_Transform, GetShape(), boundaries);
 	m_pSprite->Update(elapsedSec);
 }
 
@@ -32,12 +32,7 @@ void Bat::CheckOverlap(const Rectf& overlappingShape)
 {
 }
 
-bool Bat::IsOverlapping(const Rectf& overlappingShape)
-{
-	return utils::IsOverlapping(GetShape(), overlappingShape);
-}
-
-Sprite* Bat::GetSprite()
+Sprite* Bat::GetSprite() const
 {
 	std::string path{ "Enemies.png" };
 	Point2f sourceRectOrigin{ 233.0f, 2330.0f };

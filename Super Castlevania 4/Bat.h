@@ -5,8 +5,8 @@
 class Bat final : public Character
 {
 public:
-	Bat(const Transform& transform, int zIndex, bool isMovingLeft);
-	Bat(const Point2f location, int zIndex, bool isMovingLeft);
+	Bat(const Transform& transform, int zIndex, bool isMovingLeft, int id);
+	Bat(const Point2f location, int zIndex, bool isMovingLeft, int id);
 	~Bat() = default;
 
 	// Inherited via Character
@@ -15,9 +15,8 @@ public:
 
 	// Inherited via IOverlappingObject
 	virtual void CheckOverlap(const Rectf& overlappingShape) override;
-	virtual bool IsOverlapping(const Rectf& overlappingShape) override;
 
 private:
 	// Inherited via Character
-	virtual Sprite* GetSprite() override;
+	virtual Sprite* GetSprite() const override;
 };
