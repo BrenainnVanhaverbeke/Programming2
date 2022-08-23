@@ -104,7 +104,7 @@ Rectf UI::GetUISourceRect(UIElements type) const
 	case UIElements::healthBarBackground:
 		return Rectf{ 314.0f, 41.0f, 64.0f, 8.0f };
 	case UIElements::healthBarForeground:
-		return Rectf{ 314.0f, 25.0f, 64.0f * (m_pPlayer->GetHealth() / 100.0f), 8.0f };
+		return Rectf{ 314.0f, 25.0f, (64.0f * (m_pPlayer->GetHealth() / 100.0f)) + 0.1f, 8.0f };
 	case UIElements::projectileBackground:
 		return Rectf{ 382.0f, 32.0f, 32.0f, 30.0f };
 	}
