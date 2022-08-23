@@ -96,7 +96,7 @@ void ProjectileManager::Update(float elapsedSec, const Point2f& cameraBottomLeft
 		m_pProjectiles.at(i)->Update(elapsedSec);
 		m_pProjectiles.at(i)->SetBoundaries(m_Boundaries);
 	}
-	//DeleteProjectiles();
+	DeleteProjectiles();
 }
 
 void ProjectileManager::DeleteProjectiles()
